@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/block",
   "loader": "gtceu:machine",
-  "machine": "shishamo_tech:large_centrifuge",
+  "machine": "shishamo_tech:battle_tower_centrifuge",
   "texture_overrides": {
     "all": "gtceu:block/casings/solid/machine_casing_clean_stainless_steel"
   },

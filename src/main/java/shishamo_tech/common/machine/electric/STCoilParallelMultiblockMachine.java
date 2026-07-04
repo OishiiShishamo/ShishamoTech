@@ -31,13 +31,7 @@ public class STCoilParallelMultiblockMachine extends CoilWorkableElectricMultibl
     }
 
     public static int getBaseParallelForTier(int tier) {
-        return switch (tier) {
-            case 0, 1 -> 4;
-            case 2, 3 -> 8;
-            case 4, 5 -> 16;
-            case 6, 7 -> 32;
-            default -> 64;
-        };
+        return 4 * (tier + 1);
     }
 
     public int getBaseParallelForTier() {

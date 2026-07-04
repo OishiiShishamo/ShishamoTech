@@ -47,25 +47,11 @@ public class STInscriberMultiblockMachine extends WorkableElectricMultiblockMach
     }
 
     public int getParallelCount() {
-        int base = switch (getTier()) {
-            case 1, 2 -> 4;
-            case 3, 4 -> 8;
-            case 5, 6 -> 16;
-            case 7, 8 -> 32;
-            default -> 64;
-        };
-        return base * STConfig.PARALLEL_MULTIPLIER.get();
+        return 4 * (getTier() + 1) * STConfig.PARALLEL_MULTIPLIER.get();
     }
 
     public static int getDisplayParallelCount(int tier) {
-        int base = switch (tier) {
-            case 1, 2 -> 4;
-            case 3, 4 -> 8;
-            case 5, 6 -> 16;
-            case 7, 8 -> 32;
-            default -> 64;
-        };
-        return base;
+        return 4 * (tier + 1);
     }
 
     @Nullable
@@ -123,13 +109,13 @@ protected static class InscriberRecipeLogic extends RecipeLogic {
             Iterator<GTRecipe> dbResult = m.getRecipeType().searchRecipe(m, r -> true);
 
             int configuredCircuit = getConfiguredCircuit(m);
-            GTCEu.LOGGER.info("STInscriber searchRecipe: configuredCircuit={}", configuredCircuit);
+            GTCEu.LOGGER.debug("STInscriber searchRecipe: configuredCircuit={}", configuredCircuit);
 
             List<GTRecipe> filtered = new ArrayList<>();
             while (dbResult.hasNext()) {
                 GTRecipe recipe = dbResult.next();
                 int recipeCircuit = getRecipeCircuit(recipe);
-                GTCEu.LOGGER.info("STInscriber searchRecipe: recipe={} recipeCircuit={} configuredCircuit={}",
+                GTCEu.LOGGER.debug("STInscriber searchRecipe: recipe={} recipeCircuit={} configuredCircuit={}",
                         recipe.getId(), recipeCircuit, configuredCircuit);
                 if (configuredCircuit == 0) {
                     if (recipeCircuit == 0) {
@@ -139,7 +125,7 @@ protected static class InscriberRecipeLogic extends RecipeLogic {
                     filtered.add(recipe);
                 }
             }
-            GTCEu.LOGGER.info("STInscriber searchRecipe: {} recipes after circuit filtering (from {} total)",
+            GTCEu.LOGGER.debug("STInscriber searchRecipe: {} recipes after circuit filtering (from {} total)",
                     filtered.size(), filtered.size() + (dbResult instanceof ArrayList<?> a ? 0 : 0));
             return filtered.iterator();
         }
@@ -165,23 +151,23 @@ protected static class InscriberRecipeLogic extends RecipeLogic {
             var handlers = flat
                     .getOrDefault(IO.IN, java.util.Collections.emptyMap())
                     .getOrDefault(ItemRecipeCapability.CAP, java.util.Collections.emptyList());
-            GTCEu.LOGGER.info("STInscriber getConfiguredCircuit: scanning {} handlers", handlers.size());
+            GTCEu.LOGGER.debug("STInscriber getConfiguredCircuit: scanning {} handlers", handlers.size());
             for (var handler : handlers) {
                 Object contents = handler.getContents();
-                GTCEu.LOGGER.info("STInscriber getConfiguredCircuit: handler={} contents={}",
+                GTCEu.LOGGER.debug("STInscriber getConfiguredCircuit: handler={} contents={}",
                         handler.getClass().getSimpleName(),
                         contents != null ? contents.getClass().getSimpleName() : "null");
                 if (contents instanceof List<?> list) {
                     for (Object obj : list) {
-                        GTCEu.LOGGER.info("STInscriber getConfiguredCircuit:   obj={}", obj);
+                        GTCEu.LOGGER.debug("STInscriber getConfiguredCircuit:   obj={}", obj);
                         if (obj instanceof ItemStack stack) {
-                            GTCEu.LOGGER.info("STInscriber getConfiguredCircuit:     stack={} tag={}",
+                            GTCEu.LOGGER.debug("STInscriber getConfiguredCircuit:     stack={} tag={}",
                                     stack.getItem(), stack.getTag());
                             if (stack.is(GTItems.PROGRAMMED_CIRCUIT.get())) {
                                 var tag = stack.getTag();
                                 if (tag != null) {
                                     int circuit = tag.getInt("Configuration");
-                                    GTCEu.LOGGER.info("STInscriber getConfiguredCircuit: FOUND circuit={}", circuit);
+                                    GTCEu.LOGGER.debug("STInscriber getConfiguredCircuit: FOUND circuit={}", circuit);
                                     return circuit;
                                 }
                             }

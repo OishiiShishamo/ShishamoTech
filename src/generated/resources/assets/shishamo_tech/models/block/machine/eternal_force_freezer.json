@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/block",
   "loader": "gtceu:machine",
-  "machine": "shishamo_tech:large_vacuum_freezer",
+  "machine": "shishamo_tech:eternal_force_freezer",
   "texture_overrides": {
     "all": "gtceu:block/casings/solid/machine_casing_frost_proof"
   },

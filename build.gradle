@@ -23,10 +23,9 @@ minecraft {
         configureEach {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
+            property 'forge.logging.console.level', 'info'
             property 'mixin.env.disableRefMap', 'true'
             property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.boot.mixin.injector.injection.target.validation', 'false'
             mods {
                 "${mod_id}" {
                     source sourceSets.main

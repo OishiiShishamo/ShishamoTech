@@ -70,7 +70,7 @@ public class STInscriberFilterTrait extends MachineTrait {
         ItemStack output = ae2Recipe.getResultItem();
         boolean isPress = ae2Recipe.getProcessType() == InscriberProcessType.PRESS;
 
-        GTCEu.LOGGER.info("Converting AE2 recipe: {} (mode={}, middle={}, top={}, bottom={}, output={})",
+        GTCEu.LOGGER.debug("Converting AE2 recipe: {} (mode={}, middle={}, top={}, bottom={}, output={})",
                 ae2Recipe.getId(),
                 ae2Recipe.getProcessType(),
                 middle.isEmpty() ? "empty" : ForgeRegistries.ITEMS.getKey(middle.getItems()[0].getItem()),
@@ -115,7 +115,7 @@ public class STInscriberFilterTrait extends MachineTrait {
         }
         recipe.data.putInt("circuit", circuitIndex);
         
-        GTCEu.LOGGER.info("Converted GTRecipe: inputs={}, outputs={}",
+        GTCEu.LOGGER.debug("Converted GTRecipe: inputs={}, outputs={}",
                 recipe.inputs, recipe.outputs);
         
         return recipe;
