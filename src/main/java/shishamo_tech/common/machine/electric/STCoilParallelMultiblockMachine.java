@@ -1,0 +1,108 @@
+package shishamo_tech.common.machine.electric;
+
+import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.feature.IOverclockMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
+import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.Nullable;
+import shishamo_tech.common.recipe.STOverclockingLogic;
+import shishamo_tech.config.STConfig;
+
+import java.util.List;
+
+public class STCoilParallelMultiblockMachine extends CoilWorkableElectricMultiblockMachine {
+
+    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            STCoilParallelMultiblockMachine.class, CoilWorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+
+    public STCoilParallelMultiblockMachine(IMachineBlockEntity holder) {
+        super(holder);
+    }
+
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
+    }
+
+    public static int getBaseParallelForTier(int tier) {
+        return switch (tier) {
+            case 0, 1 -> 4;
+            case 2, 3 -> 8;
+            case 4, 5 -> 16;
+            case 6, 7 -> 32;
+            default -> 64;
+        };
+    }
+
+    public int getBaseParallelForTier() {
+        return getBaseParallelForTier(getTier());
+    }
+
+    public int getCoilParallelBonus() {
+        int coilTier = getCoilTier();
+        return switch (coilTier) {
+            case 0 -> 0;
+            case 1, 2 -> 2;
+            case 3, 4 -> 4;
+            case 5, 6 -> 8;
+            default -> 16;
+        };
+    }
+
+    public int getParallelCount() {
+        int base = getBaseParallelForTier();
+        int bonus = getCoilParallelBonus();
+        return (base + bonus) * STConfig.PARALLEL_MULTIPLIER.get();
+    }
+
+    public static int getDisplayParallelCount(int machineTier, int coilTier) {
+        int base = getBaseParallelForTier(machineTier);
+        return base + switch (coilTier) {
+            case 0 -> 0;
+            case 1, 2 -> 2;
+            case 3, 4 -> 4;
+            case 5, 6 -> 8;
+            default -> 16;
+        };
+    }
+
+    @Nullable
+    public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
+        if (!(machine instanceof STCoilParallelMultiblockMachine multiblock)) {
+            return ModifierFunction.IDENTITY;
+        }
+        ModifierFunction ocMod = ModifierFunction.IDENTITY;
+        if (machine instanceof IOverclockMachine ocMachine) {
+            long voltage = ocMachine.getOverclockVoltage();
+            ocMod = STOverclockingLogic.TRIPLE_OVERCLOCK.getModifier(
+                    machine, recipe, voltage);
+        }
+        int targetParallel = multiblock.getParallelCount();
+        int actualParallel = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, targetParallel);
+        if (actualParallel <= 0) return ModifierFunction.NULL;
+        ContentModifier modifier = ContentModifier.multiplier(actualParallel);
+        ModifierFunction parallelMod = ModifierFunction.builder()
+                .parallels(actualParallel)
+                .inputModifier(modifier)
+                .outputModifier(modifier)
+                .build();
+        return ocMod.andThen(parallelMod);
+    }
+
+    @Override
+    public void addDisplayText(List<Component> textList) {
+        super.addDisplayText(textList);
+        if (isFormed()) {
+            textList.add(Component.translatable("shishamo_tech.machine.parallel_count",
+                    getParallelCount()));
+            textList.add(Component.translatable("shishamo_tech.machine.coil_tier",
+                    Component.translatable("block.gtceu." + getCoilType().getName() + "_coil_block")));
+        }
+    }
+}

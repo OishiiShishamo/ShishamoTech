@@ -1,0 +1,195 @@
+package shishamo_tech.common.machine.ae2;
+
+import appeng.recipes.handlers.InscriberRecipe;
+import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
+import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.feature.IOverclockMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
+import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
+import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
+import shishamo_tech.common.recipe.STOverclockingLogic;
+import shishamo_tech.common.recipe.STRecipeTypes;
+import shishamo_tech.config.STConfig;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public class STInscriberMultiblockMachine extends WorkableElectricMultiblockMachine {
+
+    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            STInscriberMultiblockMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+
+    public STInscriberMultiblockMachine(IMachineBlockEntity holder, Object... args) {
+        super(holder, args);
+    }
+
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
+    }
+
+    @Override
+    protected RecipeLogic createRecipeLogic(Object... args) {
+        return new InscriberRecipeLogic(this);
+    }
+
+    public int getParallelCount() {
+        int base = switch (getTier()) {
+            case 1, 2 -> 4;
+            case 3, 4 -> 8;
+            case 5, 6 -> 16;
+            case 7, 8 -> 32;
+            default -> 64;
+        };
+        return base * STConfig.PARALLEL_MULTIPLIER.get();
+    }
+
+    public static int getDisplayParallelCount(int tier) {
+        int base = switch (tier) {
+            case 1, 2 -> 4;
+            case 3, 4 -> 8;
+            case 5, 6 -> 16;
+            case 7, 8 -> 32;
+            default -> 64;
+        };
+        return base;
+    }
+
+    @Nullable
+    public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
+        if (!(machine instanceof STInscriberMultiblockMachine inscriber)) {
+            return ModifierFunction.IDENTITY;
+        }
+        ModifierFunction ocMod = ModifierFunction.IDENTITY;
+        if (machine instanceof IOverclockMachine ocMachine) {
+            long voltage = ocMachine.getOverclockVoltage();
+            ocMod = STOverclockingLogic.TRIPLE_OVERCLOCK.getModifier(machine, recipe, voltage);
+        }
+        int targetParallel = inscriber.getParallelCount();
+        int actualParallel = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, targetParallel);
+        if (actualParallel <= 0) return ModifierFunction.NULL;
+        ContentModifier modifier = ContentModifier.multiplier(actualParallel);
+        ModifierFunction parallelMod = ModifierFunction.builder()
+                .parallels(actualParallel)
+                .inputModifier(modifier)
+                .outputModifier(modifier)
+                .build();
+        return ocMod.andThen(parallelMod);
+    }
+
+    @Override
+    public void addDisplayText(List<Component> textList) {
+        super.addDisplayText(textList);
+        if (isFormed()) {
+            textList.add(Component.translatable("shishamo_tech.machine.parallel_count", getParallelCount()));
+        }
+    }
+
+protected static class InscriberRecipeLogic extends RecipeLogic {
+
+        public InscriberRecipeLogic(STInscriberMultiblockMachine machine) {
+            super(machine);
+        }
+
+        @Override
+        public void onMachineLoad() {
+            super.onMachineLoad();
+            var level = getMachine().getLevel();
+            if (level != null && !level.isClientSide) {
+                var recipeManager = level.getRecipeManager();
+                var ae2Recipes = recipeManager.getAllRecipesFor(InscriberRecipe.TYPE);
+                if (ae2Recipes != null) {
+                    STRecipeTypes.populateRecipeDB(ae2Recipes.toArray(new InscriberRecipe[0]));
+                }
+            }
+        }
+
+        @Override
+        public Iterator<GTRecipe> searchRecipe() {
+            STInscriberMultiblockMachine m = (STInscriberMultiblockMachine) getMachine();
+            Iterator<GTRecipe> dbResult = m.getRecipeType().searchRecipe(m, r -> true);
+
+            int configuredCircuit = getConfiguredCircuit(m);
+            GTCEu.LOGGER.info("STInscriber searchRecipe: configuredCircuit={}", configuredCircuit);
+
+            List<GTRecipe> filtered = new ArrayList<>();
+            while (dbResult.hasNext()) {
+                GTRecipe recipe = dbResult.next();
+                int recipeCircuit = getRecipeCircuit(recipe);
+                GTCEu.LOGGER.info("STInscriber searchRecipe: recipe={} recipeCircuit={} configuredCircuit={}",
+                        recipe.getId(), recipeCircuit, configuredCircuit);
+                if (configuredCircuit == 0) {
+                    if (recipeCircuit == 0) {
+                        filtered.add(recipe);
+                    }
+                } else if (recipeCircuit == configuredCircuit) {
+                    filtered.add(recipe);
+                }
+            }
+            GTCEu.LOGGER.info("STInscriber searchRecipe: {} recipes after circuit filtering (from {} total)",
+                    filtered.size(), filtered.size() + (dbResult instanceof ArrayList<?> a ? 0 : 0));
+            return filtered.iterator();
+        }
+
+        private static int getRecipeCircuit(GTRecipe recipe) {
+            var itemInputs = recipe.inputs.get(ItemRecipeCapability.CAP);
+            if (itemInputs == null) return 0;
+            for (var content : itemInputs) {
+                if (content.getContent() instanceof net.minecraft.world.item.crafting.Ingredient ing) {
+                    for (var stack : ing.getItems()) {
+                        if (stack.is(GTItems.PROGRAMMED_CIRCUIT.get())) {
+                            return IntCircuitBehaviour.getCircuitConfiguration(stack);
+                        }
+                    }
+                }
+            }
+            return 0;
+        }
+
+        private int getConfiguredCircuit(STInscriberMultiblockMachine machine) {
+            var flat = machine.capabilitiesFlat;
+            if (flat == null) return 0;
+            var handlers = flat
+                    .getOrDefault(IO.IN, java.util.Collections.emptyMap())
+                    .getOrDefault(ItemRecipeCapability.CAP, java.util.Collections.emptyList());
+            GTCEu.LOGGER.info("STInscriber getConfiguredCircuit: scanning {} handlers", handlers.size());
+            for (var handler : handlers) {
+                Object contents = handler.getContents();
+                GTCEu.LOGGER.info("STInscriber getConfiguredCircuit: handler={} contents={}",
+                        handler.getClass().getSimpleName(),
+                        contents != null ? contents.getClass().getSimpleName() : "null");
+                if (contents instanceof List<?> list) {
+                    for (Object obj : list) {
+                        GTCEu.LOGGER.info("STInscriber getConfiguredCircuit:   obj={}", obj);
+                        if (obj instanceof ItemStack stack) {
+                            GTCEu.LOGGER.info("STInscriber getConfiguredCircuit:     stack={} tag={}",
+                                    stack.getItem(), stack.getTag());
+                            if (stack.is(GTItems.PROGRAMMED_CIRCUIT.get())) {
+                                var tag = stack.getTag();
+                                if (tag != null) {
+                                    int circuit = tag.getInt("Configuration");
+                                    GTCEu.LOGGER.info("STInscriber getConfiguredCircuit: FOUND circuit={}", circuit);
+                                    return circuit;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return 0;
+        }
+    }
+}

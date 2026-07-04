@@ -1,0 +1,47 @@
+package shishamo_tech.config;
+
+import net.minecraftforge.common.ForgeConfigSpec;
+
+public final class STConfig {
+    private STConfig() {}
+
+    private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
+
+    public static final ForgeConfigSpec.IntValue PARALLEL_MULTIPLIER = BUILDER
+            .comment("Parallel multiplier applied to all ShishamoTech machines (default 64)")
+            .defineInRange("parallelMultiplier", 64, 1, 1024);
+
+    public static final ForgeConfigSpec.BooleanValue ENABLE_STEAM_MACHINES = BUILDER
+            .comment("Enable Steam-era mega multiblocks")
+            .define("enableSteamMachines", true);
+
+    public static final ForgeConfigSpec.BooleanValue ENABLE_ELECTRIC_MACHINES = BUILDER
+            .comment("Enable Electric-era mega multiblocks")
+            .define("enableElectricMachines", true);
+
+    public static final ForgeConfigSpec.BooleanValue ENABLE_AE2_INTEGRATION = BUILDER
+            .comment("Enable AE2 integration multiblocks (requires AE2 installed)")
+            .define("enableAE2Integration", true);
+
+    public static final ForgeConfigSpec SPEC = BUILDER.build();
+
+    public static int parallelMultiplier;
+    public static boolean enableSteamMachines;
+    public static boolean enableElectricMachines;
+    public static boolean enableAE2Integration;
+
+    public static void refresh() {
+        parallelMultiplier = PARALLEL_MULTIPLIER.get();
+        enableSteamMachines = ENABLE_STEAM_MACHINES.get();
+        enableElectricMachines = ENABLE_ELECTRIC_MACHINES.get();
+        enableAE2Integration = ENABLE_AE2_INTEGRATION.get();
+    }
+
+    public static boolean isAE2Enabled() {
+        try {
+            return ENABLE_AE2_INTEGRATION.get();
+        } catch (IllegalStateException e) {
+            return true;
+        }
+    }
+}

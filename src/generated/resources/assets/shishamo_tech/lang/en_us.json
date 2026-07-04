@@ -1,0 +1,23 @@
+{
+  "block.shishamo_tech.large_arc_furnace": "Large Arc Furnace",
+  "block.shishamo_tech.large_assembly_plant": "Large Assembly Plant",
+  "block.shishamo_tech.large_centrifuge": "Large Centrifuge",
+  "block.shishamo_tech.large_chemical_plant": "Large Chemical Plant",
+  "block.shishamo_tech.large_distillation_tower": "Large Distillation Tower",
+  "block.shishamo_tech.large_electrolyzer": "Large Electrolyzer",
+  "block.shishamo_tech.large_grinding_plant": "Large Grinding Plant",
+  "block.shishamo_tech.large_smelting_plant": "Large Smelting Plant",
+  "block.shishamo_tech.large_vacuum_freezer": "Large Vacuum Freezer",
+  "block.shishamo_tech.large_washing_plant": "Large Washing Plant",
+  "block.shishamo_tech.mega_steam_alloy_smelter": "Mega Steam Alloy Smelter",
+  "block.shishamo_tech.mega_steam_compressor": "Mega Steam Compressor",
+  "block.shishamo_tech.mega_steam_extractor": "Mega Steam Extractor",
+  "block.shishamo_tech.mega_steam_furnace": "Mega Steam Furnace",
+  "block.shishamo_tech.mega_steam_grinder": "Mega Steam Grinder",
+  "block.shishamo_tech.mega_steam_hammer": "Mega Steam Hammer",
+  "block.shishamo_tech.mega_steam_rock_crusher": "Mega Steam Rock Crusher",
+  "block.shishamo_tech.press_free_inscriber_ev": "Press-Free Inscriber MK-III",
+  "block.shishamo_tech.press_free_inscriber_hv": "Press-Free Inscriber MK-II",
+  "block.shishamo_tech.press_free_inscriber_iv": "Press-Free Inscriber MK-IV",
+  "block.shishamo_tech.press_free_inscriber_mv": "Press-Free Inscriber MK-I"
+}
