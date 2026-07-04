@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IOverclockMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
@@ -71,11 +72,9 @@ public class STCoilParallelMultiblockMachine extends CoilWorkableElectricMultibl
         if (!(machine instanceof STCoilParallelMultiblockMachine multiblock)) {
             return ModifierFunction.IDENTITY;
         }
-        ModifierFunction ocMod = ModifierFunction.IDENTITY;
+        long voltage = 0;
         if (machine instanceof IOverclockMachine ocMachine) {
-            long voltage = ocMachine.getOverclockVoltage();
-            ocMod = STOverclockingLogic.TRIPLE_OVERCLOCK.getModifier(
-                    machine, recipe, voltage);
+            voltage = ocMachine.getOverclockVoltage();
         }
         int targetParallel = multiblock.getParallelCount();
         int actualParallel = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, targetParallel);
@@ -86,7 +85,28 @@ public class STCoilParallelMultiblockMachine extends CoilWorkableElectricMultibl
                 .inputModifier(modifier)
                 .outputModifier(modifier)
                 .build();
-        return ocMod.andThen(parallelMod);
+        long targetVoltage = voltage;
+        ModifierFunction composed;
+        if (targetVoltage > 0 && RecipeHelper.getRealEUt(recipe).getTotalEU() > 0) {
+            ModifierFunction ocMod = STOverclockingLogic.TRIPLE_OVERCLOCK.getModifier(
+                    machine, recipe, targetVoltage);
+            composed = ocMod.andThen(parallelMod);
+            ModifierFunction powerMod = r -> {
+                if (r == null) return null;
+                var withIO = RecipeHelper.getRealEUtWithIO(r);
+                long currentEUt = withIO.stack().getTotalEU();
+                if (currentEUt <= 0 || currentEUt == targetVoltage) return r;
+                double mult = (double) targetVoltage / currentEUt;
+                return ModifierFunction.builder()
+                        .eutMultiplier(mult)
+                        .build()
+                        .apply(r);
+            };
+            composed = composed.andThen(powerMod);
+        } else {
+            composed = parallelMod;
+        }
+        return composed;
     }
 
     @Override
