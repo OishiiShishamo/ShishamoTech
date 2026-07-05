@@ -9,7 +9,7 @@ public final class STConfig {
 
     public static final ForgeConfigSpec.IntValue PARALLEL_MULTIPLIER = BUILDER
             .comment("Parallel multiplier applied to all ShishamoTech machines (default 64)")
-            .defineInRange("parallelMultiplier", 64, 1, 1024);
+            .defineInRange("parallelMultiplier", 64, 1, 2147483647);
 
     public static final ForgeConfigSpec.BooleanValue ENABLE_STEAM_MACHINES = BUILDER
             .comment("Enable Steam-era mega multiblocks")

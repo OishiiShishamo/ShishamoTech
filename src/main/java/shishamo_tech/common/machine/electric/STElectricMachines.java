@@ -69,7 +69,7 @@ public final class STElectricMachines {
                 "large_smelting_plant",
                 "Large Smelting Plant",
                 GTRecipeTypes.FURNACE_RECIPES,
-                1,
+                2,
                 GTBlocks.CASING_INVAR_HEATPROOF,
                 com.gregtechceu.gtceu.GTCEu.id("block/casings/solid/machine_casing_heatproof"),
                 com.gregtechceu.gtceu.GTCEu.id("block/multiblock/multi_furnace"),
@@ -386,7 +386,7 @@ public final class STElectricMachines {
             ResourceLocation overlayModel,
             java.util.function.Function<com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition,
                     com.gregtechceu.gtceu.api.pattern.BlockPattern> patternProvider) {
-        int defaultParallel = STParallelMultiblockMachine.getDisplayParallelCount(tier);
+        int parallel = STParallelMultiblockMachine.getDisplayParallelCount(tier);
         return STRegistration.REGISTRATE
                 .multiblock(name, STParallelMultiblockMachine::new)
                 .rotationState(RotationState.ALL)
@@ -399,7 +399,8 @@ public final class STElectricMachines {
                 .workableCasingModel(casingTexture, overlayModel)
                 .tooltipBuilder((stack, tooltips) ->
                         tooltips.add(net.minecraft.network.chat.Component.translatable(
-                                "shishamo_tech.machine.parallel_count", defaultParallel * STConfig.PARALLEL_MULTIPLIER.get())))
+                                "shishamo_tech.machine.parallel_count",
+                                parallel)))
                 .register();
     }
 
@@ -413,7 +414,7 @@ public final class STElectricMachines {
             ResourceLocation overlayModel,
             java.util.function.Function<com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition,
                     com.gregtechceu.gtceu.api.pattern.BlockPattern> patternProvider) {
-        int defaultParallel = STCoilParallelMultiblockMachine.getDisplayParallelCount(tier, 0);
+        int parallel = STCoilParallelMultiblockMachine.getDisplayParallelCount(tier, 0);
         return STRegistration.REGISTRATE
                 .multiblock(name, STCoilParallelMultiblockMachine::new)
                 .rotationState(RotationState.ALL)
@@ -426,7 +427,8 @@ public final class STElectricMachines {
                 .workableCasingModel(casingTexture, overlayModel)
                 .tooltipBuilder((stack, tooltips) -> {
                     tooltips.add(net.minecraft.network.chat.Component.translatable(
-                            "shishamo_tech.machine.parallel_count", defaultParallel * STConfig.PARALLEL_MULTIPLIER.get()));
+                            "shishamo_tech.machine.parallel_count",
+                            parallel));
                 })
                 .register();
     }

@@ -48,11 +48,11 @@ public class STInscriberMultiblockMachine extends WorkableElectricMultiblockMach
     }
 
     public int getParallelCount() {
-        return 4 * (getTier() + 1) * STConfig.PARALLEL_MULTIPLIER.get();
+        return STOverclockingLogic.getParallelBonus(getTier()) * STOverclockingLogic.getParallelBonus(getDefinition().getTier()) * STConfig.PARALLEL_MULTIPLIER.get();
     }
 
     public static int getDisplayParallelCount(int tier) {
-        return 4 * (tier + 1);
+        return STOverclockingLogic.getParallelBonus(tier) * STConfig.PARALLEL_MULTIPLIER.get();
     }
 
     @Nullable
@@ -101,7 +101,8 @@ public class STInscriberMultiblockMachine extends WorkableElectricMultiblockMach
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
         if (isFormed()) {
-            textList.add(Component.translatable("shishamo_tech.machine.parallel_count", getParallelCount()));
+            textList.add(Component.translatable("shishamo_tech.machine.parallel_count",
+                    getParallelCount()));
         }
     }
 

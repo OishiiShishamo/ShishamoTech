@@ -82,7 +82,7 @@ public final class STAE2Machines {
             com.tterrag.registrate.util.entry.BlockEntry<? extends net.minecraft.world.level.block.Block> appearanceBlock,
             net.minecraft.resources.ResourceLocation casingTexture,
             net.minecraft.resources.ResourceLocation overlayModel) {
-        int defaultParallel = STInscriberMultiblockMachine.getDisplayParallelCount(tier);
+        int parallel = STInscriberMultiblockMachine.getDisplayParallelCount(tier);
         return STRegistration.REGISTRATE
                 .multiblock(name, STInscriberMultiblockMachine::new)
                 .rotationState(RotationState.ALL)
@@ -114,7 +114,8 @@ public final class STAE2Machines {
                 .workableCasingModel(casingTexture, overlayModel)
                 .tooltipBuilder((stack, tooltips) ->
                         tooltips.add(net.minecraft.network.chat.Component.translatable(
-                                "shishamo_tech.machine.parallel_count", defaultParallel * STConfig.PARALLEL_MULTIPLIER.get())))
+                                "shishamo_tech.machine.parallel_count",
+                                parallel)))
                 .register();
     }
 }

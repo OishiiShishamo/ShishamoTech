@@ -17,8 +17,6 @@ import shishamo_tech.config.STConfig;
 
 import java.util.List;
 
-import java.util.List;
-
 public class STParallelMultiblockMachine extends WorkableElectricMultiblockMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
@@ -34,19 +32,19 @@ public class STParallelMultiblockMachine extends WorkableElectricMultiblockMachi
     }
 
     public static int getBaseParallelForTier(int tier) {
-        return 4 * (tier + 1);
+        return STOverclockingLogic.getParallelBonus(tier);
     }
 
     public int getBaseParallelForTier() {
-        return getBaseParallelForTier(getTier());
+        return getBaseParallelForTier(getDefinition().getTier());
     }
 
     public int getParallelCount() {
-        return getBaseParallelForTier() * STConfig.PARALLEL_MULTIPLIER.get();
+        return STOverclockingLogic.getParallelBonus(getTier()) * STOverclockingLogic.getParallelBonus(getDefinition().getTier()) * STConfig.PARALLEL_MULTIPLIER.get();
     }
 
     public static int getDisplayParallelCount(int tier) {
-        return getBaseParallelForTier(tier);
+        return getBaseParallelForTier(tier) * STConfig.PARALLEL_MULTIPLIER.get();
     }
 
     @Nullable
@@ -96,7 +94,7 @@ public class STParallelMultiblockMachine extends WorkableElectricMultiblockMachi
         super.addDisplayText(textList);
         if (isFormed()) {
             textList.add(Component.translatable("shishamo_tech.machine.parallel_count",
-                    getBaseParallelForTier() * STConfig.PARALLEL_MULTIPLIER.get()));
+                    getParallelCount()));
         }
     }
 }

@@ -32,11 +32,11 @@ public class STCoilParallelMultiblockMachine extends CoilWorkableElectricMultibl
     }
 
     public static int getBaseParallelForTier(int tier) {
-        return 4 * (tier + 1);
+        return STOverclockingLogic.getParallelBonus(tier);
     }
 
     public int getBaseParallelForTier() {
-        return getBaseParallelForTier(getTier());
+        return getBaseParallelForTier(getDefinition().getTier());
     }
 
     public int getCoilParallelBonus() {
@@ -51,15 +51,19 @@ public class STCoilParallelMultiblockMachine extends CoilWorkableElectricMultibl
     }
 
     public int getParallelCount() {
-        int base = getBaseParallelForTier();
-        int bonus = getCoilParallelBonus();
-        return (base + bonus) * STConfig.PARALLEL_MULTIPLIER.get();
+        return STOverclockingLogic.getParallelBonus(getTier()) * STOverclockingLogic.getParallelBonus(getDefinition().getTier()) * STConfig.PARALLEL_MULTIPLIER.get() * switch (getCoilTier()) {
+            case 0 -> 1;
+            case 1, 2 -> 2;
+            case 3, 4 -> 4;
+            case 5, 6 -> 8;
+            default -> 16;
+        };
     }
 
     public static int getDisplayParallelCount(int machineTier, int coilTier) {
         int base = getBaseParallelForTier(machineTier);
-        return base + switch (coilTier) {
-            case 0 -> 0;
+        return base * STConfig.PARALLEL_MULTIPLIER.get() * switch (coilTier) {
+            case 0 -> 1;
             case 1, 2 -> 2;
             case 3, 4 -> 4;
             case 5, 6 -> 8;
