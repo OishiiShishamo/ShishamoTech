@@ -49,7 +49,7 @@ public class STJEIPlugin implements IModPlugin {
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         var recipeType = new RecipeType<>(STRecipeTypes.INSCRIBER_RECIPES.registryName,
                 com.gregtechceu.gtceu.api.recipe.GTRecipe.class);
-        for (var machine : STAE2Machines.getAll()) {
+        for (var machine : STAE2Machines.AEMachineGetAll()) {
             registration.addRecipeCatalyst(machine.asStack(), recipeType);
         }
     }

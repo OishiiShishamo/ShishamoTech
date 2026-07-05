@@ -47,17 +47,20 @@ public class STInscriberMultiblockMachine extends WorkableElectricMultiblockMach
     }
 
     public int getParallelCount() {
-        return STOverclockingLogic.getParallelBonus(getTier()) * STOverclockingLogic.getParallelBonus(getDefinition().getTier()) * STConfig.PARALLEL_MULTIPLIER.get();
+        return STOverclockingLogic.getParallelBonus(getTier()) * STOverclockingLogic.getParallelBonus(getDefinition().getTier()) * STConfig.parallelMultiplier;
     }
 
     public static int getDisplayParallelCount(int tier) {
-        return STOverclockingLogic.getParallelBonus(tier) * STConfig.PARALLEL_MULTIPLIER.get();
+        return STOverclockingLogic.getParallelBonus(tier) * STConfig.parallelMultiplier;
     }
 
     @Nullable
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
         if (!(machine instanceof STInscriberMultiblockMachine m)) {
             return ModifierFunction.IDENTITY;
+        }
+        if (!STConfig.isAE2Enabled()) {
+            return ModifierFunction.NULL;
         }
         long voltage = STRecipeModifierUtil.getOverclockVoltage(machine);
         return STRecipeModifierUtil.createParallelModifier(machine, recipe, m.getParallelCount(), voltage);

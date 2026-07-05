@@ -9,6 +9,7 @@
   "block.shishamo_tech.large_smelting_plant": "Large Smelting Plant",
   "block.shishamo_tech.eternal_force_freezer": "Eternal Force Freezer",
   "block.shishamo_tech.large_washing_plant": "Large Washing Plant",
+  "block.shishamo_tech.non_omnipotent_universe_forge": "(Non) Omnipotent Universe Forge",
   "block.shishamo_tech.mega_steam_alloy_smelter": "Mega Steam Alloy Smelter",
   "block.shishamo_tech.mega_steam_compressor": "Mega Steam Compressor",
   "block.shishamo_tech.mega_steam_extractor": "Mega Steam Extractor",
@@ -26,5 +27,9 @@
   "shishamo_tech.machine.inscriber.circuit": "§7Use Integrated Circuit to select output variant when multiple recipes share the same input",
   "shishamo_tech.machine.inscriber.jei_circuit": "§7Circuit: §a%d",
   "itemGroup.shishamo_tech": "ShishamoTech",
-  "shishamo_tech.recipe.category.st_inscriber": "Press-Free Inscriber"
+  "shishamo_tech.recipe.category.st_inscriber": "Press-Free Inscriber",
+
+  "block.shishamo_tech.miracle_theoretical_meteor_casing": "Miracle-Theoretical Meteor Casing",
+  "block.shishamo_tech.miracle_theoretical_fumetsu_casing": "Miracle-Theoretical Fumetsu Casing",
+  "block.shishamo_tech.spacetime_stabilization_casing": "Spacetime Stabilization Casing"
 }

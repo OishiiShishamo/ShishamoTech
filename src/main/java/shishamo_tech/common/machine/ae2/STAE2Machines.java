@@ -1,13 +1,10 @@
 package shishamo_tech.common.machine.ae2;
 
-import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
-import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -17,61 +14,20 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import shishamo_tech.STRegistration;
 import shishamo_tech.common.recipe.STRecipeTypes;
-import shishamo_tech.config.STConfig;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeModifiers.BATCH_MODE;
+import static shishamo_tech.common.data.STMultiMachines.*;
 
 import java.util.List;
 
 public final class STAE2Machines {
-    private STAE2Machines() {}
-
-    public static MultiblockMachineDefinition PRESS_FREE_INSCRIBER_MV;
-    public static MultiblockMachineDefinition PRESS_FREE_INSCRIBER_HV;
-    public static MultiblockMachineDefinition PRESS_FREE_INSCRIBER_EV;
-    public static MultiblockMachineDefinition PRESS_FREE_INSCRIBER_IV;
-
-    public static List<MachineDefinition> getAll() {
+    public static List<MachineDefinition> AEMachineGetAll() {
         return List.of(PRESS_FREE_INSCRIBER_MV, PRESS_FREE_INSCRIBER_HV, PRESS_FREE_INSCRIBER_EV, PRESS_FREE_INSCRIBER_IV);
     }
 
-    public static void init() {
-        PRESS_FREE_INSCRIBER_MV = registerInscriber(
-                "press_free_inscriber_mv",
-                "Press-Free Inscriber MK-I",
-                2,
-                GTBlocks.CASING_STEEL_SOLID,
-                GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
-                GTCEu.id("block/multiblock/gcym/large_material_press"));
-
-        PRESS_FREE_INSCRIBER_HV = registerInscriber(
-                "press_free_inscriber_hv",
-                "Press-Free Inscriber MK-II",
-                4,
-                GTBlocks.CASING_STAINLESS_CLEAN,
-                GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"),
-                GTCEu.id("block/multiblock/gcym/large_material_press"));
-
-        PRESS_FREE_INSCRIBER_EV = registerInscriber(
-                "press_free_inscriber_ev",
-                "Press-Free Inscriber MK-III",
-                6,
-                GTBlocks.CASING_TITANIUM_STABLE,
-                GTCEu.id("block/casings/solid/machine_casing_stable_titanium"),
-                GTCEu.id("block/multiblock/gcym/large_material_press"));
-
-        PRESS_FREE_INSCRIBER_IV = registerInscriber(
-                "press_free_inscriber_iv",
-                "Press-Free Inscriber MK-IV",
-                8,
-                GTBlocks.CASING_TUNGSTENSTEEL_ROBUST,
-                GTCEu.id("block/casings/solid/machine_casing_robust_tungstensteel"),
-                GTCEu.id("block/multiblock/gcym/large_material_press"));
-    }
-
-    public static Material getFrameMaterial(int tier) {
+    private static Material getFrameMaterial(int tier) {
         return switch (tier) {
             case 2 -> GTMaterials.Steel;
             case 4 -> GTMaterials.StainlessSteel;
@@ -81,7 +37,7 @@ public final class STAE2Machines {
         };
     }
 
-    private static MultiblockMachineDefinition registerInscriber(
+    public static MultiblockMachineDefinition registerInscriber(
             String name, String langValue, int tier,
             BlockEntry<? extends Block> appearanceBlock,
             ResourceLocation casingTexture, ResourceLocation overlayModel) {

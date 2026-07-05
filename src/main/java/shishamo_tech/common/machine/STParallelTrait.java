@@ -49,7 +49,7 @@ public class STParallelTrait extends MachineTrait {
      * @return total parallel count = base x config multiplier
      */
     public int getParallelCount() {
-        return baseParallels * STConfig.PARALLEL_MULTIPLIER.get();
+        return baseParallels * STConfig.parallelMultiplier;
     }
 
     /**

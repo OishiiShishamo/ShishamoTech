@@ -16,8 +16,15 @@
   "block.shishamo_tech.mega_steam_grinder": "Mega Steam Grinder",
   "block.shishamo_tech.mega_steam_hammer": "Mega Steam Hammer",
   "block.shishamo_tech.mega_steam_rock_crusher": "Mega Steam Rock Crusher",
+  "block.shishamo_tech.miracle_theoretical_fumetsu_casing": "Miracle Theoretical Fumetsu Casing",
+  "block.shishamo_tech.miracle_theoretical_meteor_casing": "Miracle Theoretical Meteor Casing",
+  "block.shishamo_tech.non_omnipotent_trancendent_industrial_infinity_tesseract_ultimate_overpower_general_casing": "Non Omnipotent Trancendent Industrial Infinity Tesseract Ultimate Overpower General Casing",
+  "block.shishamo_tech.non_omnipotent_trancendent_industrial_infinity_tesseract_ultimate_overpower_general_psychotic_wave_forging_casing": "Non Omnipotent Trancendent Industrial Infinity Tesseract Ultimate Overpower General Psychotic Wave Forging Casing",
+  "block.shishamo_tech.non_omnipotent_trancendent_industrial_infinity_tesseract_ultimate_overpower_general_starmatter_whirlpool_magical_casing": "Non Omnipotent Trancendent Industrial Infinity Tesseract Ultimate Overpower General Starmatter Whirlpool Magical Casing",
+  "block.shishamo_tech.non_omnipotent_universe_forge": "(non) Omnipotent Universe Forge",
   "block.shishamo_tech.press_free_inscriber_ev": "Press-Free Inscriber MK-III",
   "block.shishamo_tech.press_free_inscriber_hv": "Press-Free Inscriber MK-II",
   "block.shishamo_tech.press_free_inscriber_iv": "Press-Free Inscriber MK-IV",
-  "block.shishamo_tech.press_free_inscriber_mv": "Press-Free Inscriber MK-I"
+  "block.shishamo_tech.press_free_inscriber_mv": "Press-Free Inscriber MK-I",
+  "block.shishamo_tech.spacetime_stabilization_casing": "Spacetime Stabilization Casing"
 }

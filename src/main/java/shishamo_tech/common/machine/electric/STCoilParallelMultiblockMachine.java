@@ -48,7 +48,7 @@ public class STCoilParallelMultiblockMachine extends CoilWorkableElectricMultibl
     }
 
     public int getParallelCount() {
-        return STOverclockingLogic.getParallelBonus(getTier()) * STOverclockingLogic.getParallelBonus(getDefinition().getTier()) * STConfig.PARALLEL_MULTIPLIER.get() * switch (getCoilTier()) {
+        return STOverclockingLogic.getParallelBonus(getTier()) * STOverclockingLogic.getParallelBonus(getDefinition().getTier()) * STConfig.parallelMultiplier * switch (getCoilTier()) {
             case 0 -> 1;
             case 1, 2 -> 2;
             case 3, 4 -> 4;
@@ -59,7 +59,7 @@ public class STCoilParallelMultiblockMachine extends CoilWorkableElectricMultibl
 
     public static int getDisplayParallelCount(int machineTier, int coilTier) {
         int base = getBaseParallelForTier(machineTier);
-        return base * STConfig.PARALLEL_MULTIPLIER.get() * switch (coilTier) {
+        return base * STConfig.parallelMultiplier * switch (coilTier) {
             case 0 -> 1;
             case 1, 2 -> 2;
             case 3, 4 -> 4;
@@ -72,6 +72,9 @@ public class STCoilParallelMultiblockMachine extends CoilWorkableElectricMultibl
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
         if (!(machine instanceof STCoilParallelMultiblockMachine m)) {
             return ModifierFunction.IDENTITY;
+        }
+        if (!STConfig.isElectricEnabled()) {
+            return ModifierFunction.NULL;
         }
         long voltage = STRecipeModifierUtil.getOverclockVoltage(machine);
         return STRecipeModifierUtil.createParallelModifier(machine, recipe, m.getParallelCount(), voltage);

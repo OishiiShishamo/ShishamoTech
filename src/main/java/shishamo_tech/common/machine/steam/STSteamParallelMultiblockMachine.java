@@ -16,7 +16,7 @@ public class STSteamParallelMultiblockMachine extends SteamParallelMultiblockMac
 
     public STSteamParallelMultiblockMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
-        setMaxParallels(super.getMaxParallels() * STConfig.PARALLEL_MULTIPLIER.get());
+        setMaxParallels(super.getMaxParallels() * STConfig.parallelMultiplier);
     }
 
     @Override
@@ -31,6 +31,9 @@ public class STSteamParallelMultiblockMachine extends SteamParallelMultiblockMac
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
         if (!(machine instanceof STSteamParallelMultiblockMachine steamMachine)) {
             return ModifierFunction.IDENTITY;
+        }
+        if (!STConfig.isSteamEnabled()) {
+            return ModifierFunction.NULL;
         }
         int targetParallels = steamMachine.getMaxParallels();
         int actualParallels = ParallelLogic.getParallelAmount(machine, recipe, targetParallels);

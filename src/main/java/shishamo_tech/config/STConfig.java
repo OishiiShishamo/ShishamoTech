@@ -25,23 +25,28 @@ public final class STConfig {
 
     public static final ForgeConfigSpec SPEC = BUILDER.build();
 
-    public static int parallelMultiplier;
-    public static boolean enableSteamMachines;
-    public static boolean enableElectricMachines;
-    public static boolean enableAE2Integration;
+    public static int parallelMultiplier = 64;
+    public static boolean enableSteamMachines = true;
+    public static boolean enableElectricMachines = true;
+    public static boolean enableAE2Integration = true;
 
     public static void refresh() {
+        if (!SPEC.isLoaded()) return;
         parallelMultiplier = PARALLEL_MULTIPLIER.get();
         enableSteamMachines = ENABLE_STEAM_MACHINES.get();
         enableElectricMachines = ENABLE_ELECTRIC_MACHINES.get();
         enableAE2Integration = ENABLE_AE2_INTEGRATION.get();
     }
 
+    public static boolean isSteamEnabled() {
+        return !SPEC.isLoaded() || enableSteamMachines;
+    }
+
+    public static boolean isElectricEnabled() {
+        return !SPEC.isLoaded() || enableElectricMachines;
+    }
+
     public static boolean isAE2Enabled() {
-        try {
-            return ENABLE_AE2_INTEGRATION.get();
-        } catch (IllegalStateException e) {
-            return true;
-        }
+        return !SPEC.isLoaded() || enableAE2Integration;
     }
 }

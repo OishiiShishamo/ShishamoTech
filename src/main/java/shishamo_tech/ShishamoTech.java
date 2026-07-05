@@ -11,8 +11,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import shishamo_tech.common.machine.electric.STElectricMachines;
-import shishamo_tech.common.machine.steam.STSteamMachines;
+import shishamo_tech.common.data.STMultiMachines;
 import shishamo_tech.common.recipe.STRecipeTypes;
 import shishamo_tech.config.STConfig;
 
@@ -39,17 +38,13 @@ public class ShishamoTech {
     }
 
     private void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
-        if (STConfig.ENABLE_STEAM_MACHINES.get()) {
-            STSteamMachines.init();
-        }
-        if (STConfig.ENABLE_ELECTRIC_MACHINES.get()) {
-            STElectricMachines.init();
-        }
-        if (isModLoaded("ae2") && STConfig.isAE2Enabled()) {
+        STMultiMachines.steamInit();
+        STMultiMachines.electricInit();
+        if (isModLoaded("ae2")) {
             LOGGER.info("AE2 detected — registering Press-Free Inscriber multiblocks");
-            shishamo_tech.common.machine.ae2.STAE2Machines.init();
+            STMultiMachines.AEInit();
         } else {
-            LOGGER.info("AE2 not detected or disabled — skipping AE2 multiblocks");
+            LOGGER.info("AE2 not detected — skipping AE2 multiblocks");
         }
     }
 

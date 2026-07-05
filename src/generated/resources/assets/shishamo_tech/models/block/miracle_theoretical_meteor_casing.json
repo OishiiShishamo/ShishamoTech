@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "shishamo_tech:block/casings/solid/miracle_meteor"
+  }
+}
