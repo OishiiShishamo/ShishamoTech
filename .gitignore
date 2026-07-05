@@ -23,6 +23,7 @@ run/
 run-data/
 libs/
 LLM_Context/
+AGENTS.md
 
 # Files from Forge MDK
 forge*changelog.txt
