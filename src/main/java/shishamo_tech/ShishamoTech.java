@@ -39,8 +39,12 @@ public class ShishamoTech {
     }
 
     private void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
-        STSteamMachines.init();
-        STElectricMachines.init();
+        if (STConfig.ENABLE_STEAM_MACHINES.get()) {
+            STSteamMachines.init();
+        }
+        if (STConfig.ENABLE_ELECTRIC_MACHINES.get()) {
+            STElectricMachines.init();
+        }
         if (isModLoaded("ae2") && STConfig.isAE2Enabled()) {
             LOGGER.info("AE2 detected — registering Press-Free Inscriber multiblocks");
             shishamo_tech.common.machine.ae2.STAE2Machines.init();
