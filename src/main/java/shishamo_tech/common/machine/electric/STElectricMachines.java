@@ -1,21 +1,26 @@
 package shishamo_tech.common.machine.electric;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
+import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
-import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.tterrag.registrate.util.entry.BlockEntry;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import shishamo_tech.STRegistration;
 import shishamo_tech.config.STConfig;
 
+import java.util.function.Function;
+
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
-import static com.gregtechceu.gtceu.api.pattern.Predicates.heatingCoils;
 import static com.gregtechceu.gtceu.common.data.GTRecipeModifiers.BATCH_MODE;
 
 public final class STElectricMachines {
@@ -39,8 +44,8 @@ public final class STElectricMachines {
                 GTRecipeTypes.MACERATOR_RECIPES,
                 1,
                 GTBlocks.CASING_STEEL_SOLID,
-                com.gregtechceu.gtceu.GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
-                com.gregtechceu.gtceu.GTCEu.id("block/multiblock/gcym/large_maceration_tower"),
+                GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
+                GTCEu.id("block/multiblock/gcym/large_maceration_tower"),
                 pattern -> FactoryBlockPattern.start(FRONT, UP, RIGHT)
                         .aisle("XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX")
                         .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
@@ -71,8 +76,8 @@ public final class STElectricMachines {
                 GTRecipeTypes.FURNACE_RECIPES,
                 2,
                 GTBlocks.CASING_INVAR_HEATPROOF,
-                com.gregtechceu.gtceu.GTCEu.id("block/casings/solid/machine_casing_heatproof"),
-                com.gregtechceu.gtceu.GTCEu.id("block/multiblock/multi_furnace"),
+                GTCEu.id("block/casings/solid/machine_casing_heatproof"),
+                GTCEu.id("block/multiblock/multi_furnace"),
                 pattern -> FactoryBlockPattern.start(FRONT, UP, RIGHT)
                         .aisle("XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX")
                         .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
@@ -104,8 +109,8 @@ public final class STElectricMachines {
                 GTRecipeTypes.ORE_WASHER_RECIPES,
                 1,
                 GTBlocks.CASING_ALUMINIUM_FROSTPROOF,
-                com.gregtechceu.gtceu.GTCEu.id("block/casings/solid/machine_casing_frost_proof"),
-                com.gregtechceu.gtceu.GTCEu.id("block/multiblock/multiblock_workable"),
+                GTCEu.id("block/casings/solid/machine_casing_frost_proof"),
+                GTCEu.id("block/multiblock/multiblock_workable"),
                 pattern -> FactoryBlockPattern.start(FRONT, UP, RIGHT)
                         .aisle("XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX")
                         .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
@@ -137,8 +142,8 @@ public final class STElectricMachines {
                 GTRecipeTypes.CENTRIFUGE_RECIPES,
                 2,
                 GTBlocks.CASING_STAINLESS_CLEAN,
-                com.gregtechceu.gtceu.GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"),
-                com.gregtechceu.gtceu.GTCEu.id("block/multiblock/gcym/large_centrifuge"),
+                GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"),
+                GTCEu.id("block/multiblock/gcym/large_centrifuge"),
                 pattern -> FactoryBlockPattern.start(RIGHT, UP, FRONT)
                         .aisle("######AAAAA######", "######CCCCC######", "######CCCCC######", "######CCCCC######", "######CCCCC######", "######CCCCC######", "######CCCCC######", "######CCCCC######", "######AAAAA######", "######CCCCC######", "######CCCCC######", "######CCCCC######", "######CCCCC######", "######CCCCC######", "######CCCCC######", "######CCCCC######", "######AAAAA######")
                         .aisle("####AAAAAAAAA####", "####CC#####CC####", "####CC#####CC####", "####CC#####CC####", "####CC#####CC####", "####CC#####CC####", "####CC#####CC####", "####CC#####CC####", "####AAAAAAAAA####", "####CC#####CC####", "####CC#####CC####", "####CC#####CC####", "####CC#####CC####", "####CC#####CC####", "####CC#####CC####", "####CC#####CC####", "####AAAAAAAAA####")
@@ -178,8 +183,8 @@ public final class STElectricMachines {
                 GTRecipeTypes.ELECTROLYZER_RECIPES,
                 2,
                 GTBlocks.CASING_ALUMINIUM_FROSTPROOF,
-                com.gregtechceu.gtceu.GTCEu.id("block/casings/solid/machine_casing_frost_proof"),
-                com.gregtechceu.gtceu.GTCEu.id("block/multiblock/gcym/large_electrolyzer"),
+                GTCEu.id("block/casings/solid/machine_casing_frost_proof"),
+                GTCEu.id("block/multiblock/gcym/large_electrolyzer"),
                 pattern -> FactoryBlockPattern.start(FRONT, UP, RIGHT)
                         .aisle("XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX")
                         .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
@@ -212,8 +217,8 @@ public final class STElectricMachines {
             GTRecipeTypes.LARGE_CHEMICAL_RECIPES,
             3,
             GTBlocks.CASING_PTFE_INERT,
-            com.gregtechceu.gtceu.GTCEu.id("block/casings/solid/machine_casing_inert_ptfe"),
-            com.gregtechceu.gtceu.GTCEu.id("block/multiblock/large_chemical_reactor"),
+            GTCEu.id("block/casings/solid/machine_casing_inert_ptfe"),
+            GTCEu.id("block/multiblock/large_chemical_reactor"),
             pattern -> FactoryBlockPattern.start(FRONT, UP, RIGHT)
                     .aisle("AAA#AAA#AAA", "AAA#AAA#AAA", "AAA#AAA#AAA", "###########", "AAA#AAA#AAA", "AAA#AAA#AAA", "AAA#AAA#AAA", "###########", "AAA#AAA#AAA", "AAA#AAA#AAA", "AAA#AAA#AAA")
                     .aisle("AAA#AAA#AAA", "ABCCCBCCCBA", "ACA#ACA#ACA", "#C###C###C#", "ACA#ACA#ACA", "ABCCCBCCCBA", "ACA#ACA#ACA", "#C###C###C#", "ACA#ACA#ACA", "ABCCCBCCCBA", "AAA#AAA#AAA")
@@ -245,8 +250,8 @@ public final class STElectricMachines {
                 GTRecipeTypes.ASSEMBLER_RECIPES,
                 3,
                 GTBlocks.CASING_STEEL_SOLID,
-                com.gregtechceu.gtceu.GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
-                com.gregtechceu.gtceu.GTCEu.id("block/multiblock/gcym/large_assembler"),
+                GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
+                GTCEu.id("block/multiblock/gcym/large_assembler"),
                 pattern -> FactoryBlockPattern.start(FRONT, UP, RIGHT)
                         .aisle("XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX")
                         .aisle("XXXXXXXXXXXXXXX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XXXXXXXXXXXXXXX")
@@ -279,8 +284,8 @@ public final class STElectricMachines {
                 GTRecipeTypes.ARC_FURNACE_RECIPES,
                 3,
                 GTBlocks.CASING_INVAR_HEATPROOF,
-                com.gregtechceu.gtceu.GTCEu.id("block/casings/solid/machine_casing_heatproof"),
-                com.gregtechceu.gtceu.GTCEu.id("block/multiblock/gcym/large_arc_smelter"),
+                GTCEu.id("block/casings/solid/machine_casing_heatproof"),
+                GTCEu.id("block/multiblock/gcym/large_arc_smelter"),
                 pattern -> FactoryBlockPattern.start(FRONT, UP, RIGHT)
                         .aisle("XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX")
                         .aisle("XXXXXXXXXXXXXXX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XXXXXXXXXXXXXXX")
@@ -316,8 +321,8 @@ public final class STElectricMachines {
                 GTRecipeTypes.DISTILLATION_RECIPES,
                 3,
                 GTBlocks.CASING_STAINLESS_CLEAN,
-                com.gregtechceu.gtceu.GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"),
-                com.gregtechceu.gtceu.GTCEu.id("block/multiblock/distillation_tower"),
+                GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"),
+                GTCEu.id("block/multiblock/distillation_tower"),
                 pattern -> FactoryBlockPattern.start(FRONT, UP, RIGHT)
                         .aisle("XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX")
                         .aisle("XXXXXXXXXXXXXXX", "XPPPPPPPPPPPPPX", "XPPPPPPPPPPPPPX", "XPPPPPPPPPPPPPX", "XPPPPPPPPPPPPPX", "XPPPPPPPPPPPPPX", "XPPPPPPPPPPPPPX", "XPPPPPPPPPPPPPX", "XPPPPPPPPPPPPPX", "XPPPPPPPPPPPPPX", "XPPPPPPPPPPPPPX", "XPPPPPPPPPPPPPX", "XPPPPPPPPPPPPPX", "XPPPPPPPPPPPPPX", "XXXXXXXXXXXXXXX")
@@ -352,8 +357,8 @@ public final class STElectricMachines {
                 GTRecipeTypes.VACUUM_RECIPES,
                 3,
                 GTBlocks.CASING_ALUMINIUM_FROSTPROOF,
-                com.gregtechceu.gtceu.GTCEu.id("block/casings/solid/machine_casing_frost_proof"),
-                com.gregtechceu.gtceu.GTCEu.id("block/multiblock/vacuum_freezer"),
+                GTCEu.id("block/casings/solid/machine_casing_frost_proof"),
+                GTCEu.id("block/multiblock/vacuum_freezer"),
                 pattern -> FactoryBlockPattern.start(FRONT, UP, RIGHT)
                         .aisle("####AAAAA####", "####BBBBB####", "####BBBBB####", "####BBBBB####", "####BBBBB####", "####BBBBB####", "####BBBBB####", "####BBBBB####", "####BBBBB####", "####BBBBB####", "####AAAAA####")
                         .aisle("###AAAAAAA###", "###B#####B###", "###B##C##B###", "###B#####B###", "###B#####B###", "###B#####B###", "###B#####B###", "###B#####B###", "###B##C##B###", "###B#####B###", "###AAAAAAA###")
@@ -377,15 +382,10 @@ public final class STElectricMachines {
     }
 
     private static MultiblockMachineDefinition registerElectricMachine(
-            String name,
-            String langValue,
-            com.gregtechceu.gtceu.api.recipe.GTRecipeType recipeType,
-            int tier,
-            com.tterrag.registrate.util.entry.BlockEntry<? extends net.minecraft.world.level.block.Block> appearanceBlock,
-            ResourceLocation casingTexture,
-            ResourceLocation overlayModel,
-            java.util.function.Function<com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition,
-                    com.gregtechceu.gtceu.api.pattern.BlockPattern> patternProvider) {
+            String name, String langValue, GTRecipeType recipeType, int tier,
+            BlockEntry<? extends Block> appearanceBlock,
+            ResourceLocation casingTexture, ResourceLocation overlayModel,
+            Function<MultiblockMachineDefinition, BlockPattern> patternProvider) {
         int parallel = STParallelMultiblockMachine.getDisplayParallelCount(tier);
         return STRegistration.REGISTRATE
                 .multiblock(name, STParallelMultiblockMachine::new)
@@ -398,22 +398,16 @@ public final class STElectricMachines {
                 .pattern(patternProvider)
                 .workableCasingModel(casingTexture, overlayModel)
                 .tooltipBuilder((stack, tooltips) ->
-                        tooltips.add(net.minecraft.network.chat.Component.translatable(
-                                "shishamo_tech.machine.parallel_count",
-                                parallel)))
+                        tooltips.add(Component.translatable(
+                                "shishamo_tech.machine.parallel_count", parallel)))
                 .register();
     }
 
     private static MultiblockMachineDefinition registerCoilMachine(
-            String name,
-            String langValue,
-            com.gregtechceu.gtceu.api.recipe.GTRecipeType recipeType,
-            int tier,
-            com.tterrag.registrate.util.entry.BlockEntry<? extends net.minecraft.world.level.block.Block> appearanceBlock,
-            ResourceLocation casingTexture,
-            ResourceLocation overlayModel,
-            java.util.function.Function<com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition,
-                    com.gregtechceu.gtceu.api.pattern.BlockPattern> patternProvider) {
+            String name, String langValue, GTRecipeType recipeType, int tier,
+            BlockEntry<? extends Block> appearanceBlock,
+            ResourceLocation casingTexture, ResourceLocation overlayModel,
+            Function<MultiblockMachineDefinition, BlockPattern> patternProvider) {
         int parallel = STCoilParallelMultiblockMachine.getDisplayParallelCount(tier, 0);
         return STRegistration.REGISTRATE
                 .multiblock(name, STCoilParallelMultiblockMachine::new)
@@ -425,11 +419,9 @@ public final class STElectricMachines {
                 .appearanceBlock(appearanceBlock)
                 .pattern(patternProvider)
                 .workableCasingModel(casingTexture, overlayModel)
-                .tooltipBuilder((stack, tooltips) -> {
-                    tooltips.add(net.minecraft.network.chat.Component.translatable(
-                            "shishamo_tech.machine.parallel_count",
-                            parallel));
-                })
+                .tooltipBuilder((stack, tooltips) ->
+                        tooltips.add(Component.translatable(
+                                "shishamo_tech.machine.parallel_count", parallel)))
                 .register();
     }
 }

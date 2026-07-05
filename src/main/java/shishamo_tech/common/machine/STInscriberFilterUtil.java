@@ -2,30 +2,20 @@ package shishamo_tech.common.machine;
 
 import appeng.recipes.handlers.InscriberRecipe;
 import appeng.recipes.handlers.InscriberProcessType;
-import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.trait.MachineTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.registries.ForgeRegistries;
+import shishamo_tech.ShishamoTech;
 
-public class STInscriberFilterTrait extends MachineTrait {
+import java.util.HashSet;
+import java.util.Set;
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            STInscriberFilterTrait.class);
-
-    public STInscriberFilterTrait(MetaMachine machine) {
-        super(machine);
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
+public final class STInscriberFilterUtil {
+    private STInscriberFilterUtil() {}
 
     public static boolean isPressItem(ItemStack stack) {
         ResourceLocation id = ForgeRegistries.ITEMS.getKey(stack.getItem());
@@ -39,8 +29,8 @@ public class STInscriberFilterTrait extends MachineTrait {
         return false;
     }
 
-    public static java.util.Set<ResourceLocation> collectInputItemIds(InscriberRecipe recipe) {
-        var ids = new java.util.HashSet<ResourceLocation>();
+    public static Set<ResourceLocation> collectInputItemIds(InscriberRecipe recipe) {
+        var ids = new HashSet<ResourceLocation>();
         for (var ingredient : new Ingredient[]{
                 recipe.getMiddleInput(),
                 recipe.getTopOptional(),
@@ -55,7 +45,7 @@ public class STInscriberFilterTrait extends MachineTrait {
         return ids;
     }
 
-    public static boolean inputsConflict(java.util.Set<ResourceLocation> a, java.util.Set<ResourceLocation> b) {
+    public static boolean inputsConflict(Set<ResourceLocation> a, Set<ResourceLocation> b) {
         return a.containsAll(b) || b.containsAll(a);
     }
 
@@ -70,7 +60,7 @@ public class STInscriberFilterTrait extends MachineTrait {
         ItemStack output = ae2Recipe.getResultItem();
         boolean isPress = ae2Recipe.getProcessType() == InscriberProcessType.PRESS;
 
-        GTCEu.LOGGER.debug("Converting AE2 recipe: {} (mode={}, middle={}, top={}, bottom={}, output={})",
+        ShishamoTech.LOGGER.debug("Converting AE2 recipe: {} (mode={}, middle={}, top={}, bottom={}, output={})",
                 ae2Recipe.getId(),
                 ae2Recipe.getProcessType(),
                 middle.isEmpty() ? "empty" : ForgeRegistries.ITEMS.getKey(middle.getItems()[0].getItem()),
@@ -111,14 +101,13 @@ public class STInscriberFilterTrait extends MachineTrait {
         GTRecipe recipe = builder.buildRawRecipe();
         recipe.setId(ae2Recipe.getId());
         if (recipe.data == null) {
-            recipe.data = new net.minecraft.nbt.CompoundTag();
+            recipe.data = new CompoundTag();
         }
         recipe.data.putInt("circuit", circuitIndex);
-        
-        GTCEu.LOGGER.debug("Converted GTRecipe: inputs={}, outputs={}",
+
+        ShishamoTech.LOGGER.debug("Converted GTRecipe: inputs={}, outputs={}",
                 recipe.inputs, recipe.outputs);
-        
+
         return recipe;
     }
-
-    }
+}

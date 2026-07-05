@@ -2,17 +2,14 @@ package shishamo_tech.common.machine.electric;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.feature.IOverclockMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
-import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 import shishamo_tech.common.recipe.STOverclockingLogic;
+import shishamo_tech.common.recipe.STRecipeModifierUtil;
 import shishamo_tech.config.STConfig;
 
 import java.util.List;
@@ -73,44 +70,11 @@ public class STCoilParallelMultiblockMachine extends CoilWorkableElectricMultibl
 
     @Nullable
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
-        if (!(machine instanceof STCoilParallelMultiblockMachine multiblock)) {
+        if (!(machine instanceof STCoilParallelMultiblockMachine m)) {
             return ModifierFunction.IDENTITY;
         }
-        long voltage = 0;
-        if (machine instanceof IOverclockMachine ocMachine) {
-            voltage = ocMachine.getOverclockVoltage();
-        }
-        int targetParallel = multiblock.getParallelCount();
-        int actualParallel = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, targetParallel);
-        if (actualParallel <= 0) return ModifierFunction.NULL;
-        ContentModifier modifier = ContentModifier.multiplier(actualParallel);
-        ModifierFunction parallelMod = ModifierFunction.builder()
-                .parallels(actualParallel)
-                .inputModifier(modifier)
-                .outputModifier(modifier)
-                .build();
-        long targetVoltage = voltage;
-        ModifierFunction composed;
-        if (targetVoltage > 0 && RecipeHelper.getRealEUt(recipe).getTotalEU() > 0) {
-            ModifierFunction ocMod = STOverclockingLogic.TRIPLE_OVERCLOCK.getModifier(
-                    machine, recipe, targetVoltage);
-            composed = ocMod.andThen(parallelMod);
-            ModifierFunction powerMod = r -> {
-                if (r == null) return null;
-                var withIO = RecipeHelper.getRealEUtWithIO(r);
-                long currentEUt = withIO.stack().getTotalEU();
-                if (currentEUt <= 0 || currentEUt == targetVoltage) return r;
-                double mult = (double) targetVoltage / currentEUt;
-                return ModifierFunction.builder()
-                        .eutMultiplier(mult)
-                        .build()
-                        .apply(r);
-            };
-            composed = composed.andThen(powerMod);
-        } else {
-            composed = parallelMod;
-        }
-        return composed;
+        long voltage = STRecipeModifierUtil.getOverclockVoltage(machine);
+        return STRecipeModifierUtil.createParallelModifier(machine, recipe, m.getParallelCount(), voltage);
     }
 
     @Override

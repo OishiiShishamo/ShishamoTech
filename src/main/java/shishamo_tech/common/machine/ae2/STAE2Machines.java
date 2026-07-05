@@ -1,14 +1,20 @@
 package shishamo_tech.common.machine.ae2;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
+import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.tterrag.registrate.util.entry.BlockEntry;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import shishamo_tech.STRegistration;
 import shishamo_tech.common.recipe.STRecipeTypes;
 import shishamo_tech.config.STConfig;
@@ -37,32 +43,32 @@ public final class STAE2Machines {
                 "Press-Free Inscriber MK-I",
                 2,
                 GTBlocks.CASING_STEEL_SOLID,
-                com.gregtechceu.gtceu.GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
-                com.gregtechceu.gtceu.GTCEu.id("block/multiblock/gcym/large_material_press"));
+                GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
+                GTCEu.id("block/multiblock/gcym/large_material_press"));
 
         PRESS_FREE_INSCRIBER_HV = registerInscriber(
                 "press_free_inscriber_hv",
                 "Press-Free Inscriber MK-II",
                 4,
                 GTBlocks.CASING_STAINLESS_CLEAN,
-                com.gregtechceu.gtceu.GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"),
-                com.gregtechceu.gtceu.GTCEu.id("block/multiblock/gcym/large_material_press"));
+                GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"),
+                GTCEu.id("block/multiblock/gcym/large_material_press"));
 
         PRESS_FREE_INSCRIBER_EV = registerInscriber(
                 "press_free_inscriber_ev",
                 "Press-Free Inscriber MK-III",
                 6,
                 GTBlocks.CASING_TITANIUM_STABLE,
-                com.gregtechceu.gtceu.GTCEu.id("block/casings/solid/machine_casing_stable_titanium"),
-                com.gregtechceu.gtceu.GTCEu.id("block/multiblock/gcym/large_material_press"));
+                GTCEu.id("block/casings/solid/machine_casing_stable_titanium"),
+                GTCEu.id("block/multiblock/gcym/large_material_press"));
 
         PRESS_FREE_INSCRIBER_IV = registerInscriber(
                 "press_free_inscriber_iv",
                 "Press-Free Inscriber MK-IV",
                 8,
                 GTBlocks.CASING_TUNGSTENSTEEL_ROBUST,
-                com.gregtechceu.gtceu.GTCEu.id("block/casings/solid/machine_casing_robust_tungstensteel"),
-                com.gregtechceu.gtceu.GTCEu.id("block/multiblock/gcym/large_material_press"));
+                GTCEu.id("block/casings/solid/machine_casing_robust_tungstensteel"),
+                GTCEu.id("block/multiblock/gcym/large_material_press"));
     }
 
     public static Material getFrameMaterial(int tier) {
@@ -76,12 +82,9 @@ public final class STAE2Machines {
     }
 
     private static MultiblockMachineDefinition registerInscriber(
-            String name,
-            String langValue,
-            int tier,
-            com.tterrag.registrate.util.entry.BlockEntry<? extends net.minecraft.world.level.block.Block> appearanceBlock,
-            net.minecraft.resources.ResourceLocation casingTexture,
-            net.minecraft.resources.ResourceLocation overlayModel) {
+            String name, String langValue, int tier,
+            BlockEntry<? extends Block> appearanceBlock,
+            ResourceLocation casingTexture, ResourceLocation overlayModel) {
         int parallel = STInscriberMultiblockMachine.getDisplayParallelCount(tier);
         return STRegistration.REGISTRATE
                 .multiblock(name, STInscriberMultiblockMachine::new)
@@ -113,9 +116,8 @@ public final class STAE2Machines {
                         .build())
                 .workableCasingModel(casingTexture, overlayModel)
                 .tooltipBuilder((stack, tooltips) ->
-                        tooltips.add(net.minecraft.network.chat.Component.translatable(
-                                "shishamo_tech.machine.parallel_count",
-                                parallel)))
+                        tooltips.add(Component.translatable(
+                                "shishamo_tech.machine.parallel_count", parallel)))
                 .register();
     }
 }

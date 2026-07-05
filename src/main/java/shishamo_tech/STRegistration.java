@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.api.item.IComponentItem;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -15,7 +16,7 @@ public final class STRegistration {
 
     public static void init() {
         var tab = REGISTRATE.defaultCreativeTab("machine", builder -> builder
-                .title(net.minecraft.network.chat.Component.translatable("itemGroup.shishamo_tech"))
+                .title(Component.translatable("itemGroup.shishamo_tech"))
                 .icon(() -> new ItemStack(net.minecraft.world.item.Items.BRICKS))
                 .displayItems((parameters, output) -> {
                     var creativeTab = REGISTRATE.creativeModeTab();

@@ -1,7 +1,6 @@
 package shishamo_tech.common.recipe;
 
 import appeng.recipes.handlers.InscriberRecipe;
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -14,7 +13,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeType;
 import shishamo_tech.ShishamoTech;
-import shishamo_tech.common.machine.STInscriberFilterTrait;
+import shishamo_tech.common.machine.STInscriberFilterUtil;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -64,13 +63,13 @@ public final class STRecipeTypes {
 
         for (var aeRecipe : allRecipes) {
             if (aeRecipe == null) continue;
-            if (STInscriberFilterTrait.isPressItem(aeRecipe.getResultItem())) continue;
+            if (STInscriberFilterUtil.isPressItem(aeRecipe.getResultItem())) continue;
             boolean middleUsable = !aeRecipe.getMiddleInput().isEmpty()
-                    && !STInscriberFilterTrait.isPressIngredient(aeRecipe.getMiddleInput());
+                    && !STInscriberFilterUtil.isPressIngredient(aeRecipe.getMiddleInput());
             boolean topUsable = !aeRecipe.getTopOptional().isEmpty()
-                    && !STInscriberFilterTrait.isPressIngredient(aeRecipe.getTopOptional());
+                    && !STInscriberFilterUtil.isPressIngredient(aeRecipe.getTopOptional());
             boolean bottomUsable = !aeRecipe.getBottomOptional().isEmpty()
-                    && !STInscriberFilterTrait.isPressIngredient(aeRecipe.getBottomOptional());
+                    && !STInscriberFilterUtil.isPressIngredient(aeRecipe.getBottomOptional());
             if (!middleUsable && !topUsable && !bottomUsable) continue;
 
             validRecipes.add(aeRecipe);
@@ -83,7 +82,7 @@ public final class STRecipeTypes {
 
         var inputSets = new ArrayList<Set<ResourceLocation>>();
         for (var recipe : validRecipes) {
-            inputSets.add(STInscriberFilterTrait.collectInputItemIds(recipe));
+            inputSets.add(STInscriberFilterUtil.collectInputItemIds(recipe));
         }
 
         var result = new ArrayList<RecipeAssignment>();
@@ -95,7 +94,7 @@ public final class STRecipeTypes {
                 boolean conflict = false;
                 for (int j = 0; j < i; j++) {
                     if (circuits[j] == circuit
-                            && STInscriberFilterTrait.inputsConflict(inputSets.get(i), inputSets.get(j))) {
+                            && STInscriberFilterUtil.inputsConflict(inputSets.get(i), inputSets.get(j))) {
                         conflict = true;
                         break;
                     }
@@ -104,7 +103,7 @@ public final class STRecipeTypes {
                 circuit++;
             }
             if (circuit > 32) {
-                GTCEu.LOGGER.warn("STRecipeTypes: no free circuit for recipe {}, sharing circuit 1",
+                ShishamoTech.LOGGER.warn("STRecipeTypes: no free circuit for recipe {}, sharing circuit 1",
                         validRecipes.get(i).getId());
                 circuit = 1;
             }
@@ -122,7 +121,7 @@ public final class STRecipeTypes {
         var assignments = assignCircuits(allRecipes);
         var result = new ArrayList<GTRecipe>();
         for (var a : assignments) {
-            var converted = STInscriberFilterTrait.convertToGTRecipe(a.recipe(), a.circuit(), INSCRIBER_RECIPES);
+            var converted = STInscriberFilterUtil.convertToGTRecipe(a.recipe(), a.circuit(), INSCRIBER_RECIPES);
             if (converted != null) result.add(converted);
         }
         return result;
@@ -137,14 +136,14 @@ public final class STRecipeTypes {
 
         var assignments = assignCircuits(allRecipes);
         for (var a : assignments) {
-            var converted = STInscriberFilterTrait.convertToGTRecipe(a.recipe(), a.circuit(), INSCRIBER_RECIPES, true);
+            var converted = STInscriberFilterUtil.convertToGTRecipe(a.recipe(), a.circuit(), INSCRIBER_RECIPES, true);
             if (converted != null) {
                 handler.addStaging(converted);
             }
         }
 
         handler.completeStaging();
-        GTCEu.LOGGER.info("STRecipeTypes: populated {} recipes into InscriberRecipeType RecipeDB", assignments.size());
+        ShishamoTech.LOGGER.info("STRecipeTypes: populated {} recipes into InscriberRecipeType RecipeDB", assignments.size());
     }
 
     public static class InscriberRecipeType extends GTRecipeType {
