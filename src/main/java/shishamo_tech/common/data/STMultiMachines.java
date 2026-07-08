@@ -1,13 +1,11 @@
 package shishamo_tech.common.data;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
-import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import net.minecraft.world.level.block.Blocks;
 import shishamo_tech.ShishamoTech;
@@ -18,7 +16,6 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
-import static com.gregtechceu.gtceu.common.data.GTRecipeModifiers.PARALLEL_HATCH;
 import static shishamo_tech.common.machine.ae2.STAE2Machines.registerInscriber;
 import static shishamo_tech.common.machine.electric.STElectricMachines.registerCoilMachine;
 import static shishamo_tech.common.machine.electric.STElectricMachines.registerElectricMachine;
@@ -36,7 +33,7 @@ public class STMultiMachines {
     public static MultiblockMachineDefinition LARGE_GRINDING_PLANT;
     public static MultiblockMachineDefinition LARGE_SMELTING_PLANT;
     public static MultiblockMachineDefinition LARGE_WASHING_PLANT;
-    public static MultiblockMachineDefinition BATTLE_TOWER_CENTRIFUGE;
+    public static MultiblockMachineDefinition HYPER_TOWER_CENTRIFUGE;
     public static MultiblockMachineDefinition LARGE_ELECTROLYZER;
     public static MultiblockMachineDefinition LCR_CLUSTER;
     public static MultiblockMachineDefinition LARGE_ASSEMBLY_PLANT;
@@ -251,13 +248,13 @@ public class STMultiMachines {
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .build());
 
-        BATTLE_TOWER_CENTRIFUGE = registerElectricMachine(
-                "battle_tower_centrifuge",
-                "Battle Tower Centrifuge",
+        HYPER_TOWER_CENTRIFUGE = registerElectricMachine(
+                "hyper_tower_centrifuge",
+                "Hyper Tower Centrifuge",
                 GTRecipeTypes.CENTRIFUGE_RECIPES,
                 2,
-                GTBlocks.CASING_STAINLESS_CLEAN,
-                GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"),
+                GTBlocks.CASING_STEEL_SOLID,
+                GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
                 GTCEu.id("block/multiblock/gcym/large_centrifuge"),
                 pattern -> FactoryBlockPattern.start(RIGHT, UP, FRONT)
                         .aisle("######AAAAA######", "######CCCCC######", "######CCCCC######", "######CCCCC######", "######CCCCC######", "######CCCCC######", "######CCCCC######", "######CCCCC######", "######AAAAA######", "######CCCCC######", "######CCCCC######", "######CCCCC######", "######CCCCC######", "######CCCCC######", "######CCCCC######", "######CCCCC######", "######AAAAA######")
