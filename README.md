@@ -23,6 +23,7 @@ ShishamoTech wraps GTCEuM's standard multiblocks internally and applies a large 
 - Mega Steam Grinder
 - Mega Steam Hammer
 - Mega Steam Rock Crusher
+- God Steam Boiler
 
 ### Electric-era Mega Multiblocks
 - Large Arc Furnace
@@ -33,8 +34,9 @@ ShishamoTech wraps GTCEuM's standard multiblocks internally and applies a large 
 - Large Smelting Plant
 - Large Washing Plant
 - LCR Cluster
-- Battle Tower Centrifuge
+- Hyper Tower Centrifuge
 - Eternal Force Freezer
+- (Non) Omnipotent Universe Forge
 
 ### AE2 Integration (only active when AE2 is installed)
 - Press-Free Inscriber (MV / HV / IV / EV)
