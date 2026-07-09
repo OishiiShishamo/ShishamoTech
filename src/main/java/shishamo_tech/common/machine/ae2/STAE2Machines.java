@@ -63,7 +63,7 @@ public final class STAE2Machines {
                         .where("A", blocks(appearanceBlock.get())
                                 .or(abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(2))
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
-                                .or(abilities(PartAbility.INPUT_ENERGY).setExactLimit(1))
+                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setExactLimit(1))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .where("C", blocks(GTBlocks.CASING_STEEL_PIPE.get()))
                         .where("B", frames(getFrameMaterial(tier)))

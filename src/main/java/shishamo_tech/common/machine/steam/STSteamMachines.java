@@ -36,4 +36,25 @@ public final class STSteamMachines {
                             "shishamo_tech.machine.parallel", 8 * STConfig.parallelMultiplier)))
                 .register();
     }
+
+    public static MultiblockMachineDefinition registerLargeSteamBoiler(
+            String name, String langValue,
+            GTRecipeType recipeType, ResourceLocation overlayModel,
+            Function<MultiblockMachineDefinition, BlockPattern> patternProvider) {
+        return STRegistration.REGISTRATE
+                .multiblock(name, LargeSteamBoilerMachine::new)
+                .rotationState(RotationState.ALL)
+                .langValue(langValue)
+                .recipeType(recipeType)
+                .recipeModifiers(LargeSteamBoilerMachine::recipeModifier, BATCH_MODE)
+                .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
+                .pattern(patternProvider)
+                .workableCasingModel(
+                        GTCEu.id("block/casings/solid/machine_casing_solid_steel"), overlayModel)
+                .tooltipBuilder((stack, tooltips) ->
+                    tooltips.add(Component.translatable(
+                            "shishamo_tech.machine.steam_output",
+                            LargeSteamBoilerMachine.STEAM_OUTPUT_PER_TICK)))
+                .register();
+    }
 }

@@ -20,6 +20,7 @@ import static shishamo_tech.common.machine.ae2.STAE2Machines.registerInscriber;
 import static shishamo_tech.common.machine.electric.STElectricMachines.registerCoilMachine;
 import static shishamo_tech.common.machine.electric.STElectricMachines.registerElectricMachine;
 import static shishamo_tech.common.machine.steam.STSteamMachines.registerSteamMachine;
+import static shishamo_tech.common.machine.steam.STSteamMachines.registerLargeSteamBoiler;
 
 public class STMultiMachines {
     public static MultiblockMachineDefinition MEGA_STEAM_GRINDER;
@@ -41,6 +42,8 @@ public class STMultiMachines {
     public static MultiblockMachineDefinition LARGE_DISTILLATION_TOWER;
     public static MultiblockMachineDefinition ETERNAL_FORCE_FREEZER;
     public static MultiblockMachineDefinition NON_OMNIPOTENT_UNIVERSE_FORGE;
+
+    public static MultiblockMachineDefinition GOD_STEAM_BOILER;
 
     public static MultiblockMachineDefinition PRESS_FREE_INSCRIBER_MV;
     public static MultiblockMachineDefinition PRESS_FREE_INSCRIBER_HV;
@@ -105,6 +108,68 @@ public class STMultiMachines {
         };
     }
 
+    private static Function<MultiblockMachineDefinition, BlockPattern> boilerSharedPattern() {
+        final int size = 31;
+        return pattern -> {
+            var builder = FactoryBlockPattern.start(FRONT, UP, RIGHT);
+            for (int d = 0; d < size; d++) {
+                String[] rows = new String[size];
+                for (int r = 0; r < size; r++) {
+                    StringBuilder line = new StringBuilder(size);
+                    for (int c = 0; c < size; c++) {
+                        boolean front = d == 0;
+                        boolean back = d == size - 1;
+                        boolean bottom = r == 0;
+                        boolean top = r == size - 1;
+                        boolean left = c == 0;
+                        boolean right = c == size - 1;
+
+                        char ch;
+
+                        if (d == size / 2 &&
+                                r == size / 2 &&
+                                c == size - 1) {
+                            ch = 'S';
+                        }
+                        else if (bottom) {
+                            ch = 'F';
+                        }
+                        else if (top || front || back || left || right) {
+                            ch = 'X';
+                        }
+                        else if (
+                                d == 1 || d == size - 2 ||
+                                        r == 1 || r == size - 2 ||
+                                        c == 1 || c == size - 2
+                        ) {
+                            ch = 'P';
+                        }
+                        else {
+                            ch = '#';
+                        }
+                        line.append(ch);
+                    }
+                    rows[r] = line.toString();
+                }
+                builder.aisle(rows);
+            }
+            builder.where("S", controller(blocks(pattern.getBlock())))
+                    .where("#", air())
+                    .where("F",
+                            blocks(GTBlocks.FIREBOX_STEEL.get())
+                                    .or(abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1)))
+                    .where("P",
+                            blocks(GTBlocks.CASING_STEEL_PIPE.get()))
+                    .where("X",
+                            blocks(GTBlocks.CASING_STEEL_SOLID.get())
+                                    .or(abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(2))
+                                    .or(abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(2))
+                                    .or(abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
+                                    .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)));
+            return builder.build();
+        };
+    }
+
     public static void steamInit() {
         MEGA_STEAM_GRINDER = registerSteamMachine(
                 "mega_steam_grinder", "Mega Steam Grinder",
@@ -147,6 +212,12 @@ public class STMultiMachines {
                 GTRecipeTypes.ROCK_BREAKER_RECIPES,
                 GTCEu.id("block/multiblock/multiblock_workable"),
                 steamSharedPattern(false));
+
+        GOD_STEAM_BOILER = registerLargeSteamBoiler(
+                "god_steam_boiler", "God Steam Boiler",
+                GTRecipeTypes.LARGE_BOILER_RECIPES,
+                GTCEu.id("block/multiblock/generator/large_steel_boiler"),
+                boilerSharedPattern());
     }
 
     public static void electricInit() {
@@ -178,7 +249,7 @@ public class STMultiMachines {
                         .where("X", blocks(GTBlocks.CASING_STEEL_SOLID.get())
                                 .or(abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
-                                .or(abilities(PartAbility.INPUT_ENERGY).setExactLimit(1))
+                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setExactLimit(1))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .build());
 
@@ -211,7 +282,7 @@ public class STMultiMachines {
                         .where("X", blocks(GTBlocks.CASING_INVAR_HEATPROOF.get())
                                 .or(abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
-                                .or(abilities(PartAbility.INPUT_ENERGY).setExactLimit(1))
+                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setExactLimit(1))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .build());
 
@@ -244,7 +315,7 @@ public class STMultiMachines {
                                 .or(abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
-                                .or(abilities(PartAbility.INPUT_ENERGY).setExactLimit(1))
+                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setExactLimit(1))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .build());
 
@@ -280,7 +351,7 @@ public class STMultiMachines {
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
                                 .or(abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
-                                .or(abilities(PartAbility.INPUT_ENERGY).setExactLimit(1))
+                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setExactLimit(1))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .where("B", controller(blocks(pattern.getBlock())))
                         .where("E", blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
@@ -319,7 +390,7 @@ public class STMultiMachines {
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
                                 .or(abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
-                                .or(abilities(PartAbility.INPUT_ENERGY).setExactLimit(1))
+                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setExactLimit(1))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .build());
 
@@ -350,7 +421,7 @@ public class STMultiMachines {
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
                                 .or(abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
-                                .or(abilities(PartAbility.INPUT_ENERGY).setExactLimit(1))
+                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setExactLimit(1))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .where("D", controller(blocks(pattern.getBlock())))
                         .where("#", air())
@@ -386,7 +457,7 @@ public class STMultiMachines {
                         .where("X", blocks(GTBlocks.CASING_STEEL_SOLID.get())
                                 .or(abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(2))
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
-                                .or(abilities(PartAbility.INPUT_ENERGY).setExactLimit(1))
+                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setExactLimit(1))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .build());
 
@@ -423,7 +494,7 @@ public class STMultiMachines {
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
                                 .or(abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
-                                .or(abilities(PartAbility.INPUT_ENERGY).setExactLimit(1))
+                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setExactLimit(1))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .build());
 
@@ -459,7 +530,7 @@ public class STMultiMachines {
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
                                 .or(abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
-                                .or(abilities(PartAbility.INPUT_ENERGY).setExactLimit(1))
+                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setExactLimit(1))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .build());
 
@@ -484,7 +555,7 @@ public class STMultiMachines {
                         .where("A", blocks(GTBlocks.CASING_ALUMINIUM_FROSTPROOF.get())
                                 .or(abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
-                                .or(abilities(PartAbility.INPUT_ENERGY).setExactLimit(1))
+                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setExactLimit(1))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .where("D", controller(blocks(pattern.getBlock())))
                         .where("C", blocks(Blocks.BLUE_ICE))
@@ -566,12 +637,11 @@ public class STMultiMachines {
                         .where("D", blocks(STBlocks.CASING_NOUF_GENERAL.get())
                                         .or(abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(2))
                                         .or(abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(2))
-                                        .or(abilities(PartAbility.INPUT_ENERGY).setMinGlobalLimited(1).setMaxGlobalLimited(5))
+                                        .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setMinGlobalLimited(1).setMaxGlobalLimited(5))
                                         .or(abilities(PartAbility.EXPORT_ITEMS).setExactLimit(1))
                                         .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))
                                         .or(abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1))
                                         .or(abilities(PartAbility.DATA_ACCESS).setMaxGlobalLimited(1))
-                                        .or(abilities(PartAbility.INPUT_LASER).setMaxGlobalLimited(10))
                         )
                         .where("A", blocks(STBlocks.CASING_SOLID_MIRACLE_FUMETSU.get()))
                         .where("C", blocks(STBlocks.CASING_SOLID_MIRACLE_METEOR.get()))

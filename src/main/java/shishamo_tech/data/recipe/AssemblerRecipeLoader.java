@@ -15,6 +15,12 @@ import static shishamo_tech.common.data.STMultiMachines.*;
 
 public class AssemblerRecipeLoader {
     public static void init(Consumer<FinishedRecipe> consumer) {
+        ASSEMBLER_RECIPES.recipeBuilder("god_steam_boiler")
+                .inputItems(LARGE_BOILER_STEEL.asStack(), 64)
+                .inputItems(HV_CIRCUITS, 64)
+                .outputItems(GOD_STEAM_BOILER, 1)
+                .duration(65536).EUt(V[HV], 1).save(consumer);
+
         ASSEMBLER_RECIPES.recipeBuilder("hyper_tower_centrifuge")
                 .inputItems(LARGE_CENTRIFUGE.asStack(), 64)
                 .inputItems(IV_CIRCUITS, 64)

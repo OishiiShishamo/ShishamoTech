@@ -1,5 +1,6 @@
-// 1.20.1	2026-07-09T00:37:25.169616977	Registrate Provider for shishamo_tech [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-07-09T18:46:11.499106134	Registrate Provider for shishamo_tech [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 34d1592f9bbe4aa54f625ff45809b351e0e7f393 assets/shishamo_tech/blockstates/eternal_force_freezer.json
+82f7c19e9f02a54e2825de456602104bef261846 assets/shishamo_tech/blockstates/god_steam_boiler.json
 5ebc4c43440cfd1f004b5d09045e63adf5d7117f assets/shishamo_tech/blockstates/hyper_tower_centrifuge.json
 354c58d3a6c3e8297b35451e5c4f6005a47767bb assets/shishamo_tech/blockstates/large_arc_furnace.json
 ab31776a3dcc185f2f7ad91993ba5e9b64dd973c assets/shishamo_tech/blockstates/large_assembly_plant.json
@@ -27,9 +28,10 @@ c60a9221c401ceacede3a7072aa99c2e44d5b4de assets/shishamo_tech/blockstates/non_om
 ae8e3551b77df26f149281007645c1961eaaa756 assets/shishamo_tech/blockstates/press_free_inscriber_iv.json
 366483d5c2bba8312547dd370244990855a786a3 assets/shishamo_tech/blockstates/press_free_inscriber_mv.json
 e343e286e6805d8c29cabca137972296bb289f5c assets/shishamo_tech/blockstates/spacetime_stabilization_casing.json
-d25d846c9c1414608b4dfc979961a42a6e7e0419 assets/shishamo_tech/lang/en_ud.json
-e94d3c6df20f4038d56719064f5ccbcd98d688cc assets/shishamo_tech/lang/en_us.json
+b7e2ff51cc858cc1b9072c48750a1eaa5e0fbe8e assets/shishamo_tech/lang/en_ud.json
+dce9f4aa10b4e2867fd58030f224d05e79fefca0 assets/shishamo_tech/lang/en_us.json
 91501715582c4a8a0973a99eff995d92eeb2df39 assets/shishamo_tech/models/block/machine/eternal_force_freezer.json
+1a8531a2cf5b798568551712c882a58e0373ee0c assets/shishamo_tech/models/block/machine/god_steam_boiler.json
 8db92bfc1ee88878349dab0cdde65939b69220b5 assets/shishamo_tech/models/block/machine/hyper_tower_centrifuge.json
 c30065e894b507976ab0df8ba134a25d6b70e616 assets/shishamo_tech/models/block/machine/large_arc_furnace.json
 96d27879c8dc3d3e718d5ab884a554930ee10172 assets/shishamo_tech/models/block/machine/large_assembly_plant.json
@@ -58,6 +60,7 @@ f0f0f258ac07da0e6d38f8f3904fd1b93f85589b assets/shishamo_tech/models/block/non_o
 f830c4d2bc7f83f0c7829cd84949e6e7cb337365 assets/shishamo_tech/models/block/non_omnipotent_trancendent_industrial_infinity_tesseract_ultimate_overpower_general_starmatter_whirlpool_magical_casing.json
 0f7d57dc8db48bd21305da1402af00f3f0505513 assets/shishamo_tech/models/block/spacetime_stabilization_casing.json
 08de0ab317b2cac66aec3e00e370d2a3f7a7407d assets/shishamo_tech/models/item/eternal_force_freezer.json
+b91b7ceb8cc96eca74288ee2b548957f9248a779 assets/shishamo_tech/models/item/god_steam_boiler.json
 a692bbe39b751c5a1b34e90ebf2d1a942865229c assets/shishamo_tech/models/item/hyper_tower_centrifuge.json
 6d967deb139b7e6eb1bc3d50ad6ce6f2920b42fd assets/shishamo_tech/models/item/large_arc_furnace.json
 20a89cab899a07a16452081e0efd814c129c4707 assets/shishamo_tech/models/item/large_assembly_plant.json

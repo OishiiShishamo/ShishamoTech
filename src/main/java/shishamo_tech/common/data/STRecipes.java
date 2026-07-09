@@ -1,8 +1,8 @@
 package shishamo_tech.common.data;
 
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.resources.ResourceLocation;
 import shishamo_tech.data.recipe.AssemblerRecipeLoader;
 import shishamo_tech.data.recipe.AssemblyLineLoader;
 import shishamo_tech.data.recipe.CraftingRecipeLoader;
@@ -15,5 +15,13 @@ public class STRecipes {
         AssemblerRecipeLoader.init(consumer);
         AssemblyLineLoader.init(consumer);
         CraftingRecipeLoader.init(consumer);
+        registerLargeSteamBoilerFuelRecipes(consumer);
+    }
+
+    private static void registerLargeSteamBoilerFuelRecipes(Consumer<FinishedRecipe> consumer) {
+        GTRecipeTypes.LARGE_BOILER_RECIPES.recipeBuilder("large_steam_boiler_lava")
+                .inputFluids(GTMaterials.Lava.getFluid(100))
+                .duration(300)
+                .save(consumer);
     }
 }
