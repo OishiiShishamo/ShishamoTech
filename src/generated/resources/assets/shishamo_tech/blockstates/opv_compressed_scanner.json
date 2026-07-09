@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "shishamo_tech:block/machine/opv_compressed_scanner",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "shishamo_tech:block/machine/opv_compressed_scanner"
+    },
+    "facing=south": {
+      "model": "shishamo_tech:block/machine/opv_compressed_scanner",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "shishamo_tech:block/machine/opv_compressed_scanner",
+      "y": 270
+    }
+  }
+}

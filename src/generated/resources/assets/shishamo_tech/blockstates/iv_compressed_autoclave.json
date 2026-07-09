@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "shishamo_tech:block/machine/iv_compressed_autoclave",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "shishamo_tech:block/machine/iv_compressed_autoclave"
+    },
+    "facing=south": {
+      "model": "shishamo_tech:block/machine/iv_compressed_autoclave",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "shishamo_tech:block/machine/iv_compressed_autoclave",
+      "y": 270
+    }
+  }
+}

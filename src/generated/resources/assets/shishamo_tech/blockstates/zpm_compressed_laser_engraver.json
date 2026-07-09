@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "shishamo_tech:block/machine/zpm_compressed_laser_engraver",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "shishamo_tech:block/machine/zpm_compressed_laser_engraver"
+    },
+    "facing=south": {
+      "model": "shishamo_tech:block/machine/zpm_compressed_laser_engraver",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "shishamo_tech:block/machine/zpm_compressed_laser_engraver",
+      "y": 270
+    }
+  }
+}

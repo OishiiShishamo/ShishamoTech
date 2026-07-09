@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "shishamo_tech:block/machine/ev_compressed_packer",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "shishamo_tech:block/machine/ev_compressed_packer"
+    },
+    "facing=south": {
+      "model": "shishamo_tech:block/machine/ev_compressed_packer",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "shishamo_tech:block/machine/ev_compressed_packer",
+      "y": 270
+    }
+  }
+}

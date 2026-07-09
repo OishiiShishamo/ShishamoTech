@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "shishamo_tech:block/machine/uxv_compressed_sifter",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "shishamo_tech:block/machine/uxv_compressed_sifter"
+    },
+    "facing=south": {
+      "model": "shishamo_tech:block/machine/uxv_compressed_sifter",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "shishamo_tech:block/machine/uxv_compressed_sifter",
+      "y": 270
+    }
+  }
+}

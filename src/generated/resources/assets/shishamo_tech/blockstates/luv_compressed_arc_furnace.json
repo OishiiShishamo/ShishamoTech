@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "shishamo_tech:block/machine/luv_compressed_arc_furnace",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "shishamo_tech:block/machine/luv_compressed_arc_furnace"
+    },
+    "facing=south": {
+      "model": "shishamo_tech:block/machine/luv_compressed_arc_furnace",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "shishamo_tech:block/machine/luv_compressed_arc_furnace",
+      "y": 270
+    }
+  }
+}

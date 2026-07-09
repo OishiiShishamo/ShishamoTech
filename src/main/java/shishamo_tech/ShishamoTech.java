@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -12,6 +13,7 @@ import net.minecraftforge.fml.event.config.ModConfigEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import shishamo_tech.common.data.STMultiMachines;
+import shishamo_tech.common.machine.electric.STCompressedMachines;
 import shishamo_tech.common.recipe.STRecipeTypes;
 import shishamo_tech.config.STConfig;
 
@@ -29,8 +31,22 @@ public class ShishamoTech {
         context.getModEventBus().addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
         context.getModEventBus().addGenericListener(MachineDefinition.class, this::registerMachines);
 
+        context.getModEventBus().addListener(this::onGatherData);
         context.getModEventBus().addListener(this::onConfigLoad);
         context.getModEventBus().addListener(this::onConfigReload);
+    }
+
+    private void onGatherData(GatherDataEvent event) {
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.parallel", "§7Parallel: §a%d");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.parallel_count", "§7Parallel: §a%d");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.steam_output", "§7Steam Output: §a%d mb/t");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.water_consumption", "§7Water Consumption: §a%d mb/t");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.coil_tier", "§7Coil: §a%s");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.inscriber.circuit", "§7Use Integrated Circuit to select output variant when multiple recipes share the same input");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.inscriber.jei_circuit", "§7Circuit: §a%d");
+        STRegistration.REGISTRATE.addRawLang("itemGroup.shishamo_tech", "ShishamoTech");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.recipe.category.st_inscriber", "Press-Free Inscriber");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.compressed.8x_speed", "§a8x §7processing speed");
     }
 
     private void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
@@ -40,6 +56,7 @@ public class ShishamoTech {
     private void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
         STMultiMachines.steamInit();
         STMultiMachines.electricInit();
+        STCompressedMachines.init();
         if (isModLoaded("ae2")) {
             LOGGER.info("AE2 detected — registering Press-Free Inscriber multiblocks");
             STMultiMachines.AEInit();

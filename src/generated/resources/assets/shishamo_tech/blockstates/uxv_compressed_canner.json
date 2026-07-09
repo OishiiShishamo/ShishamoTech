@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "shishamo_tech:block/machine/uxv_compressed_canner",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "shishamo_tech:block/machine/uxv_compressed_canner"
+    },
+    "facing=south": {
+      "model": "shishamo_tech:block/machine/uxv_compressed_canner",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "shishamo_tech:block/machine/uxv_compressed_canner",
+      "y": 270
+    }
+  }
+}

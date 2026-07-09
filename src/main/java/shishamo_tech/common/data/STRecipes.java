@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import net.minecraft.data.recipes.FinishedRecipe;
 import shishamo_tech.data.recipe.AssemblerRecipeLoader;
 import shishamo_tech.data.recipe.AssemblyLineLoader;
+import shishamo_tech.data.recipe.CompressedRecipeLoader;
 import shishamo_tech.data.recipe.CraftingRecipeLoader;
 
 import java.util.Set;
@@ -14,6 +15,7 @@ public class STRecipes {
     public static void recipeAddition(Consumer<FinishedRecipe> consumer) {
         AssemblerRecipeLoader.init(consumer);
         AssemblyLineLoader.init(consumer);
+        CompressedRecipeLoader.init(consumer);
         CraftingRecipeLoader.init(consumer);
         registerLargeSteamBoilerFuelRecipes(consumer);
     }

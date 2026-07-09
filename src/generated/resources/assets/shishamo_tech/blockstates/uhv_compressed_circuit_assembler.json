@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "shishamo_tech:block/machine/uhv_compressed_circuit_assembler",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "shishamo_tech:block/machine/uhv_compressed_circuit_assembler"
+    },
+    "facing=south": {
+      "model": "shishamo_tech:block/machine/uhv_compressed_circuit_assembler",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "shishamo_tech:block/machine/uhv_compressed_circuit_assembler",
+      "y": 270
+    }
+  }
+}

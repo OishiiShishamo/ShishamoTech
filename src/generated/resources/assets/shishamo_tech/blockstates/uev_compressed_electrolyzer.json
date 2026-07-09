@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "shishamo_tech:block/machine/uev_compressed_electrolyzer",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "shishamo_tech:block/machine/uev_compressed_electrolyzer"
+    },
+    "facing=south": {
+      "model": "shishamo_tech:block/machine/uev_compressed_electrolyzer",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "shishamo_tech:block/machine/uev_compressed_electrolyzer",
+      "y": 270
+    }
+  }
+}
