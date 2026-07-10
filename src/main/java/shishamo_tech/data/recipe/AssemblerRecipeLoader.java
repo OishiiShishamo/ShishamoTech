@@ -2,7 +2,12 @@ package shishamo_tech.data.recipe;
 
 import appeng.block.misc.InscriberBlock;
 import appeng.core.definitions.AEBlocks;
+import net.darkhax.botanypots.block.BlockBotanyPot;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Items;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Consumer;
 
@@ -11,6 +16,7 @@ import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES;
 import static com.gregtechceu.gtceu.common.data.machines.GCYMMachines.*;
 import static com.gregtechceu.gtceu.common.data.machines.GTMultiMachines.*;
 import static com.gregtechceu.gtceu.data.recipe.CustomTags.*;
+import static shishamo_tech.ShishamoTech.isModLoaded;
 import static shishamo_tech.common.data.STMultiMachines.*;
 
 public class AssemblerRecipeLoader {
@@ -57,5 +63,13 @@ public class AssemblerRecipeLoader {
                 .inputItems(EV_CIRCUITS, 64)
                 .outputItems(PRESS_FREE_INSCRIBER_IV, 1)
                 .duration(65536).EUt(V[IV], 1).save(consumer);
+
+        if (isModLoaded("botanypots")) {
+            ASSEMBLER_RECIPES.recipeBuilder("green_house")
+                    .inputItems("botanypots:terracotta_hopper_botany_pot", 64)
+                    .inputItems(HV_CIRCUITS, 64)
+                    .outputItems(GREEN_HOUSE, 1)
+                    .duration(65536).EUt(V[HV], 1).save(consumer);
+        }
     }
 }

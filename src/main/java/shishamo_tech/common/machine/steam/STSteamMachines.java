@@ -14,6 +14,7 @@ import shishamo_tech.config.STConfig;
 import java.util.function.Function;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeModifiers.BATCH_MODE;
+import static shishamo_tech.common.machine.electric.STElectricMachines.recipeTypeTooltip;
 
 public final class STSteamMachines {
     private static final ResourceLocation CASING_TEXTURE = GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks");
@@ -31,9 +32,11 @@ public final class STSteamMachines {
                 .appearanceBlock(GTBlocks.CASING_BRONZE_BRICKS)
                 .pattern(patternProvider)
                 .workableCasingModel(CASING_TEXTURE, overlayModel)
-                .tooltipBuilder((stack, tooltips) ->
+                .tooltipBuilder((stack, tooltips) -> {
                     tooltips.add(Component.translatable(
-                            "shishamo_tech.machine.parallel", 8 * STConfig.parallelMultiplier)))
+                            "shishamo_tech.machine.parallel", 8 * STConfig.parallelMultiplier));
+                    tooltips.add(recipeTypeTooltip(recipeType));
+                })
                 .register();
     }
 
@@ -51,10 +54,12 @@ public final class STSteamMachines {
                 .pattern(patternProvider)
                 .workableCasingModel(
                         GTCEu.id("block/casings/solid/machine_casing_solid_steel"), overlayModel)
-                .tooltipBuilder((stack, tooltips) ->
+                .tooltipBuilder((stack, tooltips) -> {
                     tooltips.add(Component.translatable(
                             "shishamo_tech.machine.steam_output",
-                            LargeSteamBoilerMachine.STEAM_OUTPUT_PER_TICK)))
+                            LargeSteamBoilerMachine.STEAM_OUTPUT_PER_TICK));
+                    tooltips.add(recipeTypeTooltip(recipeType));
+                })
                 .register();
     }
 }

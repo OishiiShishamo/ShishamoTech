@@ -19,6 +19,7 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeModifiers.BATCH_MODE;
 import static shishamo_tech.common.data.STMultiMachines.*;
+import static shishamo_tech.common.machine.electric.STElectricMachines.recipeTypeTooltip;
 
 import java.util.List;
 
@@ -71,9 +72,11 @@ public final class STAE2Machines {
                         .where("#", air())
                         .build())
                 .workableCasingModel(casingTexture, overlayModel)
-                .tooltipBuilder((stack, tooltips) ->
+                .tooltipBuilder((stack, tooltips) -> {
                         tooltips.add(Component.translatable(
-                                "shishamo_tech.machine.parallel_count", parallel)))
+                                "shishamo_tech.machine.parallel_count", parallel));
+                        tooltips.add(recipeTypeTooltip(STRecipeTypes.INSCRIBER_RECIPES));
+                })
                 .register();
     }
 }

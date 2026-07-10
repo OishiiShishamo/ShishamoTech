@@ -23,12 +23,17 @@ public final class STConfig {
             .comment("Enable AE2 integration multiblocks (requires AE2 installed)")
             .define("enableAE2Integration", true);
 
+    public static final ForgeConfigSpec.BooleanValue ENABLE_BOTANY_INTEGRATION = BUILDER
+            .comment("Enable Botany Pots integration multiblocks (requires Botany Pots installed)")
+            .define("enableBotanyIntegration", true);
+
     public static final ForgeConfigSpec SPEC = BUILDER.build();
 
     public static int parallelMultiplier = 64;
     public static boolean enableSteamMachines = true;
     public static boolean enableElectricMachines = true;
     public static boolean enableAE2Integration = true;
+    public static boolean enableBotanyIntegration = true;
 
     public static void refresh() {
         if (!SPEC.isLoaded()) return;
@@ -36,6 +41,7 @@ public final class STConfig {
         enableSteamMachines = ENABLE_STEAM_MACHINES.get();
         enableElectricMachines = ENABLE_ELECTRIC_MACHINES.get();
         enableAE2Integration = ENABLE_AE2_INTEGRATION.get();
+        enableBotanyIntegration = ENABLE_BOTANY_INTEGRATION.get();
     }
 
     public static boolean isSteamEnabled() {
@@ -48,5 +54,9 @@ public final class STConfig {
 
     public static boolean isAE2Enabled() {
         return !SPEC.isLoaded() || enableAE2Integration;
+    }
+
+    public static boolean isBotanyEnabled() {
+        return !SPEC.isLoaded() || enableBotanyIntegration;
     }
 }

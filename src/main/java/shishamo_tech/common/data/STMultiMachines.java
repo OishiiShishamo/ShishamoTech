@@ -3,6 +3,7 @@ package shishamo_tech.common.data;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
@@ -17,6 +18,7 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
 import static shishamo_tech.common.machine.ae2.STAE2Machines.registerInscriber;
+import static shishamo_tech.common.machine.botany.STBotanyMachines.registerGreenHouse;
 import static shishamo_tech.common.machine.electric.STElectricMachines.registerCoilMachine;
 import static shishamo_tech.common.machine.electric.STElectricMachines.registerElectricMachine;
 import static shishamo_tech.common.machine.steam.STSteamMachines.registerSteamMachine;
@@ -49,6 +51,8 @@ public class STMultiMachines {
     public static MultiblockMachineDefinition PRESS_FREE_INSCRIBER_HV;
     public static MultiblockMachineDefinition PRESS_FREE_INSCRIBER_EV;
     public static MultiblockMachineDefinition PRESS_FREE_INSCRIBER_IV;
+
+    public static MultiblockMachineDefinition GREEN_HOUSE;
 
     private static final String ALL_X = "XXXXXXXXXXX";
     private static final String PIPE_ROW = "XGGGGGGGGGX";
@@ -322,7 +326,7 @@ public class STMultiMachines {
         HYPER_TOWER_CENTRIFUGE = registerElectricMachine(
                 "hyper_tower_centrifuge",
                 "Hyper Tower Centrifuge",
-                GTRecipeTypes.CENTRIFUGE_RECIPES,
+                new GTRecipeType[]{GTRecipeTypes.CENTRIFUGE_RECIPES, GTRecipeTypes.THERMAL_CENTRIFUGE_RECIPES},
                 5,
                 GTBlocks.CASING_STEEL_SOLID,
                 GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
@@ -685,5 +689,15 @@ public class STMultiMachines {
                 GTBlocks.CASING_TUNGSTENSTEEL_ROBUST,
                 GTCEu.id("block/casings/solid/machine_casing_robust_tungstensteel"),
                 GTCEu.id("block/multiblock/gcym/large_material_press"));
+    }
+
+    public static void botanyInit() {
+        GREEN_HOUSE = registerGreenHouse(
+                "green_house",
+                "Green House",
+                3,
+                GTBlocks.CASING_STAINLESS_CLEAN,
+                GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"),
+                GTCEu.id("block/multiblock/multiblock_workable"));
     }
 }

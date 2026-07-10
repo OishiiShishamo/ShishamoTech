@@ -47,6 +47,9 @@ public class ShishamoTech {
         STRegistration.REGISTRATE.addRawLang("itemGroup.shishamo_tech", "ShishamoTech");
         STRegistration.REGISTRATE.addRawLang("shishamo_tech.recipe.category.st_inscriber", "Press-Free Inscriber");
         STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.compressed.8x_speed", "§a8x §7processing speed");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.recipe.category.green_house", "Green House");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.seed_slots", "§7Seeds: §a%d§7/§a%d");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.gui.seed_tray", "Seed Tray");
     }
 
     private void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
@@ -62,6 +65,12 @@ public class ShishamoTech {
             STMultiMachines.AEInit();
         } else {
             LOGGER.info("AE2 not detected — skipping AE2 multiblocks");
+        }
+        STMultiMachines.botanyInit();
+        if (isModLoaded("botanypots")) {
+            LOGGER.info("Botany Pots detected — Green House will process crop recipes");
+        } else {
+            LOGGER.info("Botany Pots not detected — Green House will be non-functional (same as config-disabled behavior)");
         }
     }
 

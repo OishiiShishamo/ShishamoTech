@@ -44,3 +44,10 @@ logoFile = "icon.png"
     versionRange="[15.20.0.115,)"
     ordering="AFTER"
     side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="botanypots"
+    mandatory=false
+    versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"

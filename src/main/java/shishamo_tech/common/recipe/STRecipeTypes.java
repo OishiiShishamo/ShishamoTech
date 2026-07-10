@@ -7,6 +7,8 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeSerializer;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.ui.GTRecipeTypeUI;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture.FillDirection;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -29,14 +31,14 @@ public final class STRecipeTypes {
     static {
         INSCRIBER_RECIPES = new InscriberRecipeType(
                 ShishamoTech.id("st_inscriber"),
-                com.gregtechceu.gtceu.common.data.GTRecipeTypes.MULTIBLOCK);
+                GTRecipeTypes.MULTIBLOCK);
 
         INSCRIBER_RECIPES
                 .setMaxIOSize(4, 1, 0, 0)
                 .setEUIO(IO.IN)
                 .setSlotOverlay(false, false, GuiTextures.PRESS_OVERLAY_1)
                 .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, FillDirection.LEFT_TO_RIGHT)
-                .setSound(com.gregtechceu.gtceu.common.data.GTSoundEntries.MOTOR)
+                .setSound(GTSoundEntries.MOTOR)
                 .setRecipeUI(new GTRecipeTypeUI(INSCRIBER_RECIPES));
 
         GTRegistries.register(BuiltInRegistries.RECIPE_TYPE,
@@ -45,6 +47,28 @@ public final class STRecipeTypes {
                 INSCRIBER_RECIPES.registryName, new GTRecipeSerializer());
         GTRegistries.RECIPE_TYPES.register(
                 INSCRIBER_RECIPES.registryName, INSCRIBER_RECIPES);
+    }
+
+    public static final GTRecipeType GREEN_HOUSE_RECIPES;
+
+    static {
+        GREEN_HOUSE_RECIPES = new GTRecipeType(
+                ShishamoTech.id("green_house"),
+                GTRecipeTypes.MULTIBLOCK);
+
+        GREEN_HOUSE_RECIPES
+                .setMaxIOSize(4, 4, 1, 1)
+                .setEUIO(IO.IN)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, FillDirection.LEFT_TO_RIGHT)
+                .setSound(GTSoundEntries.MOTOR)
+                .setRecipeUI(new GTRecipeTypeUI(GREEN_HOUSE_RECIPES));
+
+        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE,
+                GREEN_HOUSE_RECIPES.registryName, GREEN_HOUSE_RECIPES);
+        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER,
+                GREEN_HOUSE_RECIPES.registryName, new GTRecipeSerializer());
+        GTRegistries.RECIPE_TYPES.register(
+                GREEN_HOUSE_RECIPES.registryName, GREEN_HOUSE_RECIPES);
     }
 
     public static void init() {

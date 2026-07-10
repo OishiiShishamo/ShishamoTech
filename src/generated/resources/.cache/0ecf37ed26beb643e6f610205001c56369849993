@@ -1,4 +1,4 @@
-// 1.20.1	2026-07-09T20:32:48.422972471	Registrate Provider for shishamo_tech [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-07-10T21:58:23.383050523	Registrate Provider for shishamo_tech [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 34d1592f9bbe4aa54f625ff45809b351e0e7f393 assets/shishamo_tech/blockstates/eternal_force_freezer.json
 7769287cfe8d7c35136d86f370361dd9a51880ec assets/shishamo_tech/blockstates/ev_compressed_alloy_smelter.json
 9b1c2e090dc97ad2e819b5aabb341f1fe285225b assets/shishamo_tech/blockstates/ev_compressed_arc_furnace.json
@@ -36,6 +36,7 @@ ff1a2a8133d17cb68d836ca8adddbefaab8f6239 assets/shishamo_tech/blockstates/ev_com
 9d62c13e360a5c2ae39f10ff17062b0711e752f4 assets/shishamo_tech/blockstates/ev_compressed_thermal_centrifuge.json
 1b5cfd916f59f22a2b1219b008fbafad71b9d9a5 assets/shishamo_tech/blockstates/ev_compressed_wiremill.json
 82f7c19e9f02a54e2825de456602104bef261846 assets/shishamo_tech/blockstates/god_steam_boiler.json
+6525b6c1d62338095d0fce37960a7a3fa388ee24 assets/shishamo_tech/blockstates/green_house.json
 f16a1e0a1f3789b1d827032bc5cba946e1ab91ef assets/shishamo_tech/blockstates/hv_compressed_alloy_smelter.json
 695045d79fe3adbe4fc5d417d6ea82c21c2486ac assets/shishamo_tech/blockstates/hv_compressed_arc_furnace.json
 5cea818796ec0667121025d42e3191508144d952 assets/shishamo_tech/blockstates/hv_compressed_assembler.json
@@ -483,8 +484,8 @@ e157182c2e15b1f49c7c80a6c0808eab8e61f08e assets/shishamo_tech/blockstates/zpm_co
 b487945cbbec5a4c72639b78b68db22a5acc3e37 assets/shishamo_tech/blockstates/zpm_compressed_sifter.json
 368d77304bb21ba95d6a1f6c7df0cb0dadad30ab assets/shishamo_tech/blockstates/zpm_compressed_thermal_centrifuge.json
 ebb1f4d431668bd890d7f91b98d2433a4c55be79 assets/shishamo_tech/blockstates/zpm_compressed_wiremill.json
-0239e6f56591fbec4375aa2a9446537497780dde assets/shishamo_tech/lang/en_ud.json
-f3b6804cda985721fb733796ab27b5d23e1c604a assets/shishamo_tech/lang/en_us.json
+9afb58f0cee813a782ec81b4d5d876b3aa3cb721 assets/shishamo_tech/lang/en_ud.json
+9e01389e93b0b33218a408a23585e7462e189232 assets/shishamo_tech/lang/en_us.json
 91501715582c4a8a0973a99eff995d92eeb2df39 assets/shishamo_tech/models/block/machine/eternal_force_freezer.json
 1f9d4ff2bbbd9c1a5950ab69c10ad791e30b1a21 assets/shishamo_tech/models/block/machine/ev_compressed_alloy_smelter.json
 8cb8a2df86b7d65f38cd408020cf060d2020d339 assets/shishamo_tech/models/block/machine/ev_compressed_arc_furnace.json
@@ -522,6 +523,7 @@ a48f30eb12a094cbebbb3766d89bced79d82376f assets/shishamo_tech/models/block/machi
 3df2952c96c921946954f06fb64956a172a26374 assets/shishamo_tech/models/block/machine/ev_compressed_thermal_centrifuge.json
 dd5a74881f80fdbbe936646ecce368bfb4fd0991 assets/shishamo_tech/models/block/machine/ev_compressed_wiremill.json
 1a8531a2cf5b798568551712c882a58e0373ee0c assets/shishamo_tech/models/block/machine/god_steam_boiler.json
+36b50d207aa3cc9bc16db6a2f50a144508641d0f assets/shishamo_tech/models/block/machine/green_house.json
 39f7bc4070fd03447c8fa9c6789ddad9459967d2 assets/shishamo_tech/models/block/machine/hv_compressed_alloy_smelter.json
 2dce0673582fe3a2b36b97fea07bb4a6fb787430 assets/shishamo_tech/models/block/machine/hv_compressed_arc_furnace.json
 cb14210d968d842520f5b01796cc194a8e3f9eed assets/shishamo_tech/models/block/machine/hv_compressed_assembler.json
@@ -1006,6 +1008,7 @@ a0715793e13e474c08aeece8151aeb64ca1aa519 assets/shishamo_tech/models/item/ev_com
 059df16abe9f91279a9659936a6a01ab5b348182 assets/shishamo_tech/models/item/ev_compressed_thermal_centrifuge.json
 635555b3400c5687ce467c5cbd6ef5966aedff63 assets/shishamo_tech/models/item/ev_compressed_wiremill.json
 b91b7ceb8cc96eca74288ee2b548957f9248a779 assets/shishamo_tech/models/item/god_steam_boiler.json
+0b4cae41fa177587450edbb7f2ff2310b6a5f5a4 assets/shishamo_tech/models/item/green_house.json
 2e61aa28c36eac071859bfde0d8319fb38f5c68b assets/shishamo_tech/models/item/hv_compressed_alloy_smelter.json
 1ed8fc8b98d0407303a90f4726c2ea0aef35ea37 assets/shishamo_tech/models/item/hv_compressed_arc_furnace.json
 102bf4657ff5da5e501b83655635a8a487f87b67 assets/shishamo_tech/models/item/hv_compressed_assembler.json
