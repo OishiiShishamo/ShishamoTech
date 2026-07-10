@@ -28,44 +28,16 @@ public class STCoilParallelMultiblockMachine extends CoilWorkableElectricMultibl
         return MANAGED_FIELD_HOLDER;
     }
 
-    public static int getBaseParallelForTier(int tier) {
-        return STOverclockingLogic.getParallelBonus(tier);
-    }
-
-    public int getBaseParallelForTier() {
-        return getBaseParallelForTier(getDefinition().getTier());
-    }
-
     public int getCoilParallelBonus() {
-        int coilTier = getCoilTier();
-        return switch (coilTier) {
-            case 0 -> 0;
-            case 1, 2 -> 2;
-            case 3, 4 -> 4;
-            case 5, 6 -> 8;
-            default -> 16;
-        };
+        return STOverclockingLogic.getCoilBonus(getCoilTier());
     }
 
     public int getParallelCount() {
-        return STOverclockingLogic.getParallelBonus(getTier()) * STOverclockingLogic.getParallelBonus(getDefinition().getTier()) * STConfig.parallelMultiplier * switch (getCoilTier()) {
-            case 0 -> 1;
-            case 1, 2 -> 2;
-            case 3, 4 -> 4;
-            case 5, 6 -> 8;
-            default -> 16;
-        };
+        return STOverclockingLogic.computeParallelCount(getTier(), getDefinition().getTier(), getCoilParallelBonus());
     }
 
     public static int getDisplayParallelCount(int machineTier, int coilTier) {
-        int base = getBaseParallelForTier(machineTier);
-        return base * STConfig.parallelMultiplier * switch (coilTier) {
-            case 0 -> 1;
-            case 1, 2 -> 2;
-            case 3, 4 -> 4;
-            case 5, 6 -> 8;
-            default -> 16;
-        };
+        return STOverclockingLogic.computeDisplayParallel(machineTier, coilTier);
     }
 
     @Nullable

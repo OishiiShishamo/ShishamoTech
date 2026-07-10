@@ -28,20 +28,12 @@ public class STParallelMultiblockMachine extends WorkableElectricMultiblockMachi
         return MANAGED_FIELD_HOLDER;
     }
 
-    public static int getBaseParallelForTier(int tier) {
-        return STOverclockingLogic.getParallelBonus(tier);
-    }
-
-    public int getBaseParallelForTier() {
-        return getBaseParallelForTier(getDefinition().getTier());
-    }
-
     public int getParallelCount() {
-        return STOverclockingLogic.getParallelBonus(getTier()) * STOverclockingLogic.getParallelBonus(getDefinition().getTier()) * STConfig.parallelMultiplier;
+        return STOverclockingLogic.computeParallelCount(getTier(), getDefinition().getTier());
     }
 
     public static int getDisplayParallelCount(int tier) {
-        return getBaseParallelForTier(tier) * STConfig.parallelMultiplier;
+        return STOverclockingLogic.computeDisplayParallel(tier);
     }
 
     @Nullable

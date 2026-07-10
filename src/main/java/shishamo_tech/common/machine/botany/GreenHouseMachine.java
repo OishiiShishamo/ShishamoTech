@@ -75,9 +75,7 @@ public class GreenHouseMachine extends WorkableElectricMultiblockMachine {
     }
 
     public int getParallelCount() {
-        return Math.max(1, STOverclockingLogic.getParallelBonus(getTier())
-                * STOverclockingLogic.getParallelBonus(getDefinition().getTier())
-                * STConfig.parallelMultiplier);
+        return STOverclockingLogic.computeParallelCountSafe(getTier(), getDefinition().getTier());
     }
 
     @Override

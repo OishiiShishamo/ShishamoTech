@@ -34,54 +34,44 @@ class STCoilParallelMultiblockMachineTest {
 
     @Test
     void testGetBaseParallelForTierStaticTier0() {
-        assertEquals(4, STCoilParallelMultiblockMachine.getBaseParallelForTier(0));
+        assertEquals(4, STOverclockingLogic.getParallelBonus(0));
     }
 
     @Test
     void testGetBaseParallelForTierStaticTier1() {
-        assertEquals(8, STCoilParallelMultiblockMachine.getBaseParallelForTier(1));
+        assertEquals(8, STOverclockingLogic.getParallelBonus(1));
     }
 
     @Test
     void testGetBaseParallelForTierStaticDefault() {
-        assertEquals(64, STCoilParallelMultiblockMachine.getBaseParallelForTier(10));
+        assertEquals(64, STOverclockingLogic.getParallelBonus(10));
     }
 
     private static final int[] COIL_MULTIPLIER_BY_TIER = {1, 2, 2, 4, 4, 8, 8, 16, 16, 16, 16};
 
     @Test
     void testGetCoilParallelBonusTier0() {
-        assertEquals(0, getCoilBonusForTier(0));
+        assertEquals(1, STOverclockingLogic.getCoilBonus(0));
     }
 
     @Test
     void testGetCoilParallelBonusTier1And2() {
-        assertEquals(2, getCoilBonusForTier(1));
+        assertEquals(2, STOverclockingLogic.getCoilBonus(1));
     }
 
     @Test
     void testGetCoilParallelBonusTier3And4() {
-        assertEquals(4, getCoilBonusForTier(3));
+        assertEquals(4, STOverclockingLogic.getCoilBonus(3));
     }
 
     @Test
     void testGetCoilParallelBonusTier5And6() {
-        assertEquals(8, getCoilBonusForTier(5));
+        assertEquals(8, STOverclockingLogic.getCoilBonus(5));
     }
 
     @Test
     void testGetCoilParallelBonusDefault() {
-        assertEquals(16, getCoilBonusForTier(7));
-    }
-
-    private static int getCoilBonusForTier(int coilTier) {
-        return switch (coilTier) {
-            case 0 -> 0;
-            case 1, 2 -> 2;
-            case 3, 4 -> 4;
-            case 5, 6 -> 8;
-            default -> 16;
-        };
+        assertEquals(16, STOverclockingLogic.getCoilBonus(7));
     }
 
     @Test

@@ -47,11 +47,11 @@ public class STInscriberMultiblockMachine extends WorkableElectricMultiblockMach
     }
 
     public int getParallelCount() {
-        return STOverclockingLogic.getParallelBonus(getTier()) * STOverclockingLogic.getParallelBonus(getDefinition().getTier()) * STConfig.parallelMultiplier;
+        return STOverclockingLogic.computeParallelCount(getTier(), getDefinition().getTier());
     }
 
     public static int getDisplayParallelCount(int tier) {
-        return STOverclockingLogic.getParallelBonus(tier) * STConfig.parallelMultiplier;
+        return STOverclockingLogic.computeDisplayParallel(tier);
     }
 
     @Nullable

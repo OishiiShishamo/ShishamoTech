@@ -34,22 +34,22 @@ class STParallelMultiblockMachineTest {
 
     @Test
     void testGetBaseParallelForTierStaticTier0() {
-        assertEquals(4, STParallelMultiblockMachine.getBaseParallelForTier(0));
+        assertEquals(4, STOverclockingLogic.getParallelBonus(0));
     }
 
     @Test
     void testGetBaseParallelForTierStaticTier1() {
-        assertEquals(8, STParallelMultiblockMachine.getBaseParallelForTier(1));
+        assertEquals(8, STOverclockingLogic.getParallelBonus(1));
     }
 
     @Test
     void testGetBaseParallelForTierStaticTier6() {
-        assertEquals(48, STParallelMultiblockMachine.getBaseParallelForTier(6));
+        assertEquals(48, STOverclockingLogic.getParallelBonus(6));
     }
 
     @Test
     void testGetBaseParallelForTierStaticDefault() {
-        assertEquals(64, STParallelMultiblockMachine.getBaseParallelForTier(10));
+        assertEquals(64, STOverclockingLogic.getParallelBonus(10));
     }
 
     @Test
