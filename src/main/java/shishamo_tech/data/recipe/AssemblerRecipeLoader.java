@@ -43,26 +43,28 @@ public class AssemblerRecipeLoader {
                 .outputItems(ETERNAL_FORCE_FREEZER, 1)
                 .duration(65536).EUt(V[EV], 1).save(consumer);
 
-        ASSEMBLER_RECIPES.recipeBuilder("press_free_inscriber_mv")
-                .inputItems(AEBlocks.INSCRIBER.stack(), 64)
-                .inputItems(MV_CIRCUITS, 64)
-                .outputItems(PRESS_FREE_INSCRIBER_MV, 1)
-                .duration(65536).EUt(V[MV], 1).save(consumer);
-        ASSEMBLER_RECIPES.recipeBuilder("press_free_inscriber_hv")
-                .inputItems(PRESS_FREE_INSCRIBER_MV, 64)
-                .inputItems(HV_CIRCUITS, 64)
-                .outputItems(PRESS_FREE_INSCRIBER_HV, 1)
-                .duration(65536).EUt(V[HV], 1).save(consumer);
-        ASSEMBLER_RECIPES.recipeBuilder("press_free_inscriber_ev")
-                .inputItems(PRESS_FREE_INSCRIBER_HV, 64)
-                .inputItems(EV_CIRCUITS, 64)
-                .outputItems(PRESS_FREE_INSCRIBER_EV, 1)
-                .duration(65536).EUt(V[EV], 1).save(consumer);
-        ASSEMBLER_RECIPES.recipeBuilder("press_free_inscriber_iv")
-                .inputItems(PRESS_FREE_INSCRIBER_EV, 64)
-                .inputItems(EV_CIRCUITS, 64)
-                .outputItems(PRESS_FREE_INSCRIBER_IV, 1)
-                .duration(65536).EUt(V[IV], 1).save(consumer);
+        if (isModLoaded("ae2")) {
+            ASSEMBLER_RECIPES.recipeBuilder("press_free_inscriber_mv")
+                    .inputItems(AEBlocks.INSCRIBER.stack(), 64)
+                    .inputItems(MV_CIRCUITS, 64)
+                    .outputItems(PRESS_FREE_INSCRIBER_MV, 1)
+                    .duration(65536).EUt(V[MV], 1).save(consumer);
+            ASSEMBLER_RECIPES.recipeBuilder("press_free_inscriber_hv")
+                    .inputItems(PRESS_FREE_INSCRIBER_MV, 64)
+                    .inputItems(HV_CIRCUITS, 64)
+                    .outputItems(PRESS_FREE_INSCRIBER_HV, 1)
+                    .duration(65536).EUt(V[HV], 1).save(consumer);
+            ASSEMBLER_RECIPES.recipeBuilder("press_free_inscriber_ev")
+                    .inputItems(PRESS_FREE_INSCRIBER_HV, 64)
+                    .inputItems(EV_CIRCUITS, 64)
+                    .outputItems(PRESS_FREE_INSCRIBER_EV, 1)
+                    .duration(65536).EUt(V[EV], 1).save(consumer);
+            ASSEMBLER_RECIPES.recipeBuilder("press_free_inscriber_iv")
+                    .inputItems(PRESS_FREE_INSCRIBER_EV, 64)
+                    .inputItems(EV_CIRCUITS, 64)
+                    .outputItems(PRESS_FREE_INSCRIBER_IV, 1)
+                    .duration(65536).EUt(V[IV], 1).save(consumer);
+        }
 
         if (isModLoaded("botanypots")) {
             ASSEMBLER_RECIPES.recipeBuilder("green_house")
