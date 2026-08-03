@@ -82,18 +82,20 @@ public class LargeSteamBoilerMachine extends WorkableMultiblockMachine implement
         var drainWater = List.of(FluidIngredient.of(Fluids.WATER, waterRequired));
         List<IRecipeHandler<?>> inputTanks = new ArrayList<>();
         inputTanks.addAll(getCapabilitiesFlat(IO.IN, FluidRecipeCapability.CAP));
+        inputTanks.addAll(getCapabilitiesFlat(IO.BOTH, FluidRecipeCapability.CAP));
         for (var tank : inputTanks) {
             drainWater = (List<FluidIngredient>) tank.handleRecipe(IO.IN, null, drainWater, false);
             if (drainWater == null || drainWater.isEmpty()) break;
         }
-        if (drainWater == null || drainWater.isEmpty()) return;
-        int drained = waterRequired - drainWater.get(0).getAmount();
+        int drained = (drainWater == null || drainWater.isEmpty()) ? waterRequired :
+                waterRequired - drainWater.get(0).getAmount();
         if (drained <= 0) return;
 
         int steamProduced = drained;
         var fillSteam = List.of(FluidIngredient.of(GTMaterials.Steam.getFluid(steamProduced)));
         List<IRecipeHandler<?>> outputTanks = new ArrayList<>();
         outputTanks.addAll(getCapabilitiesFlat(IO.OUT, FluidRecipeCapability.CAP));
+        outputTanks.addAll(getCapabilitiesFlat(IO.BOTH, FluidRecipeCapability.CAP));
         for (var tank : outputTanks) {
             fillSteam = (List<FluidIngredient>) tank.handleRecipe(IO.OUT, null, fillSteam, false);
             if (fillSteam == null || fillSteam.isEmpty()) break;

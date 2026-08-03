@@ -15,6 +15,7 @@ import shishamo_tech.common.recipe.STRecipeTypes;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeModifiers.BATCH_MODE;
+import static com.gregtechceu.gtceu.common.data.GTRecipeModifiers.OC_PERFECT_SUBTICK;
 import static shishamo_tech.common.data.STMultiMachines.GREEN_HOUSE;
 import static shishamo_tech.common.machine.electric.STElectricMachines.recipeTypeTooltip;
 
@@ -35,7 +36,7 @@ public final class STBotanyMachines {
                 .langValue(langValue)
                 .tier(tier)
                 .recipeType(STRecipeTypes.GREEN_HOUSE_RECIPES)
-                .recipeModifiers(GreenHouseMachine::recipeModifier, BATCH_MODE)
+                .recipeModifiers(GreenHouseMachine::recipeModifier, OC_PERFECT_SUBTICK, BATCH_MODE)
                 .appearanceBlock(appearanceBlock)
                 .pattern(pattern -> FactoryBlockPattern.start(RIGHT, UP, FRONT)
                         .aisle(
