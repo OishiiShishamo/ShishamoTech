@@ -67,8 +67,12 @@ public class STVoidResourceMinerMachine extends STSteamParallelMultiblockMachine
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
         if (isFormed()) {
-            textList.add(Component.translatable("shishamo_tech.machine.void_miner.resources",
-                    getResourceTable().size()));
+            if (!STConfig.isMegaSteamVoidResourceMinerEnabled()) {
+                textList.add(Component.translatable("shishamo_tech.machine.disabled_by_config"));
+            } else {
+                textList.add(Component.translatable("shishamo_tech.machine.void_miner.resources",
+                        getResourceTable().size()));
+            }
         }
     }
 
@@ -248,6 +252,9 @@ public class STVoidResourceMinerMachine extends STSteamParallelMultiblockMachine
 
         @Override
         public @NotNull Iterator<GTRecipe> searchRecipe() {
+            if (!STConfig.isMegaSteamVoidResourceMinerEnabled()) {
+                return List.<GTRecipe>of().iterator();
+            }
             return List.<GTRecipe>of(STVoidResourceMinerMachine.getBaseRecipe()).iterator();
         }
 

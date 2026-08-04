@@ -37,6 +37,8 @@ import appeng.api.storage.IStorageProvider;
 import appeng.api.storage.MEStorage;
 import appeng.api.util.AECableType;
 
+import shishamo_tech.config.STConfig;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -122,7 +124,7 @@ public class STUltimateUniversalStorageMachine extends MultiblockControllerMachi
     @Override
     public void onLoad() {
         super.onLoad();
-        if (getLevel() != null && !getLevel().isClientSide) {
+        if (getLevel() != null && !getLevel().isClientSide && STConfig.isUltimateUniversalStorageEnabled()) {
             gridNode.create(getLevel(), getPos());
             gridNode.setExposedOnSides(isFormed() ? ALL_SIDES : NO_SIDES);
         }
@@ -131,25 +133,31 @@ public class STUltimateUniversalStorageMachine extends MultiblockControllerMachi
     @Override
     public void onUnload() {
         super.onUnload();
-        gridNode.destroy();
+        if (STConfig.isUltimateUniversalStorageEnabled()) {
+            gridNode.destroy();
+        }
     }
 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        gridNode.setExposedOnSides(ALL_SIDES);
-        refreshGridStorage();
+        if (STConfig.isUltimateUniversalStorageEnabled()) {
+            gridNode.setExposedOnSides(ALL_SIDES);
+            refreshGridStorage();
+        }
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
-        gridNode.setExposedOnSides(NO_SIDES);
+        if (STConfig.isUltimateUniversalStorageEnabled()) {
+            gridNode.setExposedOnSides(NO_SIDES);
+        }
     }
 
     @Override
     public @Nullable IGridNode getGridNode(Direction dir) {
-        return isFormed() ? gridNode.getNode() : null;
+        return (isFormed() && STConfig.isUltimateUniversalStorageEnabled()) ? gridNode.getNode() : null;
     }
 
     @Override
@@ -164,11 +172,13 @@ public class STUltimateUniversalStorageMachine extends MultiblockControllerMachi
 
     @Override
     public void onStateChanged(STUltimateUniversalStorageMachine nodeOwner, IGridNode node, State state) {
-        refreshGridStorage();
+        if (STConfig.isUltimateUniversalStorageEnabled()) {
+            refreshGridStorage();
+        }
     }
 
     protected void refreshGridStorage() {
-        if (gridNode.isOnline()) {
+        if (STConfig.isUltimateUniversalStorageEnabled() && gridNode.isOnline()) {
             IStorageProvider.requestUpdate(gridNode);
         }
     }
@@ -179,7 +189,7 @@ public class STUltimateUniversalStorageMachine extends MultiblockControllerMachi
 
     @Override
     public void mountInventories(IStorageMounts storageMounts) {
-        if (gridNode.isOnline()) {
+        if (STConfig.isUltimateUniversalStorageEnabled() && gridNode.isOnline()) {
             storageMounts.mount(this);
         }
     }
@@ -190,6 +200,7 @@ public class STUltimateUniversalStorageMachine extends MultiblockControllerMachi
 
     @Override
     public long insert(AEKey what, long amount, Actionable mode, IActionSource source) {
+        if (!STConfig.isUltimateUniversalStorageEnabled()) return 0;
         MEStorage.checkPreconditions(what, amount, mode, source);
         if (amount <= 0 || !isFormed()) return 0;
         return insertIntoSection(findSection(what), what, amount, mode == Actionable.SIMULATE, false);
@@ -197,6 +208,7 @@ public class STUltimateUniversalStorageMachine extends MultiblockControllerMachi
 
     @Override
     public long extract(AEKey what, long amount, Actionable mode, IActionSource source) {
+        if (!STConfig.isUltimateUniversalStorageEnabled()) return 0;
         MEStorage.checkPreconditions(what, amount, mode, source);
         if (amount <= 0 || !isFormed()) return 0;
         return extractFromSection(findSectionWith(what), amount, mode == Actionable.SIMULATE, false);
@@ -204,6 +216,7 @@ public class STUltimateUniversalStorageMachine extends MultiblockControllerMachi
 
     @Override
     public void getAvailableStacks(KeyCounter out) {
+        if (!STConfig.isUltimateUniversalStorageEnabled()) return;
         for (int i = 0; i < SECTIONS; i++) {
             if (keys[i] != null) {
                 out.add(keys[i], saturate(amounts[i]));
@@ -336,7 +349,7 @@ public class STUltimateUniversalStorageMachine extends MultiblockControllerMachi
 
     @Override
     public @Nullable IItemHandlerModifiable getItemHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
-        if (isFormed()) {
+        if (isFormed() && STConfig.isUltimateUniversalStorageEnabled()) {
             return super.getItemHandlerCap(side, useCoverCapability);
         }
         return null;
@@ -344,7 +357,7 @@ public class STUltimateUniversalStorageMachine extends MultiblockControllerMachi
 
     @Override
     public @Nullable IFluidHandlerModifiable getFluidHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
-        if (isFormed()) {
+        if (isFormed() && STConfig.isUltimateUniversalStorageEnabled()) {
             return super.getFluidHandlerCap(side, useCoverCapability);
         }
         return null;

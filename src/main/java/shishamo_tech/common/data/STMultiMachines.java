@@ -767,6 +767,7 @@ public class STMultiMachines {
                 .tooltipBuilder((stack, tooltips) -> {
                     tooltips.add(Component.translatable("shishamo_tech.machine.ultimate_universal_storage.tooltip"));
                     tooltips.add(Component.translatable("shishamo_tech.machine.ultimate_universal_storage.pipe_tip"));
+                    tooltips.add(Component.translatable("shishamo_tech.machine.configurable.tooltip"));
                 })
                 .register();
     }

@@ -29,6 +29,18 @@ public final class STConfig {
             .comment("Enable Botany Pots integration multiblocks (requires Botany Pots installed)")
             .define("enableBotanyIntegration", true);
 
+    public static final ForgeConfigSpec.BooleanValue ENABLE_MEGA_STEAM_VOID_RESOURCE_MINER = BUILDER
+            .comment("Enable Mega Steam Void Resource Miner functionality")
+            .define("enableMegaSteamVoidResourceMiner", true);
+
+    public static final ForgeConfigSpec.BooleanValue ENABLE_ULTIMATE_UNIVERSAL_STORAGE = BUILDER
+            .comment("Enable Ultimate Universal Storage functionality")
+            .define("enableUltimateUniversalStorage", true);
+
+    public static final ForgeConfigSpec.BooleanValue ENABLE_COMPRESSED_SINGLEBLOCK_RECIPES = BUILDER
+            .comment("Enable 8x speed compressed recipes on compressed single block machines")
+            .define("enableCompressedSingleblockRecipes", true);
+
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> VOID_MINER_EXTRA_ITEMS = BUILDER
             .comment("Additional item resources for the Mega Steam Void Resource Miner.",
                     "Format: \"<registry_id>|<count>|<weight>\" e.g. \"minecraft:diamond|1|5\"")
@@ -46,6 +58,9 @@ public final class STConfig {
     public static boolean enableElectricMachines = true;
     public static boolean enableAE2Integration = true;
     public static boolean enableBotanyIntegration = true;
+    public static boolean enableMegaSteamVoidResourceMiner = true;
+    public static boolean enableUltimateUniversalStorage = true;
+    public static boolean enableCompressedSingleblockRecipes = true;
     public static List<String> voidMinerExtraItems = List.of();
     public static List<String> voidMinerExtraFluids = List.of();
 
@@ -56,6 +71,9 @@ public final class STConfig {
         enableElectricMachines = ENABLE_ELECTRIC_MACHINES.get();
         enableAE2Integration = ENABLE_AE2_INTEGRATION.get();
         enableBotanyIntegration = ENABLE_BOTANY_INTEGRATION.get();
+        enableMegaSteamVoidResourceMiner = ENABLE_MEGA_STEAM_VOID_RESOURCE_MINER.get();
+        enableUltimateUniversalStorage = ENABLE_ULTIMATE_UNIVERSAL_STORAGE.get();
+        enableCompressedSingleblockRecipes = ENABLE_COMPRESSED_SINGLEBLOCK_RECIPES.get();
         voidMinerExtraItems = List.copyOf(VOID_MINER_EXTRA_ITEMS.get());
         voidMinerExtraFluids = List.copyOf(VOID_MINER_EXTRA_FLUIDS.get());
         shishamo_tech.common.machine.steam.STVoidResourceMinerMachine.invalidateResourceTable();
@@ -75,5 +93,17 @@ public final class STConfig {
 
     public static boolean isBotanyEnabled() {
         return !SPEC.isLoaded() || enableBotanyIntegration;
+    }
+
+    public static boolean isMegaSteamVoidResourceMinerEnabled() {
+        return !SPEC.isLoaded() || enableMegaSteamVoidResourceMiner;
+    }
+
+    public static boolean isUltimateUniversalStorageEnabled() {
+        return !SPEC.isLoaded() || enableUltimateUniversalStorage;
+    }
+
+    public static boolean isCompressedSingleblockRecipesEnabled() {
+        return !SPEC.isLoaded() || enableCompressedSingleblockRecipes;
     }
 }

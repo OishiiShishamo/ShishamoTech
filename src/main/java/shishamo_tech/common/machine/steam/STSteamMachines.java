@@ -57,6 +57,7 @@ public final class STSteamMachines {
                     tooltips.add(Component.translatable(
                             "shishamo_tech.machine.parallel", 8 * STConfig.parallelMultiplier));
                     tooltips.add(Component.translatable("shishamo_tech.machine.void_miner.tooltip"));
+                    tooltips.add(Component.translatable("shishamo_tech.machine.configurable.tooltip"));
                     tooltips.add(recipeTypeTooltip(recipeType));
                 })
                 .register();
