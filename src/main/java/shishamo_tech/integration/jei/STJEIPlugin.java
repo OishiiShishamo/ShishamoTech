@@ -9,11 +9,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import shishamo_tech.ShishamoTech;
+import shishamo_tech.common.data.STMultiMachines;
 import shishamo_tech.common.machine.ae2.STAE2Machines;
 import shishamo_tech.common.machine.botany.STBotanyMachines;
+import shishamo_tech.common.machine.steam.STVoidResourceMinerMachine;
 import shishamo_tech.common.recipe.STRecipeTypes;
 import shishamo_tech.integration.botany.BotanyPotsRecipeHelper;
 import appeng.recipes.handlers.InscriberRecipe;
+
+import java.util.ArrayList;
 
 @JeiPlugin
 public class STJEIPlugin implements IModPlugin {
@@ -62,6 +66,23 @@ public class STJEIPlugin implements IModPlugin {
                 }
             }
         }
+
+        if (STMultiMachines.MEGA_STEAM_VOID_RESOURCE_MINER != null) {
+            var resources = STVoidResourceMinerMachine.getResourceTable();
+            var voidRecipes = new ArrayList<GTRecipe>(resources.size());
+            int index = 0;
+            for (var entry : resources) {
+                voidRecipes.add(STVoidResourceMinerMachine.buildJeiRecipe(index++, entry));
+            }
+            if (!voidRecipes.isEmpty()) {
+                for (var recipe : voidRecipes) {
+                    STRecipeTypes.VOID_RESOURCE_MINING_RECIPES.addToMainCategory(recipe);
+                }
+                var voidMinerType = new RecipeType<>(STRecipeTypes.VOID_RESOURCE_MINING_RECIPES.registryName,
+                        GTRecipe.class);
+                registration.addRecipes(voidMinerType, voidRecipes);
+            }
+        }
     }
 
     @Override
@@ -80,6 +101,12 @@ public class STJEIPlugin implements IModPlugin {
             if (machine != null) {
                 registration.addRecipeCatalyst(machine.asStack(), greenHouseType);
             }
+        }
+
+        if (STMultiMachines.MEGA_STEAM_VOID_RESOURCE_MINER != null) {
+            var voidMinerType = new RecipeType<>(STRecipeTypes.VOID_RESOURCE_MINING_RECIPES.registryName,
+                    GTRecipe.class);
+            registration.addRecipeCatalyst(STMultiMachines.MEGA_STEAM_VOID_RESOURCE_MINER.asStack(), voidMinerType);
         }
     }
 }

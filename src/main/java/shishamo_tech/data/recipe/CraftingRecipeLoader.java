@@ -48,5 +48,10 @@ public class CraftingRecipeLoader {
                 "XXX",
                 "XXX",
                 'X', GTMachines.STEAM_ROCK_CRUSHER.second().asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, "mega_steam_void_resource_miner", STMultiMachines.MEGA_STEAM_VOID_RESOURCE_MINER.asStack(),
+                "XXX",
+                "XXX",
+                "XXX",
+                'X', GTMachines.STEAM_ROCK_CRUSHER.second().asStack());
     }
 }

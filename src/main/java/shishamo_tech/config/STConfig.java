@@ -2,6 +2,8 @@ package shishamo_tech.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
+import java.util.List;
+
 public final class STConfig {
     private STConfig() {}
 
@@ -27,6 +29,16 @@ public final class STConfig {
             .comment("Enable Botany Pots integration multiblocks (requires Botany Pots installed)")
             .define("enableBotanyIntegration", true);
 
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> VOID_MINER_EXTRA_ITEMS = BUILDER
+            .comment("Additional item resources for the Mega Steam Void Resource Miner.",
+                    "Format: \"<registry_id>|<count>|<weight>\" e.g. \"minecraft:diamond|1|5\"")
+            .defineList("voidMinerExtraItems", List.of(), o -> o instanceof String);
+
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> VOID_MINER_EXTRA_FLUIDS = BUILDER
+            .comment("Additional fluid resources for the Mega Steam Void Resource Miner.",
+                    "Format: \"<registry_id>|<amount_mb>|<weight>\" e.g. \"gtceu:oil|100|10\"")
+            .defineList("voidMinerExtraFluids", List.of(), o -> o instanceof String);
+
     public static final ForgeConfigSpec SPEC = BUILDER.build();
 
     public static int parallelMultiplier = 64;
@@ -34,6 +46,8 @@ public final class STConfig {
     public static boolean enableElectricMachines = true;
     public static boolean enableAE2Integration = true;
     public static boolean enableBotanyIntegration = true;
+    public static List<String> voidMinerExtraItems = List.of();
+    public static List<String> voidMinerExtraFluids = List.of();
 
     public static void refresh() {
         if (!SPEC.isLoaded()) return;
@@ -42,6 +56,9 @@ public final class STConfig {
         enableElectricMachines = ENABLE_ELECTRIC_MACHINES.get();
         enableAE2Integration = ENABLE_AE2_INTEGRATION.get();
         enableBotanyIntegration = ENABLE_BOTANY_INTEGRATION.get();
+        voidMinerExtraItems = List.copyOf(VOID_MINER_EXTRA_ITEMS.get());
+        voidMinerExtraFluids = List.copyOf(VOID_MINER_EXTRA_FLUIDS.get());
+        shishamo_tech.common.machine.steam.STVoidResourceMinerMachine.invalidateResourceTable();
     }
 
     public static boolean isSteamEnabled() {

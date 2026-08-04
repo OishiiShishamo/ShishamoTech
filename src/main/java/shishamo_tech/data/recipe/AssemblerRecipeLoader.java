@@ -13,6 +13,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.common.data.GTMachines.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES;
 import static com.gregtechceu.gtceu.common.data.machines.GCYMMachines.*;
 import static com.gregtechceu.gtceu.common.data.machines.GTMultiMachines.*;
@@ -70,6 +71,11 @@ public class AssemblerRecipeLoader {
                     .inputItems(EV_CIRCUITS, 64)
                     .outputItems(PRESS_FREE_INSCRIBER_IV, 1)
                     .duration(65536).EUt(V[IV], 1).save(consumer);
+            ASSEMBLER_RECIPES.recipeBuilder("ultimate_universal_storage")
+                    .inputItems(SUPER_CHEST, 64)
+                    .inputItems(SUPER_TANK, 64)
+                    .outputItems(ULTIMATE_UNIVERSAL_STORAGE, 1)
+                    .duration(65536).EUt(V[LV], 1).save(consumer);
         }
 
         if (isModLoaded("botanypots")) {

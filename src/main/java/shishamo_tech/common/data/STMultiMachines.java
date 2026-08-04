@@ -1,16 +1,23 @@
 package shishamo_tech.common.data;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Blocks;
+import shishamo_tech.STRegistration;
+import shishamo_tech.common.machine.storage.STUltimateUniversalStorageMachine;
 import shishamo_tech.ShishamoTech;
+import shishamo_tech.common.recipe.STRecipeTypes;
 
 import java.util.function.Function;
 
@@ -23,6 +30,7 @@ import static shishamo_tech.common.machine.botany.STBotanyMachines.registerGreen
 import static shishamo_tech.common.machine.electric.STElectricMachines.registerCoilMachine;
 import static shishamo_tech.common.machine.electric.STElectricMachines.registerElectricMachine;
 import static shishamo_tech.common.machine.steam.STSteamMachines.registerSteamMachine;
+import static shishamo_tech.common.machine.steam.STSteamMachines.registerSteamVoidResourceMiner;
 import static shishamo_tech.common.machine.steam.STSteamMachines.registerLargeSteamBoiler;
 
 public class STMultiMachines {
@@ -33,6 +41,7 @@ public class STMultiMachines {
     public static MultiblockMachineDefinition MEGA_STEAM_HAMMER;
     public static MultiblockMachineDefinition MEGA_STEAM_ALLOY_SMELTER;
     public static MultiblockMachineDefinition MEGA_STEAM_ROCK_CRUSHER;
+    public static MultiblockMachineDefinition MEGA_STEAM_VOID_RESOURCE_MINER;
 
     public static MultiblockMachineDefinition SUPERIOR_MACERATION_PLANT;
     public static MultiblockMachineDefinition LARGE_SMELTING_PLANT;
@@ -54,6 +63,8 @@ public class STMultiMachines {
     public static MultiblockMachineDefinition PRESS_FREE_INSCRIBER_IV;
 
     public static MultiblockMachineDefinition GREEN_HOUSE;
+
+    public static MultiblockMachineDefinition ULTIMATE_UNIVERSAL_STORAGE;
 
     private static final String ALL_X = "XXXXXXXXXXX";
     private static final String PIPE_ROW = "XGGGGGGGGGX";
@@ -109,6 +120,24 @@ public class STMultiMachines {
                         .or(abilities(PartAbility.STEAM_EXPORT_ITEMS).setPreviewCount(1))
                         .or(abilities(PartAbility.STEAM).setExactLimit(1)));
             }
+            return builder.build();
+        };
+    }
+
+    private static Function<MultiblockMachineDefinition, BlockPattern> steamVoidMinerSharedPattern() {
+        int ctrlDepth = 5;
+        return pattern -> {
+            var builder = FactoryBlockPattern.start(FRONT, UP, RIGHT);
+            for (int d = 0; d < 11; d++) {
+                builder.aisle(steamBuildRows(d, ctrlDepth, false));
+            }
+            builder.where("S", controller(blocks(pattern.getBlock())))
+                    .where("G", blocks(GTBlocks.CASING_BRONZE_PIPE.get()))
+                    .where("#", any())
+                    .where("X", blocks(GTBlocks.CASING_BRONZE_BRICKS.get())
+                            .or(abilities(PartAbility.STEAM).setExactLimit(1))
+                            .or(abilities(PartAbility.STEAM_EXPORT_ITEMS).setPreviewCount(1))
+                            .or(abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1)));
             return builder.build();
         };
     }
@@ -217,6 +246,12 @@ public class STMultiMachines {
                 GTRecipeTypes.ROCK_BREAKER_RECIPES,
                 GTCEu.id("block/multiblock/multiblock_workable"),
                 steamSharedPattern(false));
+
+        MEGA_STEAM_VOID_RESOURCE_MINER = registerSteamVoidResourceMiner(
+                "mega_steam_void_resource_miner", "Mega Steam Void Resource Miner",
+                STRecipeTypes.VOID_RESOURCE_MINING_RECIPES,
+                GTCEu.id("block/multiblock/multiblock_workable"),
+                steamVoidMinerSharedPattern());
 
         GOD_STEAM_BOILER = registerLargeSteamBoiler(
                 "god_steam_boiler", "God Steam Boiler",
@@ -702,5 +737,37 @@ public class STMultiMachines {
                 GTBlocks.CASING_STAINLESS_CLEAN,
                 GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"),
                 GTCEu.id("block/multiblock/multiblock_workable"));
+    }
+
+    public static void storageInit() {
+        ULTIMATE_UNIVERSAL_STORAGE = STRegistration.REGISTRATE
+                .multiblock("ultimate_universal_storage", STUltimateUniversalStorageMachine::new)
+                .langValue("Ultimate Universal Storage")
+                .recipeType(GTRecipeTypes.DUMMY_RECIPES)
+                .rotationState(RotationState.ALL)
+                .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
+                .pattern(definition -> FactoryBlockPattern.start()
+                        .aisle("CCC", "CCC", "CCC")
+                        .aisle("CCC", "C#C", "CCC")
+                        .aisle("CCC", "CSC", "CCC")
+                        .where('S', controller(blocks(definition.get())))
+                        .where('C', blocks(GTBlocks.CASING_STEEL_SOLID.get()))
+                        .where('#', air())
+                        .build())
+                .shapeInfo(definition -> MultiblockShapeInfo.builder()
+                        .aisle("CCC", "CSC", "CCC")
+                        .aisle("CCC", "C#C", "CCC")
+                        .aisle("CCC", "CCC", "CCC")
+                        .where('S', definition.get(), Direction.NORTH)
+                        .where('C', GTBlocks.CASING_STEEL_SOLID.get().defaultBlockState())
+                        .where('#', Blocks.AIR.defaultBlockState())
+                        .build())
+                .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
+                        GTCEu.id("block/multiblock/multiblock_tank"))
+                .tooltipBuilder((stack, tooltips) -> {
+                    tooltips.add(Component.translatable("shishamo_tech.machine.ultimate_universal_storage.tooltip"));
+                    tooltips.add(Component.translatable("shishamo_tech.machine.ultimate_universal_storage.pipe_tip"));
+                })
+                .register();
     }
 }

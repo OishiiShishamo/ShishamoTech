@@ -71,6 +71,28 @@ public final class STRecipeTypes {
                 GREEN_HOUSE_RECIPES.registryName, GREEN_HOUSE_RECIPES);
     }
 
+    public static final GTRecipeType VOID_RESOURCE_MINING_RECIPES;
+
+    static {
+        VOID_RESOURCE_MINING_RECIPES = new GTRecipeType(
+                ShishamoTech.id("void_resource_mining"),
+                GTRecipeTypes.MULTIBLOCK);
+
+        VOID_RESOURCE_MINING_RECIPES
+                .setMaxIOSize(0, 1, 0, 1)
+                .setEUIO(IO.IN)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, FillDirection.LEFT_TO_RIGHT)
+                .setSound(GTSoundEntries.MOTOR)
+                .setRecipeUI(new GTRecipeTypeUI(VOID_RESOURCE_MINING_RECIPES));
+
+        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE,
+                VOID_RESOURCE_MINING_RECIPES.registryName, VOID_RESOURCE_MINING_RECIPES);
+        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER,
+                VOID_RESOURCE_MINING_RECIPES.registryName, new GTRecipeSerializer());
+        GTRegistries.RECIPE_TYPES.register(
+                VOID_RESOURCE_MINING_RECIPES.registryName, VOID_RESOURCE_MINING_RECIPES);
+    }
+
     public static void init() {
     }
 

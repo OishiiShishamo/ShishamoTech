@@ -40,6 +40,28 @@ public final class STSteamMachines {
                 .register();
     }
 
+    public static MultiblockMachineDefinition registerSteamVoidResourceMiner(
+            String name, String langValue,
+            GTRecipeType recipeType, ResourceLocation overlayModel,
+            Function<MultiblockMachineDefinition, BlockPattern> patternProvider) {
+        return STRegistration.REGISTRATE
+                .multiblock(name, STVoidResourceMinerMachine::new)
+                .rotationState(RotationState.ALL)
+                .langValue(langValue)
+                .recipeType(recipeType)
+                .recipeModifiers(STSteamParallelMultiblockMachine::recipeModifier, BATCH_MODE)
+                .appearanceBlock(GTBlocks.CASING_BRONZE_BRICKS)
+                .pattern(patternProvider)
+                .workableCasingModel(CASING_TEXTURE, overlayModel)
+                .tooltipBuilder((stack, tooltips) -> {
+                    tooltips.add(Component.translatable(
+                            "shishamo_tech.machine.parallel", 8 * STConfig.parallelMultiplier));
+                    tooltips.add(Component.translatable("shishamo_tech.machine.void_miner.tooltip"));
+                    tooltips.add(recipeTypeTooltip(recipeType));
+                })
+                .register();
+    }
+
     public static MultiblockMachineDefinition registerLargeSteamBoiler(
             String name, String langValue,
             GTRecipeType recipeType, ResourceLocation overlayModel,

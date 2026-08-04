@@ -23,6 +23,7 @@ ShishamoTechは、GTCEuMの通常マルチブロックを内部でラップし�
 - Mega Steam Grinder
 - Mega Steam Hammer
 - Mega Steam Rock Crusher
+- Mega Steam Void Resource Miner
 - God Steam Boiler
 
 ### Electric系メガマルチブロック
@@ -30,12 +31,13 @@ ShishamoTechは、GTCEuMの通常マルチブロックを内部でラップし�
 - Large Assembly Plant
 - Large Distillation Tower
 - Large Electrolyzer
-- Large Grinding Plant
+- Superior Maceration Plant
 - Large Smelting Plant
 - Large Washing Plant
 - LCR Cluster
 - Hyper Tower Centrifuge
 - Eternal Force Freezer
+- Green House
 - (Non) Omnipotent Universe Forge
 
 ### AE2連携（AE2導入時のみ有効）
