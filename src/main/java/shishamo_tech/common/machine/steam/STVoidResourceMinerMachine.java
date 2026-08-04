@@ -161,13 +161,6 @@ public class STVoidResourceMinerMachine extends STSteamParallelMultiblockMachine
         addFluid(entries, GTMaterials.SulfuricLightFuel.getFluid(FLUID_AMOUNT));
         addFluid(entries, GTMaterials.RawOil.getFluid(FLUID_AMOUNT));
 
-        addFluid(entries, GTMaterials.Nitrogen.getFluid(FLUID_AMOUNT));
-        addFluid(entries, GTMaterials.Oxygen.getFluid(FLUID_AMOUNT));
-        addFluid(entries, GTMaterials.Hydrogen.getFluid(FLUID_AMOUNT));
-        addFluid(entries, GTMaterials.Helium.getFluid(FLUID_AMOUNT));
-        addFluid(entries, GTMaterials.Argon.getFluid(FLUID_AMOUNT));
-        addFluid(entries, GTMaterials.CarbonDioxide.getFluid(FLUID_AMOUNT));
-
         var rawMaterials = ForgeRegistries.ITEMS.tags().getTag(RAW_MATERIALS_TAG);
         if (rawMaterials != null && !rawMaterials.isEmpty()) {
             for (Item item : rawMaterials) {
@@ -276,11 +269,11 @@ public class STVoidResourceMinerMachine extends STSteamParallelMultiblockMachine
                     .duration(1);
             if (entry.isFluid()) {
                 FluidStack fluid = entry.fluid().copy();
-                fluid.setAmount((int) Math.min(Integer.MAX_VALUE, (long) fluid.getAmount() * parallels));
+                fluid.setAmount((int) Math.min(Integer.MAX_VALUE, (long) fluid.getAmount() * parallels * 512));
                 builder.outputFluids(fluid);
             } else if (entry.isItem()) {
                 ItemStack item = entry.item().copy();
-                item.setCount((int) Math.min(Integer.MAX_VALUE, (long) item.getCount() * parallels));
+                item.setCount((int) Math.min(Integer.MAX_VALUE, (long) item.getCount() * parallels * 64));
                 builder.outputItems(item);
             } else {
                 return ActionResult.SUCCESS;
