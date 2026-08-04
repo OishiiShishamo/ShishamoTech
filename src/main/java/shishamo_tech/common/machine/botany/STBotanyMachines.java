@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import shishamo_tech.STRegistration;
 import shishamo_tech.common.recipe.STRecipeTypes;
 
@@ -39,48 +40,26 @@ public final class STBotanyMachines {
                 .recipeModifiers(GreenHouseMachine::recipeModifier, OC_PERFECT_SUBTICK, BATCH_MODE)
                 .appearanceBlock(appearanceBlock)
                 .pattern(pattern -> FactoryBlockPattern.start(RIGHT, UP, FRONT)
-                        .aisle(
-                                "XXXXXXX",
-                                "XXXXXXX",
-                                "XXXXXXX",
-                                "XXXXXXX",
-                                "XXXXXXX"
-                        )
-                        .aisle(
-                                "XXXXXXX",
-                                "XGGGGGX",
-                                "XG###GX",
-                                "XGGGGGX",
-                                "XXXXXXX"
-                        )
-                        .aisle(
-                                "XXXXXXX",
-                                "XGGGGGX",
-                                "XG###GX",
-                                "XGGGGGX",
-                                "XXXXXXX"
-                        )
-                        .aisle(
-                                "XXXXXXX",
-                                "XGGGGGX",
-                                "XG###GX",
-                                "XGGGGGX",
-                                "XXXXXXX"
-                        )
-                        .aisle(
-                                "XXXXXXX",
-                                "XXXXXXX",
-                                "XXXSXXX",
-                                "XXXXXXX",
-                                "XXXXXXX"
-                        )
-                        .where("S", controller(blocks(pattern.getBlock())))
-                        .where("G", blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
-                        .where("#", air())
-                        .where("X", blocks(appearanceBlock.get())
+                        .aisle("AAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAA")
+                        .aisle("AAAAAAAAAAAAAAA", "ABBBBBBBBBBBBBA", "ABBBBBBBBBBBBBA", "ABBBBBBBBBBBBBA", "ABBBBBBBBBBBBBA", "ABBBBBBBBBBBBBA", "ABBBBBBBBBBBBBA", "ABBBBBBBBBBBBBA", "ABBBBBBBBBBBBBA", "ABBBBBBBBBBBBBA", "AAAAAAAAAAAAAAA")
+                        .aisle("AAAAAAAAAAAAAAA", "ABBBBBBBBBBBBBA", "BBCCCCCCCCCCCBB", "BBDDDDDDDDDDDBB", "BB###########BB", "BB###########BB", "BB###########BB", "BB###########BB", "BB###########BB", "ABBBBBBBBBBBBBA", "AAAAAAAAAAAAAAA")
+                        .aisle("AAAAAAAAAAAAAAA", "ABBBBBBBBBBBBBA", "BBCCCCCCCCCCCBB", "BBDDDDDDDDDDDBB", "BB###########BB", "BB###########BB", "BB###########BB", "BB###########BB", "BB###########BB", "ABBBBBBBBBBBBBA", "AAAAAAAAAAAAAAA")
+                        .aisle("AAAAAAAAAAAAAAA", "ABBBBBBBBBBBBBA", "BBCCCCCCCCCCCBB", "BBDDDDDDDDDDDBB", "BB###########BB", "BB###########BB", "BB###########BB", "BB###########BB", "BB###########BB", "ABBBBBBBBBBBBBA", "AAAAAAAAAAAAAAA")
+                        .aisle("AAAAAAAAAAAAAAA", "ABBBBBBBBBBBBBA", "BBCCCCCCCCCCCBB", "BBDDDDDDDDDDDBB", "BB###########BB", "BB###########BB", "BB###########BB", "BB###########BB", "BB###########BB", "ABBBBBBBBBBBBBA", "AAAAAAAAAAAAAAA")
+                        .aisle("AAAAAAAAAAAAAAA", "ABBBBBBBBBBBBBA", "BBCCCCCCCCCCCBB", "BBDDDDDDDDDDDBB", "BB###########BB", "BB###########BB", "BB###########BB", "BB###########BB", "BB###########BB", "ABBBBBBBBBBBBBA", "AAAAAAAAAAAAAAA")
+                        .aisle("AAAAAAAAAAAAAAA", "ABBBBBBBBBBBBBA", "BBCCCCCCCCCCCBB", "BBDDDDDDDDDDDBB", "BB###########BB", "BB###########BB", "BB###########BB", "BB###########BB", "BB###########BB", "ABBBBBBBBBBBBBA", "AAAAAAAAAAAAAAA")
+                        .aisle("AAAAAAAAAAAAAAA", "ABBBBBBBBBBBBBA", "BBCCCCCCCCCCCBB", "BBDDDDDDDDDDDBB", "BB###########BB", "BB###########BB", "BB###########BB", "BB###########BB", "BB###########BB", "ABBBBBBBBBBBBBA", "AAAAAAAAAAAAAAA")
+                        .aisle("AAAAAAAAAAAAAAA", "ABBBBBBBBBBBBBA", "ABBBBBBBBBBBBBA", "ABBBBBBBBBBBBBA", "ABBBBBBBBBBBBBA", "ABBBBBBBBBBBBBA", "ABBBBBBBBBBBBBA", "ABBBBBBBBBBBBBA", "ABBBBBBBBBBBBBA", "ABBBBBBBBBBBBBA", "AAAAAAAAAAAAAAA")
+                        .aisle("AAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAA", "AAAAAAAEAAAAAAA", "AAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAA")
+                        .where("E", controller(blocks(pattern.getBlock())))
+                        .where("B", blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
+                        .where("D", blocks(Blocks.COMPOSTER))
+                        .where("C", blocks(Blocks.DIRT))
+                        .where("#", any())
+                        .where("A", blocks(appearanceBlock.get())
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
-                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setExactLimit(1))
+                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setPreviewCount(2))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .build())
                 .workableCasingModel(casingTexture, overlayModel)

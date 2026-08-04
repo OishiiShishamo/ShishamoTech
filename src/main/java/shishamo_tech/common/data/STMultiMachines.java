@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import net.minecraft.world.level.block.Blocks;
@@ -33,7 +34,7 @@ public class STMultiMachines {
     public static MultiblockMachineDefinition MEGA_STEAM_ALLOY_SMELTER;
     public static MultiblockMachineDefinition MEGA_STEAM_ROCK_CRUSHER;
 
-    public static MultiblockMachineDefinition LARGE_GRINDING_PLANT;
+    public static MultiblockMachineDefinition SUPERIOR_MACERATION_PLANT;
     public static MultiblockMachineDefinition LARGE_SMELTING_PLANT;
     public static MultiblockMachineDefinition LARGE_WASHING_PLANT;
     public static MultiblockMachineDefinition HYPER_TOWER_CENTRIFUGE;
@@ -95,7 +96,7 @@ public class STMultiMachines {
             }
             builder.where("S", controller(blocks(pattern.getBlock())))
                     .where("G", blocks(GTBlocks.CASING_BRONZE_PIPE.get()))
-                    .where("#", air());
+                    .where("#", any());
             if (hasFirebox) {
                 builder.where("F", blocks(GTBlocks.FIREBOX_BRONZE.get())
                         .or(abilities(PartAbility.STEAM).setExactLimit(1)));
@@ -158,7 +159,7 @@ public class STMultiMachines {
                 builder.aisle(rows);
             }
             builder.where("S", controller(blocks(pattern.getBlock())))
-                    .where("#", air())
+                    .where("#", any())
                     .where("F",
                             blocks(GTBlocks.FIREBOX_STEEL.get())
                                     .or(abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1)))
@@ -225,35 +226,37 @@ public class STMultiMachines {
     }
 
     public static void electricInit() {
-        LARGE_GRINDING_PLANT = registerElectricMachine(
-                "large_grinding_plant",
-                "Large Grinding Plant",
+        SUPERIOR_MACERATION_PLANT = registerElectricMachine(
+                "superior_maceration_plant",
+                "Superior Maceration Plant",
                 GTRecipeTypes.MACERATOR_RECIPES,
                 5,
-                GTBlocks.CASING_STEEL_SOLID,
-                GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
+                GCYMBlocks.CASING_SECURE_MACERATION,
+                GTCEu.id("block/casings/gcym/secure_maceration_casing"),
                 GTCEu.id("block/multiblock/gcym/large_maceration_tower"),
                 pattern -> FactoryBlockPattern.start(FRONT, UP, RIGHT)
-                        .aisle("XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GS", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX")
-                        .where("S", controller(blocks(pattern.getBlock())))
-                        .where("G", blocks(GTBlocks.CASING_STEEL_PIPE.get()))
-                        .where("#", air())
-                        .where("X", blocks(GTBlocks.CASING_STEEL_SOLID.get())
+                        .aisle("AAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAA")
+                        .aisle("AAAAAAAAAAAAAAAA", "AAA##########AAA", "AAA#BBB######AAA", "AAA#BBB#BBBBBAAA", "AAA#BBB#BBBBBAAA", "AAA#BBB#BBBBBAAA", "AA##BBB#######AA", "A##############A")
+                        .aisle("AAAAAAAAAAAAAAAA", "AAA##########AAA", "AAA######BBB#AAA", "AAABBBBB#BBB#AAA", "AAABBBBB#BBB#AAA", "AAABBBBB#BBB#AAA", "AA#######BBB##AA", "A##############A")
+                        .aisle("AAAAAAAAAAAAAAAA", "AAA##########AAA", "AAA#BBB######AAA", "AAA#BBB#BBBBBAAA", "AAA#BBB#BBBBBAAA", "AAA#BBB#BBBBBAAA", "AA##BBB#######AA", "A##############A")
+                        .aisle("AAAAAAAAAAAAAAAA", "AAA##########AAA", "AAA######BBB#AAA", "AAABBBBB#BBB#AAA", "AAABBBBB#BBB#AAA", "AAABBBBB#BBB#AAA", "AA#######BBB##AA", "A##############A")
+                        .aisle("AAAAAAAAAAAAAAAA", "AAA##########AAA", "AAA#BBB######AAA", "AAA#BBB#BBBBBAAA", "AAA#BBB#BBBBBAAA", "AAA#BBB#BBBBBAAA", "AA##BBB#######AA", "A##############A")
+                        .aisle("AAAAAAAAAAAAAAAA", "AAA##########AAA", "AAA######BBB#AAA", "AAABBBBB#BBB#AAA", "AAABBBBB#BBB#AAA", "AAABBBBB#BBB#AAA", "AA#######BBB##AA", "A##############A")
+                        .aisle("AAAAAAAAAAAAAAAA", "AAA##########AAA", "AAA#BBB######AAA", "AAA#BBB#BBBBBAAC", "AAA#BBB#BBBBBAAA", "AAA#BBB#BBBBBAAA", "AA##BBB#######AA", "A##############A")
+                        .aisle("AAAAAAAAAAAAAAAA", "AAA##########AAA", "AAA######BBB#AAA", "AAABBBBB#BBB#AAA", "AAABBBBB#BBB#AAA", "AAABBBBB#BBB#AAA", "AA#######BBB##AA", "A##############A")
+                        .aisle("AAAAAAAAAAAAAAAA", "AAA##########AAA", "AAA#BBB######AAA", "AAA#BBB#BBBBBAAA", "AAA#BBB#BBBBBAAA", "AAA#BBB#BBBBBAAA", "AA##BBB#######AA", "A##############A")
+                        .aisle("AAAAAAAAAAAAAAAA", "AAA##########AAA", "AAA######BBB#AAA", "AAABBBBB#BBB#AAA", "AAABBBBB#BBB#AAA", "AAABBBBB#BBB#AAA", "AA#######BBB##AA", "A##############A")
+                        .aisle("AAAAAAAAAAAAAAAA", "AAA##########AAA", "AAA#BBB######AAA", "AAA#BBB#BBBBBAAA", "AAA#BBB#BBBBBAAA", "AAA#BBB#BBBBBAAA", "AA##BBB#######AA", "A##############A")
+                        .aisle("AAAAAAAAAAAAAAAA", "AAA##########AAA", "AAA######BBB#AAA", "AAABBBBB#BBB#AAA", "AAABBBBB#BBB#AAA", "AAABBBBB#BBB#AAA", "AA#######BBB##AA", "A##############A")
+                        .aisle("AAAAAAAAAAAAAAAA", "AAA##########AAA", "AAA#BBB######AAA", "AAA#BBB#BBBBBAAA", "AAA#BBB#BBBBBAAA", "AAA#BBB#BBBBBAAA", "AA##BBB#######AA", "A##############A")
+                        .aisle("AAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAA")
+                        .where("C", controller(blocks(pattern.getBlock())))
+                        .where("B", blocks(GTBlocks.CASING_TUNGSTENSTEEL_PIPE.get()))
+                        .where("#", any())
+                        .where("A", blocks(GCYMBlocks.CASING_SECURE_MACERATION.get())
                                 .or(abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
-                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setExactLimit(1))
+                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setPreviewCount(2))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .build());
 
@@ -282,11 +285,11 @@ public class STMultiMachines {
                         .where("S", controller(blocks(pattern.getBlock())))
                         .where("G", blocks(GTBlocks.CASING_STEEL_PIPE.get()))
                         .where("C", heatingCoils())
-                        .where("#", air())
+                        .where("#", any())
                         .where("X", blocks(GTBlocks.CASING_INVAR_HEATPROOF.get())
                                 .or(abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
-                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setExactLimit(1))
+                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setPreviewCount(2))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .build());
 
@@ -314,12 +317,12 @@ public class STMultiMachines {
                         .aisle("XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX")
                         .where("S", controller(blocks(pattern.getBlock())))
                         .where("G", blocks(GTBlocks.CASING_STEEL_PIPE.get()))
-                        .where("#", air())
+                        .where("#", any())
                         .where("X", blocks(GTBlocks.CASING_ALUMINIUM_FROSTPROOF.get())
                                 .or(abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
-                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setExactLimit(1))
+                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setPreviewCount(2))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .build());
 
@@ -355,13 +358,13 @@ public class STMultiMachines {
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
                                 .or(abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
-                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setExactLimit(1))
+                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setPreviewCount(2))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .where("B", controller(blocks(pattern.getBlock())))
                         .where("E", blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
                         .where("C", blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
                         .where("D", blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
-                        .where("#", air())
+                        .where("#", any())
                         .build());
 
         LARGE_ELECTROLYZER = registerElectricMachine(
@@ -388,13 +391,13 @@ public class STMultiMachines {
                         .aisle("XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX")
                         .where("S", controller(blocks(pattern.getBlock())))
                         .where("G", blocks(GTBlocks.CASING_STEEL_PIPE.get()))
-                        .where("#", air())
+                        .where("#", any())
                         .where("X", blocks(GTBlocks.CASING_ALUMINIUM_FROSTPROOF.get())
                                 .or(abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
                                 .or(abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
-                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setExactLimit(1))
+                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setPreviewCount(2))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .build());
 
@@ -425,10 +428,10 @@ public class STMultiMachines {
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
                                 .or(abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
-                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setExactLimit(1))
+                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setPreviewCount(2))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .where("D", controller(blocks(pattern.getBlock())))
-                        .where("#", air())
+                        .where("#", any())
                         .build());
 
         LARGE_ASSEMBLY_PLANT = registerElectricMachine(
@@ -457,11 +460,11 @@ public class STMultiMachines {
                         .aisle("XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX")
                         .where("S", controller(blocks(pattern.getBlock())))
                         .where("G", blocks(GTBlocks.CASING_STEEL_PIPE.get()))
-                        .where("#", air())
+                        .where("#", any())
                         .where("X", blocks(GTBlocks.CASING_STEEL_SOLID.get())
                                 .or(abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(2))
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
-                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setExactLimit(1))
+                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setPreviewCount(2))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .build());
 
@@ -492,13 +495,13 @@ public class STMultiMachines {
                         .where("S", controller(blocks(pattern.getBlock())))
                         .where("G", blocks(GTBlocks.CASING_STEEL_PIPE.get()))
                         .where("C", heatingCoils())
-                        .where("#", air())
+                        .where("#", any())
                         .where("X", blocks(GTBlocks.CASING_INVAR_HEATPROOF.get())
                                 .or(abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
                                 .or(abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
-                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setExactLimit(1))
+                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setPreviewCount(2))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .build());
 
@@ -528,13 +531,13 @@ public class STMultiMachines {
                         .aisle("XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX")
                         .where("S", controller(blocks(pattern.getBlock())))
                         .where("P", blocks(GTBlocks.CASING_STEEL_PIPE.get()))
-                        .where("#", air())
+                        .where("#", any())
                         .where("X", blocks(GTBlocks.CASING_STAINLESS_CLEAN.get())
                                 .or(abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
                                 .or(abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
-                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setExactLimit(1))
+                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setPreviewCount(2))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .build());
 
@@ -559,12 +562,12 @@ public class STMultiMachines {
                         .where("A", blocks(GTBlocks.CASING_ALUMINIUM_FROSTPROOF.get())
                                 .or(abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
-                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setExactLimit(1))
+                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setPreviewCount(2))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .where("D", controller(blocks(pattern.getBlock())))
                         .where("C", blocks(Blocks.BLUE_ICE))
                         .where("B", blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
-                        .where("#", air())
+                        .where("#", any())
                         .build());
 
         NON_OMNIPOTENT_UNIVERSE_FORGE = registerElectricMachine(
@@ -652,7 +655,7 @@ public class STMultiMachines {
                         .where("E", blocks(STBlocks.CASING_SOLID_SPACETIME.get()))
                         .where("B", blocks(STBlocks.CASING_NOUF_MAGICAL.get()))
                         .where("F", blocks(STBlocks.CASING_NOUF_WAVE.get()))
-                        .where("#", air())
+                        .where("#", any())
                         .build()
                 );
     }

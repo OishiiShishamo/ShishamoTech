@@ -2,6 +2,7 @@ package shishamo_tech.data.recipe;
 
 import appeng.block.misc.InscriberBlock;
 import appeng.core.definitions.AEBlocks;
+import com.gregtechceu.gtceu.api.data.tag.TagUtil;
 import net.darkhax.botanypots.block.BlockBotanyPot;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
@@ -31,6 +32,11 @@ public class AssemblerRecipeLoader {
                 .inputItems(LARGE_CENTRIFUGE.asStack(), 64)
                 .inputItems(IV_CIRCUITS, 64)
                 .outputItems(HYPER_TOWER_CENTRIFUGE, 1)
+                .duration(65536).EUt(V[IV], 1).save(consumer);
+        ASSEMBLER_RECIPES.recipeBuilder("superior_maceration_plant")
+                .inputItems(LARGE_MACERATION_TOWER.asStack(), 64)
+                .inputItems(IV_CIRCUITS, 64)
+                .outputItems(SUPERIOR_MACERATION_PLANT, 1)
                 .duration(65536).EUt(V[IV], 1).save(consumer);
         ASSEMBLER_RECIPES.recipeBuilder("lcr_cluster")
                 .inputItems(LARGE_CHEMICAL_REACTOR.asStack(), 64)
@@ -68,7 +74,7 @@ public class AssemblerRecipeLoader {
 
         if (isModLoaded("botanypots")) {
             ASSEMBLER_RECIPES.recipeBuilder("green_house")
-                    .inputItems("botanypots:terracotta_hopper_botany_pot", 64)
+                    .inputItems(TagUtil.createModItemTag("botanypots:hopper_botany_pots"), 64)
                     .inputItems(HV_CIRCUITS, 64)
                     .outputItems(GREEN_HOUSE, 1)
                     .duration(65536).EUt(V[HV], 1).save(consumer);
