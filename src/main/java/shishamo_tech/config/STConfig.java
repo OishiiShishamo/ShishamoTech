@@ -100,7 +100,8 @@ public final class STConfig {
     }
 
     public static boolean isUltimateUniversalStorageEnabled() {
-        return !SPEC.isLoaded() || enableUltimateUniversalStorage;
+        return (!SPEC.isLoaded() || enableUltimateUniversalStorage)
+                && net.minecraftforge.fml.ModList.get().isLoaded("ae2");
     }
 
     public static boolean isCompressedSingleblockRecipesEnabled() {

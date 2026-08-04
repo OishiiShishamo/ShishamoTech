@@ -75,7 +75,9 @@ public class ShishamoTech {
             LOGGER.info("AE2 not detected — skipping AE2 multiblocks");
         }
         STMultiMachines.botanyInit();
-        STMultiMachines.storageInit();
+        if (isModLoaded("ae2")) {
+            STMultiMachines.storageInit();
+        }
         if (isModLoaded("botanypots")) {
             LOGGER.info("Botany Pots detected — Green House will process crop recipes");
         } else {

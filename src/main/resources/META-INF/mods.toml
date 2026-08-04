@@ -33,7 +33,7 @@ logoFile = "icon.png"
 
 [[dependencies.${mod_id}]]
     modId="ae2"
-    mandatory=false
+    mandatory=true
     versionRange="[15.0.0,)"
     ordering="AFTER"
     side="BOTH"
