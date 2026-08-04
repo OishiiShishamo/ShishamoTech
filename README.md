@@ -38,6 +38,7 @@ ShishamoTech wraps GTCEuM's standard multiblocks internally and applies a large 
 - Hyper Tower Centrifuge
 - Eternal Force Freezer
 - Green House
+- Ultimate Universal Storage
 - (Non) Omnipotent Universe Forge
 
 ### AE2 Integration (only active when AE2 is installed)

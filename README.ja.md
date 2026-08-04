@@ -38,6 +38,7 @@ ShishamoTechは、GTCEuMの通常マルチブロックを内部でラップし�
 - Hyper Tower Centrifuge
 - Eternal Force Freezer
 - Green House
+- Ultimate Universal Storage
 - (Non) Omnipotent Universe Forge
 
 ### AE2連携（AE2導入時のみ有効）
