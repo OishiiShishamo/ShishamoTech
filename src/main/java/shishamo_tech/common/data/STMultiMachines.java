@@ -752,7 +752,7 @@ public class STMultiMachines {
                         .aisle("CCC", "CSC", "CCC")
                         .where('S', controller(blocks(definition.get())))
                         .where('C', blocks(GTBlocks.CASING_STEEL_SOLID.get()))
-                        .where('#', air())
+                        .where('#', any())
                         .build())
                 .shapeInfo(definition -> MultiblockShapeInfo.builder()
                         .aisle("CCC", "CSC", "CCC")
