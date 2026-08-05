@@ -61,6 +61,9 @@ public class ShishamoTech {
         STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.me_long.slot_capacity", "§7Configurable slot amounts up to §aLong.MAX_VALUE");
         STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.me_long.buffer_capacity", "§7Internal buffer up to §aLong.MAX_VALUE");
         STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.me_dual.item_fluid", "§7Accepts both items and fluids in a single block");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.disabled", "Machine Disabled");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.disabled_by_config", "Disabled by Config");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.configurable.tooltip", "Configure in the machine UI");
     }
 
     private void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {

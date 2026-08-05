@@ -35,6 +35,8 @@ import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import shishamo_tech.config.STConfig;
+
 /**
  * An ME hatch that can export both items and fluids to the ME network from a
  * single block. Both internal buffers are {@link KeyStorage}s (long-based),
@@ -103,6 +105,7 @@ public class MEDualLongOutputHatchPartMachine extends MEHatchPartMachine impleme
 
     @Override
     protected void autoIO() {
+        if (!STConfig.isMachineFullyEnabled(this)) return;
         if (!this.shouldSyncME()) return;
         if (this.updateMEStatus()) {
             var grid = getMainNode().getGrid();

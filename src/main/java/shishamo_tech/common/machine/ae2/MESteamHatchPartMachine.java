@@ -15,6 +15,8 @@ import java.util.function.Predicate;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import shishamo_tech.config.STConfig;
+
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class MESteamHatchPartMachine extends MEStockingHatchPartMachine {
@@ -23,6 +25,12 @@ public class MESteamHatchPartMachine extends MEStockingHatchPartMachine {
         super(holder, args);
         setAutoPullTest(stack -> isSteam(stack));
         setAutoPull(true);
+    }
+
+    @Override
+    public void autoIO() {
+        if (!STConfig.isMachineFullyEnabled(this)) return;
+        super.autoIO();
     }
 
     @Override

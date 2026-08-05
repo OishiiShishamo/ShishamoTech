@@ -31,6 +31,8 @@ import org.jetbrains.annotations.Nullable;
 import shishamo_tech.integration.ae2.gui.STLongAEFluidConfigWidget;
 import shishamo_tech.integration.ae2.gui.STLongAEItemConfigWidget;
 
+import shishamo_tech.config.STConfig;
+
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
@@ -81,6 +83,7 @@ public class MEDualStockingInputHatchPartMachine extends MEStockingHatchPartMach
 
     @Override
     public void autoIO() {
+        if (!STConfig.isMachineFullyEnabled(this)) return;
         super.autoIO();
         if (getTicksPerCycle() == 0) {
             setTicksPerCycle(ConfigHolder.INSTANCE.compat.ae2.updateIntervals);

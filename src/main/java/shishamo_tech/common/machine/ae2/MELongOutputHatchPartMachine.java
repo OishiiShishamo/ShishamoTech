@@ -26,6 +26,8 @@ import appeng.api.stacks.AEFluidKey;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import shishamo_tech.config.STConfig;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -86,6 +88,7 @@ public class MELongOutputHatchPartMachine extends MEHatchPartMachine implements 
 
     @Override
     protected void autoIO() {
+        if (!STConfig.isMachineFullyEnabled(this)) return;
         if (!this.shouldSyncME()) return;
         if (this.updateMEStatus()) {
             var grid = getMainNode().getGrid();

@@ -1,4 +1,4 @@
-// 1.20.1	2026-08-06T00:12:45.570512154	Registrate Provider for shishamo_tech [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-08-06T01:49:26.482311681	Registrate Provider for shishamo_tech [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 34d1592f9bbe4aa54f625ff45809b351e0e7f393 assets/shishamo_tech/blockstates/eternal_force_freezer.json
 7769287cfe8d7c35136d86f370361dd9a51880ec assets/shishamo_tech/blockstates/ev_compressed_alloy_smelter.json
 9b1c2e090dc97ad2e819b5aabb341f1fe285225b assets/shishamo_tech/blockstates/ev_compressed_arc_furnace.json
@@ -493,8 +493,8 @@ e157182c2e15b1f49c7c80a6c0808eab8e61f08e assets/shishamo_tech/blockstates/zpm_co
 b487945cbbec5a4c72639b78b68db22a5acc3e37 assets/shishamo_tech/blockstates/zpm_compressed_sifter.json
 368d77304bb21ba95d6a1f6c7df0cb0dadad30ab assets/shishamo_tech/blockstates/zpm_compressed_thermal_centrifuge.json
 ebb1f4d431668bd890d7f91b98d2433a4c55be79 assets/shishamo_tech/blockstates/zpm_compressed_wiremill.json
-c0ae8800940835cedde9657b2574622d7966a0f8 assets/shishamo_tech/lang/en_ud.json
-91138e75f9f870a1063dcd14ac6947293fac19e2 assets/shishamo_tech/lang/en_us.json
+6fc462a20fd56547858451de048364dc171c54d4 assets/shishamo_tech/lang/en_ud.json
+3bbf6dfbe7f06258ae60e171cb155f28348c0f3e assets/shishamo_tech/lang/en_us.json
 91501715582c4a8a0973a99eff995d92eeb2df39 assets/shishamo_tech/models/block/machine/eternal_force_freezer.json
 1f9d4ff2bbbd9c1a5950ab69c10ad791e30b1a21 assets/shishamo_tech/models/block/machine/ev_compressed_alloy_smelter.json
 8cb8a2df86b7d65f38cd408020cf060d2020d339 assets/shishamo_tech/models/block/machine/ev_compressed_arc_furnace.json

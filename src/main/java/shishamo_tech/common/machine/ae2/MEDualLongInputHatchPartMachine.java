@@ -22,6 +22,7 @@ import appeng.api.stacks.GenericStack;
 import appeng.api.storage.MEStorage;
 import org.jetbrains.annotations.Nullable;
 
+import shishamo_tech.config.STConfig;
 import shishamo_tech.integration.ae2.gui.STLongAEFluidConfigWidget;
 import shishamo_tech.integration.ae2.gui.STLongAEItemConfigWidget;
 
@@ -75,6 +76,7 @@ public class MEDualLongInputHatchPartMachine extends MEInputHatchPartMachine {
 
     @Override
     protected void autoIO() {
+        if (!STConfig.isMachineFullyEnabled(this)) return;
         if (!this.isWorkingEnabled()) return;
         if (!this.shouldSyncME()) return;
 

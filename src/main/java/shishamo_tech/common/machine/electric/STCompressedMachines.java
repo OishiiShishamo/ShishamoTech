@@ -57,6 +57,42 @@ public final class STCompressedMachines {
     public static MachineDefinition[] COMPRESSED_ROCK_BREAKER;
     public static MachineDefinition[] COMPRESSED_SCANNER;
 
+    private static final String[] ST_VLVH = new String[] {
+            "§0Primitive",
+            "§7Basic",
+            "§bAdvanced",
+            "§6Advanced",
+            "§5Advanced",
+            "§9Elite",
+            "§dElite",
+            "§cElite",
+            "§3Ultimate",
+            "§4Epic",
+            "§aEpic",
+            "§2Epic",
+            "§eEpic",
+            "§9§lLegendary",
+            "§c§lMAX"
+    };
+
+    private static final String[] ST_VLVT = new String[] {
+            "§r",
+            "§r",
+            "§r",
+            "II§r",
+            "III§r",
+            "§r",
+            "II§r",
+            "III§r",
+            "§r",
+            "§r",
+            "II§r",
+            "III§r",
+            "IV§r",
+            "§r",
+            "§r"
+    };
+
     private STCompressedMachines() {}
 
     public static void init() {
@@ -104,7 +140,7 @@ public final class STCompressedMachines {
                 name,
                 (holder, tier) -> new SimpleTieredMachine(holder, tier, defaultTankSizeFunction),
                 (tier, builder) -> builder
-                        .langValue("Compressed %s %s %s".formatted(VLVH[tier], toEnglishName(baseMachineName), VLVT[tier]))
+                        .langValue("Compressed %s %s %s".formatted(ST_VLVH[tier], toEnglishName(baseMachineName), ST_VLVT[tier]))
                         .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
                                 ShishamoTech.id(name), recipeType))
                         .rotationState(RotationState.NON_Y_AXIS)

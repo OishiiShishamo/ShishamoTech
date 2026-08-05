@@ -248,6 +248,15 @@ public final class STConfig {
 
     /**
      * Checks whether a machine is effectively enabled, considering its category-level
+     * config flag as well as the per-machine toggle. See {@link #isMachineFullyEnabled(String)}.
+     */
+    public static boolean isMachineFullyEnabled(MetaMachine machine) {
+        if (machine == null || machine.getDefinition() == null) return true;
+        return isMachineFullyEnabled(machine.getDefinition().getId().getPath());
+    }
+
+    /**
+     * Checks whether a machine is effectively enabled, considering its category-level
      * config flag (e.g. {@code enableSteamMachines}) as well as the per-machine toggle.
      */
     public static boolean isMachineFullyEnabled(String path) {

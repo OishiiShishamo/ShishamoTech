@@ -29,6 +29,8 @@ import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import shishamo_tech.config.STConfig;
+
 /**
  * An ME Output Bus whose internal buffer is a {@link KeyStorage} (long-based),
  * allowing accumulation beyond {@link Integer#MAX_VALUE} per item type.
@@ -84,6 +86,7 @@ public class MELongOutputBusPartMachine extends MEBusPartMachine implements IMac
 
     @Override
     public void autoIO() {
+        if (!STConfig.isMachineFullyEnabled(this)) return;
         if (!this.shouldSyncME()) return;
         if (this.updateMEStatus()) {
             var grid = getMainNode().getGrid();
