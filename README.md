@@ -25,6 +25,7 @@ ShishamoTech wraps GTCEuM's standard multiblocks internally and applies a large 
 - Mega Steam Rock Crusher
 - Mega Steam Void Resource Miner
 - God Steam Boiler
+- Hyper Primitive Blast Furnace
 
 ### Electric-era Mega Multiblocks
 - Large Arc Furnace

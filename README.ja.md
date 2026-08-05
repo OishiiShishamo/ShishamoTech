@@ -25,6 +25,7 @@ ShishamoTechは、GTCEuMの通常マルチブロックを内部でラップし�
 - Mega Steam Rock Crusher
 - Mega Steam Void Resource Miner
 - God Steam Boiler
+- Hyper Primitive Blast Furnace
 
 ### Electric系メガマルチブロック
 - Large Arc Furnace
