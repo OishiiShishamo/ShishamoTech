@@ -25,3 +25,5 @@ Casing Texture: tomato CC-BY-4.0
 https://creativecommons.org/licenses/by/4.0/
 
 Multiblock Included: https://github.com/tomatium208/GT-Infinity-Bakery
+
+Multiblock Supporter: Elizabeth Mahiko
