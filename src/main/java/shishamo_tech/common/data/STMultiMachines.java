@@ -15,6 +15,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Blocks;
 import shishamo_tech.STRegistration;
+import shishamo_tech.common.machine.primitive.STPrimitiveBlastFurnaceMachine;
 import shishamo_tech.common.machine.storage.STUltimateUniversalStorageMachine;
 import shishamo_tech.ShishamoTech;
 import shishamo_tech.common.recipe.STRecipeTypes;
@@ -25,8 +26,10 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
+import static com.gregtechceu.gtceu.common.data.GTRecipeModifiers.BATCH_MODE;
 import static shishamo_tech.common.machine.ae2.STAE2Machines.registerInscriber;
 import static shishamo_tech.common.machine.botany.STBotanyMachines.registerGreenHouse;
+import static shishamo_tech.common.machine.electric.STElectricMachines.recipeTypeTooltip;
 import static shishamo_tech.common.machine.electric.STElectricMachines.registerCoilMachine;
 import static shishamo_tech.common.machine.electric.STElectricMachines.registerElectricMachine;
 import static shishamo_tech.common.machine.steam.STSteamMachines.registerSteamMachine;
@@ -56,6 +59,8 @@ public class STMultiMachines {
     public static MultiblockMachineDefinition NON_OMNIPOTENT_UNIVERSE_FORGE;
 
     public static MultiblockMachineDefinition GOD_STEAM_BOILER;
+
+    public static MultiblockMachineDefinition HYPER_PRIMITIVE_BLAST_FURNACE;
 
     public static MultiblockMachineDefinition PRESS_FREE_INSCRIBER_MV;
     public static MultiblockMachineDefinition PRESS_FREE_INSCRIBER_HV;
@@ -204,6 +209,25 @@ public class STMultiMachines {
         };
     }
 
+    private static Function<MultiblockMachineDefinition, BlockPattern> primitiveBlastFurnacePattern() {
+        return pattern -> FactoryBlockPattern.start(FRONT, UP, RIGHT)
+                .aisle("##AAA##", "#######", "#######", "#######", "##AAA##", "#######", "#######", "#######", "##AAA##")
+                .aisle("#AAAAA#", "##CCC##", "##CCC##", "##CCC##", "#AAAAA#", "##CCC##", "##CCC##", "##CCC##", "#AAAAA#")
+                .aisle("AAAAAAA", "#CDDDC#", "#CDDDC#", "#CDDDC#", "AAAAAAA", "#CDDDC#", "#CDDDC#", "#CDDDC#", "AAAAAAA")
+                .aisle("AAAAAAB", "#CD#DC#", "#CD#DC#", "#CD#DC#", "AAA#AAA", "#CD#DC#", "#CD#DC#", "#CD#DC#", "AAA#AAA")
+                .aisle("AAAAAAA", "#CDDDC#", "#CDDDC#", "#CDDDC#", "AAAAAAA", "#CDDDC#", "#CDDDC#", "#CDDDC#", "AAAAAAA")
+                .aisle("#AAAAA#", "##CCC##", "##CCC##", "##CCC##", "#AAAAA#", "##CCC##", "##CCC##", "##CCC##", "#AAAAA#")
+                .aisle("##AAA##", "#######", "#######", "#######", "##AAA##", "#######", "#######", "#######", "##AAA##")
+                .where("B", controller(blocks(pattern.getBlock())))
+                .where("D", blocks(Blocks.DIRT))
+                .where("C", blocks(Blocks.BRICKS))
+                .where("#", any())
+                .where("A", blocks(GTBlocks.CASING_PRIMITIVE_BRICKS.get())
+                        .or(abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
+                        .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1)))
+                .build();
+    }
+
     public static void steamInit() {
         MEGA_STEAM_GRINDER = registerSteamMachine(
                 "mega_steam_grinder", "Mega Steam Grinder",
@@ -258,6 +282,27 @@ public class STMultiMachines {
                 GTRecipeTypes.LARGE_BOILER_RECIPES,
                 GTCEu.id("block/multiblock/generator/large_steel_boiler"),
                 boilerSharedPattern());
+    }
+
+    public static void primitiveInit() {
+        HYPER_PRIMITIVE_BLAST_FURNACE = STRegistration.REGISTRATE
+                .multiblock("hyper_primitive_blast_furnace", STPrimitiveBlastFurnaceMachine::new)
+                .rotationState(RotationState.ALL)
+                .langValue("Hyper Primitive Blast Furnace")
+                .recipeType(GTRecipeTypes.PRIMITIVE_BLAST_FURNACE_RECIPES)
+                .recipeModifiers(STPrimitiveBlastFurnaceMachine::recipeModifier, BATCH_MODE)
+                .appearanceBlock(GTBlocks.CASING_PRIMITIVE_BRICKS)
+                .pattern(primitiveBlastFurnacePattern())
+                .workableCasingModel(
+                        GTCEu.id("block/casings/solid/machine_primitive_bricks"),
+                        GTCEu.id("block/multiblock/primitive_blast_furnace"))
+                .tooltipBuilder((stack, tooltips) -> {
+                    tooltips.add(Component.translatable(
+                            "shishamo_tech.machine.parallel_count",
+                            STPrimitiveBlastFurnaceMachine.getDisplayParallelCount()));
+                    tooltips.add(recipeTypeTooltip(GTRecipeTypes.PRIMITIVE_BLAST_FURNACE_RECIPES));
+                })
+                .register();
     }
 
     public static void electricInit() {

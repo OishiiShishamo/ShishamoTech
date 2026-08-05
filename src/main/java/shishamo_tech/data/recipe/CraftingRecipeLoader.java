@@ -1,6 +1,7 @@
 package shishamo_tech.data.recipe;
 
 import com.gregtechceu.gtceu.common.data.GTMachines;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -53,5 +54,10 @@ public class CraftingRecipeLoader {
                 "XXX",
                 "XXX",
                 'X', GTMachines.STEAM_ROCK_CRUSHER.second().asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, "hyper_primitive_blast_furnace", STMultiMachines.HYPER_PRIMITIVE_BLAST_FURNACE.asStack(),
+                "XXX",
+                "XXX",
+                "XXX",
+                'X', GTMultiMachines.PRIMITIVE_BLAST_FURNACE.asStack());
     }
 }

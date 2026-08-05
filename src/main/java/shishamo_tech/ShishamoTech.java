@@ -66,6 +66,7 @@ public class ShishamoTech {
 
     private void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
         STMultiMachines.steamInit();
+        STMultiMachines.primitiveInit();
         STMultiMachines.electricInit();
         STCompressedMachines.init();
         if (isModLoaded("ae2")) {

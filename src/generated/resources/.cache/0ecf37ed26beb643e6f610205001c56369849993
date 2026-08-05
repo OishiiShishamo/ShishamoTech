@@ -1,4 +1,4 @@
-// 1.20.1	2026-08-04T16:11:21.340000763	Registrate Provider for shishamo_tech [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-08-05T16:08:00.454598202	Registrate Provider for shishamo_tech [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 34d1592f9bbe4aa54f625ff45809b351e0e7f393 assets/shishamo_tech/blockstates/eternal_force_freezer.json
 7769287cfe8d7c35136d86f370361dd9a51880ec assets/shishamo_tech/blockstates/ev_compressed_alloy_smelter.json
 9b1c2e090dc97ad2e819b5aabb341f1fe285225b assets/shishamo_tech/blockstates/ev_compressed_arc_furnace.json
@@ -72,6 +72,7 @@ ed36736f8e63332a6d4f72577b4f692322104224 assets/shishamo_tech/blockstates/hv_com
 e3b147cb944a6b3477f9b60408fa497518dc7490 assets/shishamo_tech/blockstates/hv_compressed_sifter.json
 b758ce667c695962fb4ce4e1fd4836922f41d5bf assets/shishamo_tech/blockstates/hv_compressed_thermal_centrifuge.json
 eba52a5b779a0ce888166f831a35f1638276c282 assets/shishamo_tech/blockstates/hv_compressed_wiremill.json
+c0b3154fcf31a5537052b46db222efa2fe6c43ae assets/shishamo_tech/blockstates/hyper_primitive_blast_furnace.json
 5ebc4c43440cfd1f004b5d09045e63adf5d7117f assets/shishamo_tech/blockstates/hyper_tower_centrifuge.json
 4e3be70c1ca7a6b7fdd4854dd1765d25d45bfa8c assets/shishamo_tech/blockstates/iv_compressed_alloy_smelter.json
 630044fa535c4f6f2e1269aa6e8934e3a680528c assets/shishamo_tech/blockstates/iv_compressed_arc_furnace.json
@@ -486,8 +487,8 @@ e157182c2e15b1f49c7c80a6c0808eab8e61f08e assets/shishamo_tech/blockstates/zpm_co
 b487945cbbec5a4c72639b78b68db22a5acc3e37 assets/shishamo_tech/blockstates/zpm_compressed_sifter.json
 368d77304bb21ba95d6a1f6c7df0cb0dadad30ab assets/shishamo_tech/blockstates/zpm_compressed_thermal_centrifuge.json
 ebb1f4d431668bd890d7f91b98d2433a4c55be79 assets/shishamo_tech/blockstates/zpm_compressed_wiremill.json
-6b477c7e654e7d79fbb8cc321534016a40143381 assets/shishamo_tech/lang/en_ud.json
-831d82732a1936a4f9c1c3ce7a7c4ed9d04983bb assets/shishamo_tech/lang/en_us.json
+01e279aed2d10ab1a0dfd5146b1ebcd1f8759d57 assets/shishamo_tech/lang/en_ud.json
+b8b9cdc889f787c79914fb7dd56c96a6abe29986 assets/shishamo_tech/lang/en_us.json
 91501715582c4a8a0973a99eff995d92eeb2df39 assets/shishamo_tech/models/block/machine/eternal_force_freezer.json
 1f9d4ff2bbbd9c1a5950ab69c10ad791e30b1a21 assets/shishamo_tech/models/block/machine/ev_compressed_alloy_smelter.json
 8cb8a2df86b7d65f38cd408020cf060d2020d339 assets/shishamo_tech/models/block/machine/ev_compressed_arc_furnace.json
@@ -561,6 +562,7 @@ fa18fb578ef0716a333672e144ea2bc1aa6dd477 assets/shishamo_tech/models/block/machi
 e4411596dfa1ea2f021c8fed0e23d4ab2243b8c9 assets/shishamo_tech/models/block/machine/hv_compressed_sifter.json
 1224e9dbab531a207b3311308445ff650a8a8f52 assets/shishamo_tech/models/block/machine/hv_compressed_thermal_centrifuge.json
 f6fbb227fa629745319bde32c25b02df4ecfa80e assets/shishamo_tech/models/block/machine/hv_compressed_wiremill.json
+a5fc8f0636df98fe6316154f7bdc53bbb395bbab assets/shishamo_tech/models/block/machine/hyper_primitive_blast_furnace.json
 8db92bfc1ee88878349dab0cdde65939b69220b5 assets/shishamo_tech/models/block/machine/hyper_tower_centrifuge.json
 ab9d69641edf8492d64d4a92bdbb8021e0d13637 assets/shishamo_tech/models/block/machine/iv_compressed_alloy_smelter.json
 35c9b72f9763e7b53384276927cf464be8da4df5 assets/shishamo_tech/models/block/machine/iv_compressed_arc_furnace.json
@@ -1048,6 +1050,7 @@ cc9fff2c368157822e791dde0760da5d62c29413 assets/shishamo_tech/models/item/hv_com
 f377ef7216948607c885b7806e6995b6911dc828 assets/shishamo_tech/models/item/hv_compressed_sifter.json
 0992230dca6a613fafcadee21fefe5ec4eb1c92b assets/shishamo_tech/models/item/hv_compressed_thermal_centrifuge.json
 e2c92c8cc7918f959c344e1eeb4a633f8ce934f3 assets/shishamo_tech/models/item/hv_compressed_wiremill.json
+8ccdd506935c9677ee62887a1211b133f45aa88f assets/shishamo_tech/models/item/hyper_primitive_blast_furnace.json
 a692bbe39b751c5a1b34e90ebf2d1a942865229c assets/shishamo_tech/models/item/hyper_tower_centrifuge.json
 73a58be4f717fdb5b6bb8f2907519ad71f367766 assets/shishamo_tech/models/item/iv_compressed_alloy_smelter.json
 39e2ecc7b91a2907354d816bdf9cf204bf719363 assets/shishamo_tech/models/item/iv_compressed_arc_furnace.json
