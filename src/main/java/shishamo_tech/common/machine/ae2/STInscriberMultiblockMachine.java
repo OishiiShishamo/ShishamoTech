@@ -59,7 +59,7 @@ public class STInscriberMultiblockMachine extends WorkableElectricMultiblockMach
         if (!(machine instanceof STInscriberMultiblockMachine m)) {
             return ModifierFunction.IDENTITY;
         }
-        if (!STConfig.isAE2Enabled()) {
+        if (!STConfig.isAE2Enabled() || !STConfig.isMachineEnabled(machine)) {
             return ModifierFunction.NULL;
         }
         long voltage = STRecipeModifierUtil.getOverclockVoltage(machine);

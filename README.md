@@ -9,10 +9,6 @@ Adds massively-parallel "mega" multiblocks spanning every tier, from the Steam a
 - Target version: Minecraft 1.20.1 / Forge 47.x
 - License: [MIT License](LICENSE)
 
-## Overview
-
-ShishamoTech wraps GTCEuM's standard multiblocks internally and applies a large parallel multiplier (default 64x, configurable) to produce "mega multiblocks." It covers a wide range of tiers, from the Steam age through each Electric tier, plus AE2-integrated machines.
-
 ## Key Features
 
 ### Steam-era Mega Multiblocks
@@ -54,6 +50,12 @@ The following options are available in `config/shishamo_tech-common.toml`:
 | `enableSteamMachines` | Enable Steam-era mega multiblocks | true |
 | `enableElectricMachines` | Enable Electric-era mega multiblocks | true |
 | `enableAE2Integration` | Enable AE2 integration machines (requires AE2) | true |
+| `enableBotanyIntegration` | Enable Botany Pots integration machines (requires Botany Pots) | true |
+| `enableCompressedSingleblockRecipes` | Enable 8x speed recipes on compressed single block machines | true |
+| `voidMinerBlacklist` | Registry ids of items/fluids the Mega Steam Void Resource Miner will never roll (e.g. `minecraft:diamond`, `gtceu:oil`) | `[]` |
+| `voidMinerExtraItems` | Extra item resources for the Mega Steam Void Resource Miner (`<id>|<count>|<weight>`) | `[]` |
+| `voidMinerExtraFluids` | Extra fluid resources for the Mega Steam Void Resource Miner (`<id>|<amount>|<weight>`) | `[]` |
+| `machines.<path>` | Per-machine on/off toggle. Any machine (multiblock or compressed single block family, e.g. `machines.megaSteamGrinder`, `machines.compressedMacerator`) can be disabled individually. Disabled machines show a "Disabled by config" tooltip and refuse to run. | true |
 
 ## Dependencies
 

@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import shishamo_tech.STRegistration;
 import shishamo_tech.common.recipe.STRecipeTypes;
+import shishamo_tech.config.STConfig;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
@@ -64,6 +65,7 @@ public final class STBotanyMachines {
                         .build())
                 .workableCasingModel(casingTexture, overlayModel)
                 .tooltipBuilder((stack, tooltips) -> {
+                    STConfig.checkMachineDisabledTooltip(name, tooltips);
                     tooltips.add(recipeTypeTooltip(STRecipeTypes.GREEN_HOUSE_RECIPES));
                 })
                 .register();

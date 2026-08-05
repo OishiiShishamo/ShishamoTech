@@ -9,10 +9,6 @@ Steam期からMAXティアまで、全ティアを網羅する超巨大パラレ
 - 対象バージョン: Minecraft 1.20.1 / Forge 47.x
 - ライセンス: [MIT License](LICENSE)
 
-## 概要
-
-ShishamoTechは、GTCEuMの通常マルチブロックを内部でラップし、大幅なパラレル倍率（デフォルト64倍、config変更可）をかけた「メガマルチブロック」を提供するアドオンです。Steam時代からElectric各ティア、さらにAE2連携機まで幅広くカバーします。
-
 ## 主な機能
 
 ### Steam系メガマルチブロック
@@ -54,6 +50,12 @@ ShishamoTechは、GTCEuMの通常マルチブロックを内部でラップし�
 | `enableSteamMachines` | Steam系メガマルチブロックの有効化 | true |
 | `enableElectricMachines` | Electric系メガマルチブロックの有効化 | true |
 | `enableAE2Integration` | AE2連携マシンの有効化（AE2導入時のみ） | true |
+| `enableBotanyIntegration` | Botany Pots連携マシンの有効化（Botany Pots導入時のみ） | true |
+| `enableCompressedSingleblockRecipes` | 圧縮シングルブロックの8倍速レシピの有効化 | true |
+| `voidMinerBlacklist` | Mega Steam Void Resource Minerが絶対に抽選しないアイテム/流体のレジストリID（例: `minecraft:diamond`, `gtceu:oil`） | `[]` |
+| `voidMinerExtraItems` | Mega Steam Void Resource Minerの追加アイテム資源（`<id>|<count>|<weight>`） | `[]` |
+| `voidMinerExtraFluids` | Mega Steam Void Resource Minerの追加流体資源（`<id>|<amount>|<weight>`） | `[]` |
+| `machines.<path>` | マシン個別のオン/オフ。任意のマシン（マルチブロックまたは圧縮シングルブロック系統、例: `machines.megaSteamGrinder`, `machines.compressedMacerator`）を個別に無効化できます。無効化したマシンはツールチップに「Disabled by config」と表示され動作しません。 | true |
 
 ## 依存関係
 

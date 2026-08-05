@@ -58,6 +58,9 @@ public class ShishamoTech {
         STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.ultimate_universal_storage.pipe_tip", "§7Connect item and fluid pipes directly to the controller, or attach it to the ME network. Form the §a3x3x3 §7multiblock with Steel Solid Casings first.");
         STRegistration.REGISTRATE.addRawLang("shishamo_tech.gui.ultimate.item_count", "§7Item Count");
         STRegistration.REGISTRATE.addRawLang("shishamo_tech.gui.ultimate.fluid_amount", "§7Fluid Amount");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.me_long.slot_capacity", "§7Configurable slot amounts up to §aLong.MAX_VALUE");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.me_long.buffer_capacity", "§7Internal buffer up to §aLong.MAX_VALUE");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.me_dual.item_fluid", "§7Accepts both items and fluids in a single block");
     }
 
     private void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {

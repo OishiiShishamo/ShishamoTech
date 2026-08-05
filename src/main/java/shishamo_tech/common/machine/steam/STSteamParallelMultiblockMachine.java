@@ -32,7 +32,7 @@ public class STSteamParallelMultiblockMachine extends SteamParallelMultiblockMac
         if (!(machine instanceof STSteamParallelMultiblockMachine steamMachine)) {
             return ModifierFunction.IDENTITY;
         }
-        if (!STConfig.isSteamEnabled()) {
+        if (!STConfig.isSteamEnabled() || !STConfig.isMachineEnabled(machine)) {
             return ModifierFunction.NULL;
         }
         int targetParallels = steamMachine.getMaxParallels();

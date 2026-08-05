@@ -14,6 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import shishamo_tech.STRegistration;
 import shishamo_tech.common.recipe.STRecipeTypes;
+import shishamo_tech.config.STConfig;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
@@ -73,6 +74,7 @@ public final class STAE2Machines {
                         .build())
                 .workableCasingModel(casingTexture, overlayModel)
                 .tooltipBuilder((stack, tooltips) -> {
+                        STConfig.checkMachineDisabledTooltip(name, tooltips);
                         tooltips.add(Component.translatable(
                                 "shishamo_tech.machine.parallel_count", parallel));
                         tooltips.add(recipeTypeTooltip(STRecipeTypes.INSCRIBER_RECIPES));

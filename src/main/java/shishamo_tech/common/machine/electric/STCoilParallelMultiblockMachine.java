@@ -45,7 +45,7 @@ public class STCoilParallelMultiblockMachine extends CoilWorkableElectricMultibl
         if (!(machine instanceof STCoilParallelMultiblockMachine m)) {
             return ModifierFunction.IDENTITY;
         }
-        if (!STConfig.isElectricEnabled()) {
+        if (!STConfig.isElectricEnabled() || !STConfig.isMachineEnabled(machine)) {
             return ModifierFunction.NULL;
         }
         long voltage = STRecipeModifierUtil.getOverclockVoltage(machine);

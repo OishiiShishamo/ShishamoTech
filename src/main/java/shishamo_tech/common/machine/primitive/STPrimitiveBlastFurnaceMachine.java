@@ -74,7 +74,7 @@ public class STPrimitiveBlastFurnaceMachine extends PrimitiveBlastFurnaceMachine
         if (!(machine instanceof STPrimitiveBlastFurnaceMachine pbf)) {
             return ModifierFunction.IDENTITY;
         }
-        if (!STConfig.isSteamEnabled()) {
+        if (!STConfig.isSteamEnabled() || !STConfig.isMachineEnabled(machine)) {
             return ModifierFunction.NULL;
         }
         int actualParallel = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, pbf.getParallelCount());

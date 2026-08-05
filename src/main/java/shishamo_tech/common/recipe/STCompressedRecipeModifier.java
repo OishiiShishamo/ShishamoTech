@@ -10,10 +10,18 @@ import shishamo_tech.config.STConfig;
 public final class STCompressedRecipeModifier {
     private STCompressedRecipeModifier() {}
 
-    public static final RecipeModifier COMPRESSED = STCompressedRecipeModifier::compressedModifier;
+    /**
+     * Builds the 8x-speed modifier for a compressed single block machine family.
+     * The given {@code machinePath} (e.g. "compressed_macerator") is used to look up
+     * the per-machine config toggle shared by all tiers of the family.
+     */
+    public static RecipeModifier compressed(String machinePath) {
+        return (machine, recipe) -> compressedModifier(machine, recipe, machinePath);
+    }
 
-    private static @NotNull ModifierFunction compressedModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
-        if (!STConfig.isCompressedSingleblockRecipesEnabled()) {
+    private static @NotNull ModifierFunction compressedModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe,
+                                                                @NotNull String machinePath) {
+        if (!STConfig.isCompressedSingleblockRecipesEnabled() || !STConfig.isMachineEnabled(machinePath)) {
             return ModifierFunction.IDENTITY;
         }
         return r -> {

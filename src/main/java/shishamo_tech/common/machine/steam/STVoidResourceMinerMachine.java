@@ -164,14 +164,16 @@ public class STVoidResourceMinerMachine extends STSteamParallelMultiblockMachine
         var rawMaterials = ForgeRegistries.ITEMS.tags().getTag(RAW_MATERIALS_TAG);
         if (rawMaterials != null && !rawMaterials.isEmpty()) {
             for (Item item : rawMaterials) {
-                if (item != null && item != Items.AIR) {
+                if (item != null && item != Items.AIR && !isBlacklisted(ForgeRegistries.ITEMS.getKey(item))) {
                     entries.add(new ResourceEntry(new ItemStack(item), FluidStack.EMPTY, RAW_MATERIAL_WEIGHT));
                 }
             }
         }
 
         // Ancient Debris is not part of the forge:raw_materials tag, so it is added explicitly.
-        entries.add(new ResourceEntry(new ItemStack(Items.ANCIENT_DEBRIS, 1), FluidStack.EMPTY, RAW_MATERIAL_WEIGHT));
+        if (!isBlacklisted(ForgeRegistries.ITEMS.getKey(Items.ANCIENT_DEBRIS))) {
+            entries.add(new ResourceEntry(new ItemStack(Items.ANCIENT_DEBRIS, 1), FluidStack.EMPTY, RAW_MATERIAL_WEIGHT));
+        }
 
         for (String spec : STConfig.voidMinerExtraItems) {
             ResourceEntry entry = parseItemEntry(spec);
@@ -185,9 +187,13 @@ public class STVoidResourceMinerMachine extends STSteamParallelMultiblockMachine
     }
 
     private static void addFluid(List<ResourceEntry> entries, FluidStack fluid) {
-        if (fluid != null && !fluid.isEmpty()) {
+        if (fluid != null && !fluid.isEmpty() && !isBlacklisted(ForgeRegistries.FLUIDS.getKey(fluid.getFluid()))) {
             entries.add(new ResourceEntry(ItemStack.EMPTY, fluid, FLUID_WEIGHT));
         }
+    }
+
+    private static boolean isBlacklisted(@Nullable ResourceLocation id) {
+        return id != null && STConfig.voidMinerBlacklist.contains(id.toString());
     }
 
     @Nullable
@@ -195,7 +201,7 @@ public class STVoidResourceMinerMachine extends STSteamParallelMultiblockMachine
         String[] parts = spec.split("\\|");
         if (parts.length == 0) return null;
         ResourceLocation id = ResourceLocation.tryParse(parts[0].trim());
-        if (id == null) return null;
+        if (id == null || isBlacklisted(id)) return null;
         Item item = BuiltInRegistries.ITEM.get(id);
         if (item == null || item == Items.AIR) {
             ShishamoTech.LOGGER.warn("STVoidResourceMinerMachine: unknown item '{}' in voidMinerExtraItems", id);
@@ -212,7 +218,7 @@ public class STVoidResourceMinerMachine extends STSteamParallelMultiblockMachine
         String[] parts = spec.split("\\|");
         if (parts.length == 0) return null;
         ResourceLocation id = ResourceLocation.tryParse(parts[0].trim());
-        if (id == null) return null;
+        if (id == null || isBlacklisted(id)) return null;
         Fluid fluid = BuiltInRegistries.FLUID.get(id);
         if (fluid == null || fluid.isSame(Fluids.EMPTY)) {
             ShishamoTech.LOGGER.warn("STVoidResourceMinerMachine: unknown fluid '{}' in voidMinerExtraFluids", id);

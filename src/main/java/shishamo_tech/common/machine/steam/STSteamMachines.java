@@ -33,6 +33,7 @@ public final class STSteamMachines {
                 .pattern(patternProvider)
                 .workableCasingModel(CASING_TEXTURE, overlayModel)
                 .tooltipBuilder((stack, tooltips) -> {
+                    STConfig.checkMachineDisabledTooltip(name, tooltips);
                     tooltips.add(Component.translatable(
                             "shishamo_tech.machine.parallel", 8 * STConfig.parallelMultiplier));
                     tooltips.add(recipeTypeTooltip(recipeType));
@@ -54,6 +55,7 @@ public final class STSteamMachines {
                 .pattern(patternProvider)
                 .workableCasingModel(CASING_TEXTURE, overlayModel)
                 .tooltipBuilder((stack, tooltips) -> {
+                    STConfig.checkMachineDisabledTooltip(name, tooltips);
                     tooltips.add(Component.translatable(
                             "shishamo_tech.machine.parallel", 8 * STConfig.parallelMultiplier));
                     tooltips.add(Component.translatable("shishamo_tech.machine.void_miner.tooltip"));
@@ -78,6 +80,7 @@ public final class STSteamMachines {
                 .workableCasingModel(
                         GTCEu.id("block/casings/solid/machine_casing_solid_steel"), overlayModel)
                 .tooltipBuilder((stack, tooltips) -> {
+                    STConfig.checkMachineDisabledTooltip(name, tooltips);
                     tooltips.add(Component.translatable(
                             "shishamo_tech.machine.steam_output",
                             LargeSteamBoilerMachine.STEAM_OUTPUT_PER_TICK));

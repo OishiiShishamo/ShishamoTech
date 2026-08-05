@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import shishamo_tech.STRegistration;
+import shishamo_tech.config.STConfig;
 
 import java.util.function.Function;
 
@@ -42,6 +43,7 @@ public final class STElectricMachines {
                 .pattern(patternProvider)
                 .workableCasingModel(casingTexture, overlayModel)
                 .tooltipBuilder((stack, tooltips) -> {
+                    STConfig.checkMachineDisabledTooltip(name, tooltips);
                     tooltips.add(Component.translatable(
                             "shishamo_tech.machine.parallel_count", parallel));
                     var recipeNames = new Component[recipeTypes.length];
@@ -73,6 +75,7 @@ public final class STElectricMachines {
                 .pattern(patternProvider)
                 .workableCasingModel(casingTexture, overlayModel)
                 .tooltipBuilder((stack, tooltips) -> {
+                    STConfig.checkMachineDisabledTooltip(name, tooltips);
                     tooltips.add(Component.translatable(
                             "shishamo_tech.machine.parallel_count", parallel));
                     tooltips.add(recipeTypeTooltip(recipeType));

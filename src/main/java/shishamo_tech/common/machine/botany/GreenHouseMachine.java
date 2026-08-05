@@ -92,7 +92,7 @@ public class GreenHouseMachine extends WorkableElectricMultiblockMachine {
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
         if (!(machine instanceof GreenHouseMachine)) return ModifierFunction.IDENTITY;
         if (!ShishamoTech.isModLoaded("botanypots")) return ModifierFunction.NULL;
-        if (!STConfig.isBotanyEnabled()) return ModifierFunction.NULL;
+        if (!STConfig.isBotanyEnabled() || !STConfig.isMachineEnabled(machine)) return ModifierFunction.NULL;
 
         long voltage = STRecipeModifierUtil.getOverclockVoltage(machine);
         if (voltage <= 0 || RecipeHelper.getRealEUt(recipe).getTotalEU() <= 0) {

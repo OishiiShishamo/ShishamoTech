@@ -12,6 +12,7 @@ import net.minecraft.network.chat.Component;
 import shishamo_tech.STRegistration;
 import shishamo_tech.ShishamoTech;
 import shishamo_tech.common.recipe.STCompressedRecipeModifier;
+import shishamo_tech.config.STConfig;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
@@ -108,9 +109,10 @@ public final class STCompressedMachines {
                                 ShishamoTech.id(name), recipeType))
                         .rotationState(RotationState.NON_Y_AXIS)
                         .recipeType(recipeType)
-                        .recipeModifiers(STCompressedRecipeModifier.COMPRESSED, GTRecipeModifiers.OC_NON_PERFECT)
+                        .recipeModifiers(STCompressedRecipeModifier.compressed(name), GTRecipeModifiers.OC_NON_PERFECT)
                         .workableTieredHullModel(GTCEu.id("block/machines/" + baseMachineName))
                         .tooltipBuilder((stack, tooltips) -> {
+                            STConfig.checkMachineDisabledTooltip(name, tooltips);
                             tooltips.add(Component.literal("§a8x §7processing speed"));
                             for (var t : workableTiered(tier, GTValues.V[tier], GTValues.V[tier] * 64,
                                     recipeType, defaultTankSizeFunction.applyAsInt(tier), true)) {

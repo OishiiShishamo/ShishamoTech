@@ -1,5 +1,6 @@
 package shishamo_tech.common.machine.steam;
 
+import com.gregtechceu.gtceu.api.block.ICoilType;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
@@ -11,12 +12,16 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import com.gregtechceu.gtceu.common.block.CoilBlock;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluids;
 
 import org.jetbrains.annotations.Nullable;
+import shishamo_tech.common.recipe.STOverclockingLogic;
+import shishamo_tech.config.STConfig;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +36,8 @@ public class LargeSteamBoilerMachine extends WorkableMultiblockMachine implement
     @Nullable
     protected TickableSubscription steamSubs;
 
+    private ICoilType coilType = CoilBlock.CoilType.CUPRONICKEL;
+
     public LargeSteamBoilerMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
     }
@@ -38,6 +45,30 @@ public class LargeSteamBoilerMachine extends WorkableMultiblockMachine implement
     @Override
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
+    }
+
+    @Override
+    public void onStructureFormed() {
+        super.onStructureFormed();
+        if (getMultiblockState().getMatchContext().get("CoilType") instanceof ICoilType coil) {
+            this.coilType = coil;
+        }
+    }
+
+    public int getCoilTier() {
+        return coilType.getTier();
+    }
+
+    public int getSteamOutputMultiplier() {
+        return STOverclockingLogic.getCoilBonus(getCoilTier());
+    }
+
+    public long getSteamOutputPerTick() {
+        return getSteamOutputPerTick(getCoilTier());
+    }
+
+    public static long getSteamOutputPerTick(int coilTier) {
+        return (long) STEAM_OUTPUT_PER_TICK * STOverclockingLogic.getCoilBonus(coilTier);
     }
 
     @Override
@@ -76,8 +107,7 @@ public class LargeSteamBoilerMachine extends WorkableMultiblockMachine implement
         if (getOffsetTimer() % TICKS_PER_STEAM_GENERATION != 0) return;
         if (!isFormed() || !recipeLogic.isWorking()) return;
 
-        int steamToGenerate = STEAM_OUTPUT_PER_TICK * TICKS_PER_STEAM_GENERATION;
-        int waterRequired = steamToGenerate;
+        int waterRequired = STEAM_OUTPUT_PER_TICK * TICKS_PER_STEAM_GENERATION;
 
         var drainWater = List.of(FluidIngredient.of(Fluids.WATER, waterRequired));
         List<IRecipeHandler<?>> inputTanks = new ArrayList<>();
@@ -91,7 +121,7 @@ public class LargeSteamBoilerMachine extends WorkableMultiblockMachine implement
                 waterRequired - drainWater.get(0).getAmount();
         if (drained <= 0) return;
 
-        int steamProduced = drained;
+        int steamProduced = drained * getSteamOutputMultiplier();
         var fillSteam = List.of(FluidIngredient.of(GTMaterials.Steam.getFluid(steamProduced)));
         List<IRecipeHandler<?>> outputTanks = new ArrayList<>();
         outputTanks.addAll(getCapabilitiesFlat(IO.OUT, FluidRecipeCapability.CAP));
@@ -106,15 +136,19 @@ public class LargeSteamBoilerMachine extends WorkableMultiblockMachine implement
     public void addDisplayText(List<Component> textList) {
         if (isFormed()) {
             if (recipeLogic.isWorking()) {
-                int waterPerTick = STEAM_OUTPUT_PER_TICK;
-                textList.add(Component.translatable("shishamo_tech.machine.steam_output", STEAM_OUTPUT_PER_TICK));
-                textList.add(Component.translatable("shishamo_tech.machine.water_consumption", waterPerTick));
+                textList.add(Component.translatable("shishamo_tech.machine.steam_output", getSteamOutputPerTick()));
+                textList.add(Component.translatable("shishamo_tech.machine.water_consumption", STEAM_OUTPUT_PER_TICK));
             }
+            textList.add(Component.translatable("shishamo_tech.machine.coil_tier",
+                    Component.translatable("block.gtceu." + coilType.getName() + "_coil_block")));
         }
         IDisplayUIMachine.super.addDisplayText(textList);
     }
 
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
+        if (!STConfig.isSteamEnabled() || !STConfig.isMachineEnabled(machine)) {
+            return ModifierFunction.NULL;
+        }
         return ModifierFunction.IDENTITY;
     }
 }

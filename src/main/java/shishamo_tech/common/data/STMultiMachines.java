@@ -17,8 +17,10 @@ import net.minecraft.world.level.block.Blocks;
 import shishamo_tech.STRegistration;
 import shishamo_tech.common.machine.primitive.STPrimitiveBlastFurnaceMachine;
 import shishamo_tech.common.machine.storage.STUltimateUniversalStorageMachine;
+import shishamo_tech.common.machine.ae2.STAE2PartMachines;
 import shishamo_tech.ShishamoTech;
 import shishamo_tech.common.recipe.STRecipeTypes;
+import shishamo_tech.config.STConfig;
 
 import java.util.function.Function;
 
@@ -281,6 +283,7 @@ public class STMultiMachines {
                         GTCEu.id("block/casings/solid/machine_primitive_bricks"),
                         GTCEu.id("block/multiblock/primitive_blast_furnace"))
                 .tooltipBuilder((stack, tooltips) -> {
+                    STConfig.checkMachineDisabledTooltip("hyper_primitive_blast_furnace", tooltips);
                     tooltips.add(Component.translatable(
                             "shishamo_tech.machine.parallel_count",
                             STPrimitiveBlastFurnaceMachine.getDisplayParallelCount()));
@@ -756,6 +759,8 @@ public class STMultiMachines {
                 GTBlocks.CASING_TUNGSTENSTEEL_ROBUST,
                 GTCEu.id("block/casings/solid/machine_casing_robust_tungstensteel"),
                 GTCEu.id("block/multiblock/gcym/large_material_press"));
+
+        STAE2PartMachines.init();
     }
 
     public static void botanyInit() {
@@ -794,6 +799,7 @@ public class STMultiMachines {
                 .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
                         GTCEu.id("block/multiblock/multiblock_tank"))
                 .tooltipBuilder((stack, tooltips) -> {
+                    STConfig.checkMachineDisabledTooltip("ultimate_universal_storage", tooltips);
                     tooltips.add(Component.translatable("shishamo_tech.machine.ultimate_universal_storage.tooltip"));
                     tooltips.add(Component.translatable("shishamo_tech.machine.ultimate_universal_storage.pipe_tip"));
                     tooltips.add(Component.translatable("shishamo_tech.machine.configurable.tooltip"));
