@@ -34,6 +34,11 @@ public class AssemblerRecipeLoader {
                 .outputItems(GOD_STEAM_BOILER, 1)
                 .duration(65536).EUt(V[HV], 1).save(consumer);
 
+        ASSEMBLER_RECIPES.recipeBuilder("giga_ebf")
+                .inputItems(ELECTRIC_BLAST_FURNACE.asStack(), 64)
+                .inputItems(MV_CIRCUITS, 64)
+                .outputItems(GIGA_EBF)
+                .duration(65536).EUt(V[MV], 1).save(consumer);
         ASSEMBLER_RECIPES.recipeBuilder("hyper_tower_centrifuge")
                 .inputItems(LARGE_CENTRIFUGE.asStack(), 64)
                 .inputItems(IV_CIRCUITS, 64)

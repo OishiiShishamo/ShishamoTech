@@ -94,6 +94,7 @@ public final class STConfig {
             "large_distillation_tower",
             "eternal_force_freezer",
             "non_omnipotent_universe_forge",
+            "giga_ebf",
             // AE2
             "press_free_inscriber_mv",
             "press_free_inscriber_hv",
