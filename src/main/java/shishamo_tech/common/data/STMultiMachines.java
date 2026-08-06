@@ -276,7 +276,7 @@ public class STMultiMachines {
                 .rotationState(RotationState.ALL)
                 .langValue("Hyper Primitive Blast Furnace")
                 .recipeType(GTRecipeTypes.PRIMITIVE_BLAST_FURNACE_RECIPES)
-                .recipeModifiers(STPrimitiveBlastFurnaceMachine::recipeModifier, BATCH_MODE)
+                .recipeModifiers(STPrimitiveBlastFurnaceMachine::recipeModifier)
                 .appearanceBlock(GTBlocks.CASING_PRIMITIVE_BRICKS)
                 .pattern(primitiveBlastFurnacePattern())
                 .workableCasingModel(

@@ -33,6 +33,18 @@ public final class STRegistration {
                             output.accept(new ItemStack(item));
                         }
                     }
+                    for (var entry : REGISTRATE.getAll(Registries.ITEM)) {
+                        if (!REGISTRATE.isInCreativeTab(entry, creativeTab)) continue;
+                        var item = entry.get();
+                        if (item instanceof net.minecraft.world.item.BlockItem) continue;
+                        if (item instanceof IComponentItem componentItem) {
+                            var items = NonNullList.<ItemStack>create();
+                            componentItem.fillItemCategory((CreativeModeTab) creativeTab.get(), items);
+                            items.forEach(output::accept);
+                        } else {
+                            output.accept(new ItemStack(item));
+                        }
+                    }
                 })).register();
         REGISTRATE.creativeModeTab(tab);
     }

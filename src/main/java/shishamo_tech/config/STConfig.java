@@ -30,6 +30,14 @@ public final class STConfig {
             .comment("Enable AE2 integration multiblocks (requires AE2 installed)")
             .define("enableAE2Integration", true);
 
+    public static final ForgeConfigSpec.BooleanValue ENABLE_ME_STEAM_SUPPLY_COVER = BUILDER
+            .comment("Enable the ME Steam Supply Cover (requires AE2 installed)")
+            .define("enableMESteamSupplyCover", true);
+
+    public static final ForgeConfigSpec.BooleanValue ENABLE_ME_INDUCTION_COVER = BUILDER
+            .comment("Enable the ME Induction Cover (requires AE2 and Applied Flux installed)")
+            .define("enableMEInductionCover", true);
+
     public static final ForgeConfigSpec.BooleanValue ENABLE_BOTANY_INTEGRATION = BUILDER
             .comment("Enable Botany Pots integration multiblocks (requires Botany Pots installed)")
             .define("enableBotanyIntegration", true);
@@ -167,6 +175,8 @@ public final class STConfig {
     public static boolean enableSteamMachines = true;
     public static boolean enableElectricMachines = true;
     public static boolean enableAE2Integration = true;
+    public static boolean enableMESteamSupplyCover = true;
+    public static boolean enableMEInductionCover = true;
     public static boolean enableBotanyIntegration = true;
     public static boolean enableMegaSteamVoidResourceMiner = true;
     public static boolean enableUltimateUniversalStorage = true;
@@ -183,6 +193,8 @@ public final class STConfig {
         enableSteamMachines = ENABLE_STEAM_MACHINES.get();
         enableElectricMachines = ENABLE_ELECTRIC_MACHINES.get();
         enableAE2Integration = ENABLE_AE2_INTEGRATION.get();
+        enableMESteamSupplyCover = ENABLE_ME_STEAM_SUPPLY_COVER.get();
+        enableMEInductionCover = ENABLE_ME_INDUCTION_COVER.get();
         enableBotanyIntegration = ENABLE_BOTANY_INTEGRATION.get();
         enableMegaSteamVoidResourceMiner = ENABLE_MEGA_STEAM_VOID_RESOURCE_MINER.get();
         enableUltimateUniversalStorage = ENABLE_ULTIMATE_UNIVERSAL_STORAGE.get();
@@ -211,6 +223,14 @@ public final class STConfig {
 
     public static boolean isBotanyEnabled() {
         return !SPEC.isLoaded() || enableBotanyIntegration;
+    }
+
+    public static boolean isMESteamSupplyCoverEnabled() {
+        return !SPEC.isLoaded() || (enableMESteamSupplyCover && enableAE2Integration);
+    }
+
+    public static boolean isMEInductionCoverEnabled() {
+        return !SPEC.isLoaded() || (enableMEInductionCover && enableAE2Integration);
     }
 
     public static boolean isMegaSteamVoidResourceMinerEnabled() {
@@ -285,6 +305,16 @@ public final class STConfig {
             return enableSteamMachines;
         }
         return enableElectricMachines;
+    }
+
+    /**
+     * Appends the "disabled by config" tooltip line when the cover is turned off.
+     * Returns {@code true} if the cover is currently disabled.
+     */
+    public static boolean checkCoverDisabledTooltip(boolean enabled, List<Component> tooltips) {
+        if (enabled) return false;
+        tooltips.add(Component.translatable("shishamo_tech.cover.disabled"));
+        return true;
     }
 
     /**

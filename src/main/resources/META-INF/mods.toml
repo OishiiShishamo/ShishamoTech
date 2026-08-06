@@ -39,6 +39,13 @@ logoFile = "icon.png"
     side="BOTH"
 
 [[dependencies.${mod_id}]]
+    modId="appflux"
+    mandatory=false
+    versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
     modId="jei"
     mandatory=false
     versionRange="[15.20.0.115,)"

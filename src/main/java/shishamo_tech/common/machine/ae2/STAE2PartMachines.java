@@ -93,26 +93,6 @@ public final class STAE2PartMachines {
                 })
                 .register();
 
-        ME_DUAL_LONG_INPUT_HATCH = STRegistration.REGISTRATE
-                .machine("me_dual_long_input_hatch", MEDualLongInputHatchPartMachine::new)
-                .langValue("ME Dual Long Input Hatch")
-                .tier(ZPM)
-                .rotationState(RotationState.ALL)
-                .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
-                .colorOverlayTieredHullModel(GTCEu.id("block/overlay/appeng/me_input_hatch"))
-                .tooltipBuilder((stack, tooltips) -> {
-                    STConfig.checkMachineDisabledTooltip("me_dual_long_input_hatch", tooltips);
-                    tooltips.add(Component.translatable("shishamo_tech.machine.me_dual.item_fluid"));
-                    tooltips.add(Component.translatable("gtceu.machine.fluid_hatch.import.tooltip"));
-                    tooltips.add(Component.translatable("gtceu.machine.me.fluid_import.tooltip"));
-                    tooltips.add(Component.translatable("gtceu.machine.item_bus.import.tooltip"));
-                    tooltips.add(Component.translatable("gtceu.machine.me.item_import.tooltip"));
-                    tooltips.add(Component.translatable("gtceu.machine.me.copy_paste.tooltip"));
-                    tooltips.add(Component.translatable("shishamo_tech.machine.me_long.slot_capacity"));
-                    tooltips.add(Component.translatable("gtceu.part_sharing.enabled"));
-                })
-                .register();
-
         ME_DUAL_LONG_OUTPUT_HATCH = STRegistration.REGISTRATE
                 .machine("me_dual_long_output_hatch", MEDualLongOutputHatchPartMachine::new)
                 .langValue("ME Dual Long Output Hatch")

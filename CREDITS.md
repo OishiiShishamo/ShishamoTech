@@ -27,3 +27,30 @@ https://creativecommons.org/licenses/by/4.0/
 Multiblock Included: https://github.com/tomatium208/GT-Infinity-Bakery
 
 Multiblock Supporter: Elizabeth Mahiko
+
+# Third-Party Notices
+
+ShishamoTech links against and extends the following third-party libraries.
+This notice is provided in compliance with their respective license terms.
+The GNU LGPL-3.0 text: https://www.gnu.org/licenses/lgpl-3.0.txt
+
+## GregTech CEu — LGPL-3.0
+- Project: https://github.com/GregTechCEu/GregTech-Modern
+- Used as: the base tech framework this mod extends (machines, covers, materials, recipes).
+- License: GNU Lesser General Public License v3.0 (LGPL-3.0).
+
+## Applied Energistics 2 — LGPL-3.0
+- Project: https://github.com/AppliedEnergistics/Applied-Energistics-2
+- Used as: ME network integration (ME Steam Supply Cover, ME Induction Cover).
+- License: GNU Lesser General Public License v3.0 (LGPL-3.0).
+
+## Applied Flux — LGPL-3.0
+- Project: https://github.com/GlodBlock/ExtendedAE
+- Used as: optional ME energy storage integration (ME Induction Cover).
+- License: GNU Lesser General Public License v3.0 (LGPL-3.0).
+
+## LowDragLib (LDLib) — LGPL-3.0
+- Project: https://github.com/Low-Drag-MC/LDLib2
+- Used as: dependency of GregTech CEu (sync storage, GUI framework).
+- License: GNU Lesser General Public License v3.0 (LGPL-3.0).
+- Note: LDLib is a transitive/runtime dependency pulled in by GregTech CEu.

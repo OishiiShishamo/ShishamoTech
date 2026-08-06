@@ -19,6 +19,11 @@ public class STAddon implements IGTAddon {
     public void initializeAddon() {}
 
     @Override
+    public void registerCovers() {
+        shishamo_tech.common.cover.STCovers.init();
+    }
+
+    @Override
     public String addonModId() {
         return ShishamoTech.MOD_ID;
     }

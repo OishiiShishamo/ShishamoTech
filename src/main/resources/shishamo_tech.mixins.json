@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "shishamo_tech.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "MetaMachineBlockEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -64,6 +64,11 @@ public class ShishamoTech {
         STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.disabled", "Machine Disabled");
         STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.disabled_by_config", "Disabled by Config");
         STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.configurable.tooltip", "Configure in the machine UI");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.cover.disabled", "Cover Disabled by Config");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.cover.me_steam_supply.tooltip",
+                "§7Supplies Steam from the ME network to the covered machine. §aConnects to ME cables.");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.cover.me_induction.tooltip",
+                "§7Supplies §aEU §7from the ME network energy storage (Applied Flux) to the covered machine. §aConnects to ME cables.");
     }
 
     private void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {

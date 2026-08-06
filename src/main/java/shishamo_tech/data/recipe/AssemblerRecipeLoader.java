@@ -12,14 +12,19 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Consumer;
 
+import static appeng.core.definitions.AEParts.*;
+import static com.glodblock.github.appflux.common.AFItemAndBlock.*;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.common.data.GTMachines.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES;
 import static com.gregtechceu.gtceu.common.data.machines.GCYMMachines.*;
+import static com.gregtechceu.gtceu.common.data.machines.GTAEMachines.*;
 import static com.gregtechceu.gtceu.common.data.machines.GTMultiMachines.*;
 import static com.gregtechceu.gtceu.data.recipe.CustomTags.*;
 import static shishamo_tech.ShishamoTech.isModLoaded;
+import static shishamo_tech.common.cover.STCovers.*;
 import static shishamo_tech.common.data.STMultiMachines.*;
+import static shishamo_tech.common.machine.ae2.STAE2PartMachines.*;
 
 public class AssemblerRecipeLoader {
     public static void init(Consumer<FinishedRecipe> consumer) {
@@ -74,6 +79,37 @@ public class AssemblerRecipeLoader {
                 .inputItems(SUPER_TANK[LV], 64)
                 .outputItems(ULTIMATE_UNIVERSAL_STORAGE, 1)
                 .duration(65536).EUt(V[LV], 1).save(consumer);
+        ASSEMBLER_RECIPES.recipeBuilder("me_dual_stocking_input_hatch")
+                .inputItems(STOCKING_IMPORT_BUS_ME)
+                .inputItems(STOCKING_IMPORT_HATCH_ME)
+                .outputItems(ME_DUAL_STOCKING_INPUT_HATCH)
+                .duration(1024).EUt(V[EV], 1).save(consumer);
+        ASSEMBLER_RECIPES.recipeBuilder("me_long_output_bus")
+                .inputItems(ITEM_EXPORT_BUS_ME, 8)
+                .outputItems(ME_LONG_OUTPUT_BUS)
+                .duration(1024).EUt(V[EV], 1).save(consumer);
+        ASSEMBLER_RECIPES.recipeBuilder("me_long_output_hatch")
+                .inputItems(FLUID_EXPORT_HATCH_ME, 8)
+                .outputItems(ME_LONG_OUTPUT_HATCH)
+                .duration(1024).EUt(V[EV], 1).save(consumer);
+        ASSEMBLER_RECIPES.recipeBuilder("me_dual_long_output_hatch")
+                .inputItems(ME_LONG_OUTPUT_BUS)
+                .inputItems(ME_LONG_OUTPUT_HATCH)
+                .outputItems(ME_DUAL_LONG_OUTPUT_HATCH)
+                .duration(1024).EUt(V[EV], 1).save(consumer);
+        ASSEMBLER_RECIPES.recipeBuilder("me_steam_supply_cover")
+                .inputItems(EXPORT_BUS.asItem(), 8)
+                .circuitMeta(1)
+                .outputItems(ME_STEAM_SUPPLY_ITEM.get())
+                .duration(512).EUt(V[LV], 1).save(consumer);
+        if (isModLoaded("appflux")) {
+            ASSEMBLER_RECIPES.recipeBuilder("me_induction_cover")
+                    .inputItems(FLUX_ACCESSOR.asItem())
+                    .inputItems(EXPORT_BUS.asItem(), 8)
+                    .circuitMeta(2)
+                    .outputItems(ME_INDUCTION_ITEM.get())
+                    .duration(512).EUt(V[MV], 1).save(consumer);
+        }
 
         if (isModLoaded("botanypots")) {
             ASSEMBLER_RECIPES.recipeBuilder("green_house")
