@@ -38,8 +38,11 @@ Adds massively-parallel "mega" multiblocks spanning every tier, from the Steam a
 - Ultimate Universal Storage
 - (Non) Omnipotent Universe Forge
 
-### AE2 Integration (only active when AE2 is installed)
+### AE2 Integration
 - Press-Free Inscriber (MV / HV / IV / EV)
+- ME (Dual) Long (Stocking) Input / Output Bus / Hatch
+- ME Steam Supply Cover
+- ME Induction Cover
 
 ### Config
 The following options are available in `config/shishamo_tech-common.toml`:

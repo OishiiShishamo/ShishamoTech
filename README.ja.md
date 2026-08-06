@@ -38,8 +38,11 @@ Steam期からMAXティアまで、全ティアを網羅する超巨大パラレ
 - Ultimate Universal Storage
 - (Non) Omnipotent Universe Forge
 
-### AE2連携（AE2導入時のみ有効）
+### AE2連携
 - Press-Free Inscriber（MV / HV / IV / EV）
+- ME (Dual) Long (Stocking) Input / Output Bus / Hatch
+- ME Steam Supply Cover
+- ME Induction Cover
 
 ### Config
 `config/shishamo_tech-common.toml` から以下を設定できます。
