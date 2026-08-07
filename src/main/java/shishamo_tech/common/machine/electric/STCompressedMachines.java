@@ -8,7 +8,9 @@ import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
+import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import net.minecraft.network.chat.Component;
+import net.minecraftforge.fluids.FluidType;
 import shishamo_tech.STRegistration;
 import shishamo_tech.ShishamoTech;
 import shishamo_tech.common.recipe.STCompressedRecipeModifier;
@@ -96,49 +98,49 @@ public final class STCompressedMachines {
     private STCompressedMachines() {}
 
     public static void init() {
-        COMPRESSED_MACERATOR = registerCompressedSimpleMachines("compressed_macerator", MACERATOR_RECIPES, "macerator");
-        COMPRESSED_FURNACE = registerCompressedSimpleMachines("compressed_furnace", FURNACE_RECIPES, "electric_furnace");
-        COMPRESSED_ALLOY_SMELTER = registerCompressedSimpleMachines("compressed_alloy_smelter", ALLOY_SMELTER_RECIPES, "alloy_smelter");
-        COMPRESSED_ARC_FURNACE = registerCompressedSimpleMachines("compressed_arc_furnace", ARC_FURNACE_RECIPES, "arc_furnace");
-        COMPRESSED_ASSEMBLER = registerCompressedSimpleMachines("compressed_assembler", ASSEMBLER_RECIPES, "assembler");
-        COMPRESSED_AUTOCLAVE = registerCompressedSimpleMachines("compressed_autoclave", AUTOCLAVE_RECIPES, "autoclave");
-        COMPRESSED_BENDER = registerCompressedSimpleMachines("compressed_bender", BENDER_RECIPES, "bender");
-        COMPRESSED_CANNER = registerCompressedSimpleMachines("compressed_canner", CANNER_RECIPES, "canner");
-        COMPRESSED_CENTRIFUGE = registerCompressedSimpleMachines("compressed_centrifuge", CENTRIFUGE_RECIPES, "centrifuge");
-        COMPRESSED_CHEMICAL_BATH = registerCompressedSimpleMachines("compressed_chemical_bath", CHEMICAL_BATH_RECIPES, "chemical_bath");
-        COMPRESSED_CHEMICAL_REACTOR = registerCompressedSimpleMachines("compressed_chemical_reactor", CHEMICAL_RECIPES, "chemical_reactor");
-        COMPRESSED_COMPRESSOR = registerCompressedSimpleMachines("compressed_compressor", COMPRESSOR_RECIPES, "compressor");
-        COMPRESSED_CUTTER = registerCompressedSimpleMachines("compressed_cutter_saw", CUTTER_RECIPES, "cutter");
-        COMPRESSED_DISTILLERY = registerCompressedSimpleMachines("compressed_distillery", DISTILLERY_RECIPES, "distillery");
-        COMPRESSED_ELECTROLYZER = registerCompressedSimpleMachines("compressed_electrolyzer", ELECTROLYZER_RECIPES, "electrolyzer");
-        COMPRESSED_ELECTROMAGNETIC_SEPARATOR = registerCompressedSimpleMachines("compressed_electromagnetic_separator", ELECTROMAGNETIC_SEPARATOR_RECIPES, "electromagnetic_separator");
-        COMPRESSED_EXTRACTOR = registerCompressedSimpleMachines("compressed_extractor", EXTRACTOR_RECIPES, "extractor");
-        COMPRESSED_EXTRUDER = registerCompressedSimpleMachines("compressed_extruder", EXTRUDER_RECIPES, "extruder");
-        COMPRESSED_FERMENTING = registerCompressedSimpleMachines("compressed_fermenter", FERMENTING_RECIPES, "fermenter");
-        COMPRESSED_FLUID_HEATER = registerCompressedSimpleMachines("compressed_fluid_heater", FLUID_HEATER_RECIPES, "fluid_heater");
-        COMPRESSED_FLUID_SOLIDFICATION = registerCompressedSimpleMachines("compressed_fluid_solidifier", FLUID_SOLIDFICATION_RECIPES, "fluid_solidifier");
-        COMPRESSED_FORGE_HAMMER = registerCompressedSimpleMachines("compressed_forge_hammer", FORGE_HAMMER_RECIPES, "forge_hammer");
-        COMPRESSED_FORMING_PRESS = registerCompressedSimpleMachines("compressed_forming_press", FORMING_PRESS_RECIPES, "forming_press");
-        COMPRESSED_LATHE = registerCompressedSimpleMachines("compressed_lathe", LATHE_RECIPES, "lathe");
-        COMPRESSED_MIXER = registerCompressedSimpleMachines("compressed_mixer", MIXER_RECIPES, "mixer");
-        COMPRESSED_ORE_WASHER = registerCompressedSimpleMachines("compressed_ore_washer", ORE_WASHER_RECIPES, "ore_washer");
-        COMPRESSED_PACKER = registerCompressedSimpleMachines("compressed_packer", PACKER_RECIPES, "packer");
-        COMPRESSED_POLARIZER = registerCompressedSimpleMachines("compressed_polarizer", POLARIZER_RECIPES, "polarizer");
-        COMPRESSED_LASER_ENGRAVER = registerCompressedSimpleMachines("compressed_laser_engraver", LASER_ENGRAVER_RECIPES, "laser_engraver");
-        COMPRESSED_SIFTER = registerCompressedSimpleMachines("compressed_sifter", SIFTER_RECIPES, "sifter");
-        COMPRESSED_THERMAL_CENTRIFUGE = registerCompressedSimpleMachines("compressed_thermal_centrifuge", THERMAL_CENTRIFUGE_RECIPES, "thermal_centrifuge");
-        COMPRESSED_WIREMILL = registerCompressedSimpleMachines("compressed_wiremill", WIREMILL_RECIPES, "wiremill");
-        COMPRESSED_CIRCUIT_ASSEMBLER = registerCompressedSimpleMachines("compressed_circuit_assembler", CIRCUIT_ASSEMBLER_RECIPES, "circuit_assembler");
-        COMPRESSED_ROCK_BREAKER = registerCompressedSimpleMachines("compressed_rock_breaker", ROCK_BREAKER_RECIPES, "rock_breaker");
-        COMPRESSED_SCANNER = registerCompressedSimpleMachines("compressed_scanner", SCANNER_RECIPES, "scanner");
+        COMPRESSED_MACERATOR = registerCompressedSimpleMachines("compressed_macerator", MACERATOR_RECIPES, "macerator", defaultTankSizeFunction);
+        COMPRESSED_FURNACE = registerCompressedSimpleMachines("compressed_furnace", FURNACE_RECIPES, "electric_furnace", defaultTankSizeFunction);
+        COMPRESSED_ALLOY_SMELTER = registerCompressedSimpleMachines("compressed_alloy_smelter", ALLOY_SMELTER_RECIPES, "alloy_smelter", defaultTankSizeFunction);
+        COMPRESSED_ARC_FURNACE = registerCompressedSimpleMachines("compressed_arc_furnace", ARC_FURNACE_RECIPES, "arc_furnace", defaultTankSizeFunction);
+        COMPRESSED_ASSEMBLER = registerCompressedSimpleMachines("compressed_assembler", ASSEMBLER_RECIPES, "assembler", hvCappedTankSizeFunction);
+        COMPRESSED_AUTOCLAVE = registerCompressedSimpleMachines("compressed_autoclave", AUTOCLAVE_RECIPES, "autoclave", hvCappedTankSizeFunction);
+        COMPRESSED_BENDER = registerCompressedSimpleMachines("compressed_bender", BENDER_RECIPES, "bender", defaultTankSizeFunction);
+        COMPRESSED_CANNER = registerCompressedSimpleMachines("compressed_canner", CANNER_RECIPES, "canner", defaultTankSizeFunction);
+        COMPRESSED_CENTRIFUGE = registerCompressedSimpleMachines("compressed_centrifuge", CENTRIFUGE_RECIPES, "centrifuge", largeTankSizeFunction);
+        COMPRESSED_CHEMICAL_BATH = registerCompressedSimpleMachines("compressed_chemical_bath", CHEMICAL_BATH_RECIPES, "chemical_bath", hvCappedTankSizeFunction);
+        COMPRESSED_CHEMICAL_REACTOR = registerCompressedSimpleMachines("compressed_chemical_reactor", CHEMICAL_RECIPES, "chemical_reactor", tier -> 16 * FluidType.BUCKET_VOLUME);
+        COMPRESSED_COMPRESSOR = registerCompressedSimpleMachines("compressed_compressor", COMPRESSOR_RECIPES, "compressor", defaultTankSizeFunction);
+        COMPRESSED_CUTTER = registerCompressedSimpleMachines("compressed_cutter_saw", CUTTER_RECIPES, "cutter", defaultTankSizeFunction);
+        COMPRESSED_DISTILLERY = registerCompressedSimpleMachines("compressed_distillery", DISTILLERY_RECIPES, "distillery", hvCappedTankSizeFunction);
+        COMPRESSED_ELECTROLYZER = registerCompressedSimpleMachines("compressed_electrolyzer", ELECTROLYZER_RECIPES, "electrolyzer", largeTankSizeFunction);
+        COMPRESSED_ELECTROMAGNETIC_SEPARATOR = registerCompressedSimpleMachines("compressed_electromagnetic_separator", ELECTROMAGNETIC_SEPARATOR_RECIPES, "electromagnetic_separator", defaultTankSizeFunction);
+        COMPRESSED_EXTRACTOR = registerCompressedSimpleMachines("compressed_extractor", EXTRACTOR_RECIPES, "extractor", defaultTankSizeFunction);
+        COMPRESSED_EXTRUDER = registerCompressedSimpleMachines("compressed_extruder", EXTRUDER_RECIPES, "extruder", defaultTankSizeFunction);
+        COMPRESSED_FERMENTING = registerCompressedSimpleMachines("compressed_fermenter", FERMENTING_RECIPES, "fermenter", hvCappedTankSizeFunction);
+        COMPRESSED_FLUID_HEATER = registerCompressedSimpleMachines("compressed_fluid_heater", FLUID_HEATER_RECIPES, "fluid_heater", hvCappedTankSizeFunction);
+        COMPRESSED_FLUID_SOLIDFICATION = registerCompressedSimpleMachines("compressed_fluid_solidifier", FLUID_SOLIDFICATION_RECIPES, "fluid_solidifier", hvCappedTankSizeFunction);
+        COMPRESSED_FORGE_HAMMER = registerCompressedSimpleMachines("compressed_forge_hammer", FORGE_HAMMER_RECIPES, "forge_hammer", defaultTankSizeFunction);
+        COMPRESSED_FORMING_PRESS = registerCompressedSimpleMachines("compressed_forming_press", FORMING_PRESS_RECIPES, "forming_press", defaultTankSizeFunction);
+        COMPRESSED_LATHE = registerCompressedSimpleMachines("compressed_lathe", LATHE_RECIPES, "lathe", defaultTankSizeFunction);
+        COMPRESSED_MIXER = registerCompressedSimpleMachines("compressed_mixer", MIXER_RECIPES, "mixer", hvCappedTankSizeFunction);
+        COMPRESSED_ORE_WASHER = registerCompressedSimpleMachines("compressed_ore_washer", ORE_WASHER_RECIPES, "ore_washer", defaultTankSizeFunction);
+        COMPRESSED_PACKER = registerCompressedSimpleMachines("compressed_packer", PACKER_RECIPES, "packer", defaultTankSizeFunction);
+        COMPRESSED_POLARIZER = registerCompressedSimpleMachines("compressed_polarizer", POLARIZER_RECIPES, "polarizer", defaultTankSizeFunction);
+        COMPRESSED_LASER_ENGRAVER = registerCompressedSimpleMachines("compressed_laser_engraver", LASER_ENGRAVER_RECIPES, "laser_engraver", defaultTankSizeFunction);
+        COMPRESSED_SIFTER = registerCompressedSimpleMachines("compressed_sifter", SIFTER_RECIPES, "sifter", defaultTankSizeFunction);
+        COMPRESSED_THERMAL_CENTRIFUGE = registerCompressedSimpleMachines("compressed_thermal_centrifuge", THERMAL_CENTRIFUGE_RECIPES, "thermal_centrifuge", defaultTankSizeFunction);
+        COMPRESSED_WIREMILL = registerCompressedSimpleMachines("compressed_wiremill", WIREMILL_RECIPES, "wiremill", defaultTankSizeFunction);
+        COMPRESSED_CIRCUIT_ASSEMBLER = registerCompressedSimpleMachines("compressed_circuit_assembler", CIRCUIT_ASSEMBLER_RECIPES, "circuit_assembler", hvCappedTankSizeFunction);
+        COMPRESSED_ROCK_BREAKER = registerCompressedSimpleMachines("compressed_rock_breaker", ROCK_BREAKER_RECIPES, "rock_breaker", defaultTankSizeFunction);
+        COMPRESSED_SCANNER = registerCompressedSimpleMachines("compressed_scanner", SCANNER_RECIPES, "scanner", defaultTankSizeFunction);
     }
 
     private static MachineDefinition[] registerCompressedSimpleMachines(
-            String name, GTRecipeType recipeType, String baseMachineName) {
+            String name, GTRecipeType recipeType, String baseMachineName, Int2IntFunction tankScalingFunction) {
         return GTMachineUtils.registerTieredMachines(
                 STRegistration.REGISTRATE,
                 name,
-                (holder, tier) -> new SimpleTieredMachine(holder, tier, defaultTankSizeFunction),
+                (holder, tier) -> new SimpleTieredMachine(holder, tier, tankScalingFunction),
                 (tier, builder) -> builder
                         .langValue("Compressed %s %s %s".formatted(ST_VLVH[tier], toEnglishName(baseMachineName), ST_VLVT[tier]))
                         .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
@@ -151,7 +153,7 @@ public final class STCompressedMachines {
                             STConfig.checkMachineDisabledTooltip(name, tooltips);
                             tooltips.add(Component.literal("§a8x §7processing speed"));
                             for (var t : workableTiered(tier, GTValues.V[tier], GTValues.V[tier] * 64,
-                                    recipeType, defaultTankSizeFunction.applyAsInt(tier), true)) {
+                                    recipeType, tankScalingFunction.applyAsInt(tier), true)) {
                                 tooltips.add(t);
                             }
                         })
