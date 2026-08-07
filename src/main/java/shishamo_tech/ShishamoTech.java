@@ -45,14 +45,14 @@ public class ShishamoTech {
         STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.inscriber.circuit", "§7Use Integrated Circuit to select output variant when multiple recipes share the same input");
         STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.inscriber.jei_circuit", "§7Circuit: §a%d");
         STRegistration.REGISTRATE.addRawLang("itemGroup.shishamo_tech", "ShishamoTech");
-        STRegistration.REGISTRATE.addRawLang("shishamo_tech.recipe.category.st_inscriber", "Press-Free Inscriber");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.st_inscriber", "Press-Free Inscriber");
         STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.compressed.8x_speed", "§a8x §7processing speed");
-        STRegistration.REGISTRATE.addRawLang("shishamo_tech.recipe.category.green_house", "Green House");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.green_house", "Green House");
         STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.seed_slots", "§7Seeds: §a%d§7/§a%d");
         STRegistration.REGISTRATE.addRawLang("shishamo_tech.gui.seed_tray", "Seed Tray");
         STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.void_miner.tooltip", "§7Generates random resources from the Void");
         STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.void_miner.resources", "§7Available Resources: §a%d");
-        STRegistration.REGISTRATE.addRawLang("shishamo_tech.recipe.category.void_resource_mining", "Void Resource Mining");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.void_resource_mining", "Void Resource Mining");
         STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.ultimate_universal_storage", "Ultimate Universal Storage");
         STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.ultimate_universal_storage.tooltip", "§7Ultimate storage with §a8 §7sections. Each section holds either items or fluids with §aunlimited §7(BigInteger) amounts, and the controller acts as §aAE2 native storage§7 on the ME network.");
         STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.ultimate_universal_storage.pipe_tip", "§7Connect item and fluid pipes directly to the controller, or attach it to the ME network. Form the §a3x3x3 §7multiblock with Steel Solid Casings first.");

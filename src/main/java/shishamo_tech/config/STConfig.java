@@ -38,6 +38,16 @@ public final class STConfig {
             .comment("Enable the ME Induction Cover (requires AE2 and Applied Flux installed)")
             .define("enableMEInductionCover", true);
 
+    public static final ForgeConfigSpec.IntValue ME_INDUCTION_COVER_POLL_INTERVAL = BUILDER
+            .comment("Ticks between ME storage polls for the ME Induction Cover's supply buffer. Default 20 (once per second).")
+            .defineInRange("meInductionCoverPollInterval", 20, 1, 600);
+
+    public static final ForgeConfigSpec.IntValue ME_INDUCTION_COVER_BUFFER_TICKS = BUILDER
+            .comment("Ticks of the machine's max input that the ME Induction Cover's supply buffer holds.",
+                    "A larger buffer keeps the machine's container topped up for longer between ME polls.",
+                    "Default 200 (10 seconds).")
+            .defineInRange("meInductionCoverBufferTicks", 200, 1, 3600);
+
     public static final ForgeConfigSpec.BooleanValue ENABLE_BOTANY_INTEGRATION = BUILDER
             .comment("Enable Botany Pots integration multiblocks (requires Botany Pots installed)")
             .define("enableBotanyIntegration", true);
@@ -178,6 +188,8 @@ public final class STConfig {
     public static boolean enableAE2Integration = true;
     public static boolean enableMESteamSupplyCover = true;
     public static boolean enableMEInductionCover = true;
+    public static int meInductionCoverPollInterval = 20;
+    public static int meInductionCoverBufferTicks = 200;
     public static boolean enableBotanyIntegration = true;
     public static boolean enableMegaSteamVoidResourceMiner = true;
     public static boolean enableUltimateUniversalStorage = true;
@@ -196,6 +208,8 @@ public final class STConfig {
         enableAE2Integration = ENABLE_AE2_INTEGRATION.get();
         enableMESteamSupplyCover = ENABLE_ME_STEAM_SUPPLY_COVER.get();
         enableMEInductionCover = ENABLE_ME_INDUCTION_COVER.get();
+        meInductionCoverPollInterval = ME_INDUCTION_COVER_POLL_INTERVAL.get();
+        meInductionCoverBufferTicks = ME_INDUCTION_COVER_BUFFER_TICKS.get();
         enableBotanyIntegration = ENABLE_BOTANY_INTEGRATION.get();
         enableMegaSteamVoidResourceMiner = ENABLE_MEGA_STEAM_VOID_RESOURCE_MINER.get();
         enableUltimateUniversalStorage = ENABLE_ULTIMATE_UNIVERSAL_STORAGE.get();
@@ -232,6 +246,20 @@ public final class STConfig {
 
     public static boolean isMEInductionCoverEnabled() {
         return !SPEC.isLoaded() || (enableMEInductionCover && enableAE2Integration);
+    }
+
+    /**
+     * Ticks between ME storage polls for the ME Induction Cover's supply buffer.
+     */
+    public static int getMEInductionCoverPollInterval() {
+        return SPEC.isLoaded() ? meInductionCoverPollInterval : 20;
+    }
+
+    /**
+     * Ticks of the machine's max input that the ME Induction Cover's supply buffer holds.
+     */
+    public static int getMEInductionCoverBufferTicks() {
+        return SPEC.isLoaded() ? meInductionCoverBufferTicks : 200;
     }
 
     public static boolean isMegaSteamVoidResourceMinerEnabled() {

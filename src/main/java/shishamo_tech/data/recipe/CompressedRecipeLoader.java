@@ -85,6 +85,8 @@ public class CompressedRecipeLoader {
                     GTMachines.ROCK_CRUSHER[tier], COMPRESSED_ROCK_BREAKER[tier]);
             addCompressedCrafting(provider, "compressed_scanner", tier,
                     GTMachines.SCANNER[tier], COMPRESSED_SCANNER[tier]);
+            addCompressedCrafting(provider, "compressed_brewery", tier,
+                    GTMachines.BREWERY[tier], COMPRESSED_BREWERY[tier]);
         }
     }
 

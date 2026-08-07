@@ -58,6 +58,7 @@ public final class STCompressedMachines {
     public static MachineDefinition[] COMPRESSED_CIRCUIT_ASSEMBLER;
     public static MachineDefinition[] COMPRESSED_ROCK_BREAKER;
     public static MachineDefinition[] COMPRESSED_SCANNER;
+    public static MachineDefinition[] COMPRESSED_BREWERY;
 
     private static final String[] ST_VLVH = new String[] {
             "§0Primitive",
@@ -133,6 +134,7 @@ public final class STCompressedMachines {
         COMPRESSED_CIRCUIT_ASSEMBLER = registerCompressedSimpleMachines("compressed_circuit_assembler", CIRCUIT_ASSEMBLER_RECIPES, "circuit_assembler", hvCappedTankSizeFunction);
         COMPRESSED_ROCK_BREAKER = registerCompressedSimpleMachines("compressed_rock_breaker", ROCK_BREAKER_RECIPES, "rock_breaker", defaultTankSizeFunction);
         COMPRESSED_SCANNER = registerCompressedSimpleMachines("compressed_scanner", SCANNER_RECIPES, "scanner", defaultTankSizeFunction);
+        COMPRESSED_BREWERY = registerCompressedSimpleMachines("compressed_brewery", BREWING_RECIPES, "brewery", hvCappedTankSizeFunction);
     }
 
     private static MachineDefinition[] registerCompressedSimpleMachines(
