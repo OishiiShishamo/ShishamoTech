@@ -24,6 +24,7 @@ Steam期からMAXティアまで、全ティアを網羅する超巨大パラレ
 - Hyper Primitive Blast Furnace
 
 ### Electric系メガマルチブロック
+- GIGA EBF
 - Large Arc Furnace
 - Large Assembly Plant
 - Large Distillation Tower

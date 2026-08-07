@@ -24,6 +24,7 @@ Adds massively-parallel "mega" multiblocks spanning every tier, from the Steam a
 - Hyper Primitive Blast Furnace
 
 ### Electric-era Mega Multiblocks
+- GIGA EBF
 - Large Arc Furnace
 - Large Assembly Plant
 - Large Distillation Tower
