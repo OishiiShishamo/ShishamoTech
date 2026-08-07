@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
@@ -54,10 +55,14 @@ public class MEDualLongOutputHatchPartMachine extends MEHatchPartMachine impleme
     @Persisted
     private KeyStorage itemBuffer;
 
+    private NotifiableItemStackHandler itemHandler;
+    @Nullable
+    private ISubscription itemSubs;
+
     public MEDualLongOutputHatchPartMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, IO.OUT, args);
         this.itemBuffer = new KeyStorage();
-        new InaccessibleInfiniteHandler(this);
+        this.itemHandler = new InaccessibleInfiniteHandler(this);
     }
 
     /////////////////////////////////
@@ -68,6 +73,22 @@ public class MEDualLongOutputHatchPartMachine extends MEHatchPartMachine impleme
     protected NotifiableFluidTank createTank(int initialCapacity, int slots, Object... args) {
         this.fluidBuffer = new KeyStorage();
         return new InaccessibleInfiniteTank(this);
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        if (isRemote()) return;
+        this.itemSubs = this.itemHandler.addChangedListener(this::updateTankSubscription);
+    }
+
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        if (this.itemSubs != null) {
+            this.itemSubs.unsubscribe();
+            this.itemSubs = null;
+        }
     }
 
     @Override
