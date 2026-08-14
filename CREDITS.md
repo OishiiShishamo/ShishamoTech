@@ -26,7 +26,7 @@ https://creativecommons.org/licenses/by/4.0/
 
 Multiblock Included: https://github.com/tomatium208/GT-Infinity-Bakery
 
-Multiblock Supporters: Elizabeth Mahiko 
+Multiblock Supporters: Elizabeth Mahiko, ho9tocraft
 
 # Third-Party Notices
 
