@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEStockingHatchPartMachine;
+import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAEFluidSlot;
 import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAEItemList;
 import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAEItemSlot;
 import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAESlot;
@@ -93,6 +94,23 @@ public class MEDualStockingInputHatchPartMachine extends MEStockingHatchPartMach
                 refreshItemList();
             }
             syncItemME();
+            syncFluidME();
+        }
+    }
+
+    protected void syncFluidME() {
+        MEStorage networkInv = this.getMainNode().getGrid().getStorageService().getInventory();
+        for (ExportOnlyAEFluidSlot slot : this.aeFluidHandler.getInventory()) {
+            var config = slot.getConfig();
+            if (config != null) {
+                var key = config.what();
+                long extracted = networkInv.extract(key, Long.MAX_VALUE, Actionable.SIMULATE, actionSource);
+                if (extracted >= getMinStackSize()) {
+                    slot.setStock(new GenericStack(key, extracted));
+                    continue;
+                }
+            }
+            slot.setStock(null);
         }
     }
 

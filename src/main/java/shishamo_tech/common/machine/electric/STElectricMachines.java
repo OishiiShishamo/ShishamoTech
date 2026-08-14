@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
+import com.gregtechceu.gtceu.common.machine.multiblock.electric.AssemblyLineMachine;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -54,6 +55,32 @@ public final class STElectricMachines {
                     tooltips.add(Component.translatable(
                             "gtceu.machine.available_recipe_map_" + recipeTypes.length + ".tooltip",
                             (Object[]) recipeNames));
+                })
+                .register();
+    }
+
+    public static MultiblockMachineDefinition registerAssemblyLineMachine(
+            String name, String langValue, GTRecipeType recipeType, int tier,
+            BlockEntry<? extends Block> appearanceBlock,
+            ResourceLocation casingTexture, ResourceLocation overlayModel,
+            Function<MultiblockMachineDefinition, BlockPattern> patternProvider) {
+        int parallel = STAssemblyLineMachine.getDisplayParallelCount(tier);
+        return STRegistration.REGISTRATE
+                .multiblock(name, STAssemblyLineMachine::new)
+                .rotationState(RotationState.ALL)
+                .langValue(langValue)
+                .tier(tier)
+                .recipeType(recipeType)
+                .recipeModifiers(STAssemblyLineMachine::recipeModifier, BATCH_MODE)
+                .partSorter(AssemblyLineMachine::partSorter)
+                .appearanceBlock(appearanceBlock)
+                .pattern(patternProvider)
+                .workableCasingModel(casingTexture, overlayModel)
+                .tooltipBuilder((stack, tooltips) -> {
+                    STConfig.checkMachineDisabledTooltip(name, tooltips);
+                    tooltips.add(Component.translatable(
+                            "shishamo_tech.machine.parallel_count", parallel));
+                    tooltips.add(recipeTypeTooltip(recipeType));
                 })
                 .register();
     }

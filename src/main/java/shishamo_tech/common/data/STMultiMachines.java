@@ -8,7 +8,6 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
-import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -36,6 +35,7 @@ import static com.gregtechceu.gtceu.common.data.GTRecipeModifiers.BATCH_MODE;
 import static shishamo_tech.common.machine.ae2.STAE2Machines.registerInscriber;
 import static shishamo_tech.common.machine.botany.STBotanyMachines.registerGreenHouse;
 import static shishamo_tech.common.machine.electric.STElectricMachines.recipeTypeTooltip;
+import static shishamo_tech.common.machine.electric.STElectricMachines.registerAssemblyLineMachine;
 import static shishamo_tech.common.machine.electric.STElectricMachines.registerCoilMachine;
 import static shishamo_tech.common.machine.electric.STElectricMachines.registerElectricMachine;
 import static shishamo_tech.common.machine.steam.STSteamMachines.registerSteamMachine;
@@ -62,6 +62,7 @@ public class STMultiMachines {
     public static MultiblockMachineDefinition LARGE_ARC_FURNACE;
     public static MultiblockMachineDefinition LARGE_DISTILLATION_TOWER;
     public static MultiblockMachineDefinition ETERNAL_FORCE_FREEZER;
+    public static MultiblockMachineDefinition REINFORCED_ASSEMBLY_LINE;
     public static MultiblockMachineDefinition NON_OMNIPOTENT_UNIVERSE_FORGE;
 
     public static MultiblockMachineDefinition GOD_STEAM_BOILER;
@@ -642,15 +643,63 @@ public class STMultiMachines {
                         .where("#", any())
                         .build());
 
+        REINFORCED_ASSEMBLY_LINE = registerAssemblyLineMachine(
+                "reinforced_assembly_line",
+                "Reinforced Assembly Line",
+                GTRecipeTypes.ASSEMBLY_LINE_RECIPES,
+                6,
+                GCYMBlocks.CASING_LARGE_SCALE_ASSEMBLING,
+                GTCEu.id("block/casings/gcym/large_scale_assembling_casing"),
+                GTCEu.id("block/multiblock/assembly_line"),
+                pattern -> FactoryBlockPattern.start(RIGHT, UP, FRONT)
+                        .aisle("nnHHHnn","nHHHHHn","HHHHHHH","HHHHHHH","HHHHHHH","nHHHHHn","nnHHHnn")
+                        .aisle("nCHHHCn","CChPhCC","Hh G hH","Hh   hH","Hh R hH","CCGMGCC","nCHHHCn")
+                        .aisle("nnHHHnn","nvhPhvn","Hh G hH","L     L","Hh R hH","nvGMGvn","nnHHHnn")
+                        .aisle("nCHHHCn","CChPhCC","Hh G hH","L     L","Hh R hH","ChGMGhC","nCHHHCn")
+                        .aisle("nnHHHnn","nHhPhHn","Hh G hH","L     L","H  R  H","nhGMGhn","nnHHHnn")
+                        .aisle("nnHHHnn","nHhPhHn","Hh G hH","L     L","H  R  H","nhGMGhn","nnHHHnn")
+                        .aisle("nnHHHnn","nHhPhHn","Hh G hH","L     L","H  R  H","nhGMGhn","nnHHHnn")
+                        .aisle("nnHHHnn","nHhPhHn","Hh G hH","L     L","H  R  H","nhGMGhn","nnHHHnn")
+                        .aisle("nnHHHnn","nHhPhHn","Hh G hH","L     L","H  R  H","nhGMGhn","nnHHHnn")
+                        .aisle("nCHHHCn","CChPhCC","Hh G hH","L     L","Hh R hH","ChGMGhC","nCHHHCn")
+                        .aisle("nnHHHnn","nVhPhVn","Hh G hH","L     L","Hh R hH","nVGMGVn","nnHHHnn")
+                        .aisle("nCHHHCn","CChPhCC","HhhGhhH","L     L","HhhRhhH","CCGMGCC","nCHHHCn")
+                        .aisle("nnHHHnn","nCCCCCn","HChhhCH","HCLLLCH","HCCRCCH","nCCCCCn","nnHHHnn")
+                        .aisle("nnnGnnn","nnGCGnn","nGCCCGn","GCWWWCG","nGCRCGn","nnGCGnn","nnnGnnn")
+                        .aisle("nnnnnnn","nnGGGnn","nGCCCGn","nGC@CGn","nGCCCGn","nnGGGnn","nnnnnnn")
+                        .where("@", controller(blocks(pattern.getBlock())))
+                        .where("H", blocks(GCYMBlocks.CASING_LARGE_SCALE_ASSEMBLING.get())
+                                .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                                .or(abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1))
+                                .or(abilities(PartAbility.DATA_ACCESS, PartAbility.OPTICAL_DATA_RECEPTION).setExactLimit(1))
+                                .or(abilities(PartAbility.IMPORT_ITEMS).setMinGlobalLimited(1).setMaxGlobalLimited(16))
+                                .or(abilities(PartAbility.IMPORT_FLUIDS).setMinGlobalLimited(1).setMaxGlobalLimited(4))
+                                .or(abilities(PartAbility.EXPORT_ITEMS).setExactLimit(1))
+                                .or(abilities(PartAbility.INPUT_ENERGY,
+                                        PartAbility.INPUT_LASER, PartAbility.SUBSTATION_INPUT_ENERGY).setMinGlobalLimited(1).setMaxGlobalLimited(2)))
+                        .where("C", blocks(GCYMBlocks.CASING_LARGE_SCALE_ASSEMBLING.get()))
+                        .where("G", blocks(GTBlocks.CASING_GRATE.get()))
+                        .where("h", blocks(GTBlocks.COIL_HSSG.get()))
+                        .where("L", blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
+                        .where("M", blocks(GTBlocks.CASING_ASSEMBLY_CONTROL.get()))
+                        .where("P", blocks(GTBlocks.CASING_STEEL_PIPE.get()))
+                        .where("R", blocks(GTBlocks.CASING_ASSEMBLY_LINE.get()))
+                        .where("V", blocks(GCYMBlocks.HEAT_VENT.get()))
+                        .where("v", blocks(GTBlocks.COMPUTER_HEAT_VENT.get()))
+                        .where("W", blocks(GTBlocks.SUPERCONDUCTING_COIL.get()))
+                        .where("n", any())
+                        .where(" ", air())
+                        .build());
+
         NON_OMNIPOTENT_UNIVERSE_FORGE = registerElectricMachine(
-                        "non_omnipotent_universe_forge",
-                        "(non) Omnipotent Universe Forge",
-                        GTRecipeTypes.ASSEMBLY_LINE_RECIPES,
-                        8,
-                        STBlocks.CASING_NOUF_GENERAL,
-                        ShishamoTech.id("block/casings/nouf/general"),
-                        GTCEu.id("block/multiblock/distillation_tower"),
-                        pattern -> FactoryBlockPattern.start(RIGHT, UP, FRONT)
+                "non_omnipotent_universe_forge",
+                "(non) Omnipotent Universe Forge",
+                GTRecipeTypes.ASSEMBLY_LINE_RECIPES,
+                8,
+                STBlocks.CASING_NOUF_GENERAL,
+                ShishamoTech.id("block/casings/nouf/general"),
+                GTCEu.id("block/multiblock/distillation_tower"),
+                pattern -> FactoryBlockPattern.start(RIGHT, UP, FRONT)
                         .aisle("###AAAAAAAAAAAAAAAAA###", "##ACCCCCAAAAAAACCCCCA##", "#ACCCCDDEEEEEEEDDCCCCA#", "ACCCCDEEDDDDDDDEEDCCCCA", "ACCCDEDDDDDDDDDDDEDCCCA", "ACCDEDDDDDBBBDDDDDEDCCA", "ACDEDDDDDBDDDBDDDDDEDCA", "ACDEDDDDBDDDDDDDDDDEDCA", "ADEDDDDDBDDDDBBBDDDDEDA", "ADEDDDBDBDDDBDDDBDDDEDA", "ADEDDBDDDBDBDDDDDBDDEDA", "ADEDDBDDDDBBBDDDDBDDEDA", "ADEDDBDDDDDBDBDDDBDDEDA", "ADEDDDBDDDBDDDBDBDDDEDA", "ADEDDDDBBBDDDDBDDDDDEDA", "ACDEDDDDDDDDDDBDDDDEDCA", "ACDEDDDDDBDDDBDDDDDEDCA", "ACCDEDDDDDBBBDDDDDEDCCA", "ACCCDEDDDDDDDDDDDEDCCCA", "ACCCCDEEDDDDDDDEEDCCCCA", "#ACCCCDDEEEEEEEDDCCCCA#", "##ACCCCCDDDDDDDCCCCCA##", "###AAAAAAAAAAAAAAAAA###")
                         .aisle("###AAAAAAAAAAAAAAAAA###", "##A#################A##", "#A###################A#", "A#####################A", "A#####################A", "A#####################A", "A#####################A", "A#####################A", "A#####################A", "A#####################A", "A#####################A", "A#####################A", "A#####################A", "A#####################A", "A#####################A", "A#####################A", "A#####################A", "A#####################A", "A#####################A", "A#####################A", "#A###################A#", "##A#################A##", "###AAAAAAAAAAAAAAAAA###")
                         .aisle("###AAAA#########AAAA###", "##A#################A##", "#A###################A#", "A#####################A", "A#####################A", "A#####################A", "A#####################A", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "#######################", "A#####################A", "A#####################A", "A#####################A", "A#####################A", "#A###################A#", "##A#################A##", "###AAAA#########AAAA###")
@@ -720,7 +769,6 @@ public class STMultiMachines {
                                         .or(abilities(PartAbility.EXPORT_ITEMS).setExactLimit(1))
                                         .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))
                                         .or(abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1))
-                                        .or(abilities(PartAbility.DATA_ACCESS).setMaxGlobalLimited(1))
                         )
                         .where("A", blocks(STBlocks.CASING_SOLID_MIRACLE_FUMETSU.get()))
                         .where("C", blocks(STBlocks.CASING_SOLID_MIRACLE_METEOR.get()))
