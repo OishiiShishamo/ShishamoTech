@@ -473,7 +473,7 @@ public class STMultiMachines {
                 "Untested Voyager Electrolyser",
                 GTRecipeTypes.ELECTROLYZER_RECIPES,
                 5,
-                GTBlocks.CASING_ALUMINIUM_FROSTPROOF,
+                GCYMBlocks.CASING_NONCONDUCTING,
                 GTCEu.id("block/casings/gcym/nonconducting_casing"),
                 GTCEu.id("block/multiblock/gcym/large_electrolyzer"),
                 pattern -> FactoryBlockPattern.start(RIGHT, UP, FRONT)
