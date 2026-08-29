@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 
+import com.gregtechceu.gtceu.common.data.materials.GCYMMaterials;
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -34,6 +35,7 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeModifiers.BATCH_MODE;
 import static shishamo_tech.common.machine.ae2.STAE2Machines.registerInscriber;
 import static shishamo_tech.common.machine.botany.STBotanyMachines.registerGreenHouse;
@@ -59,7 +61,7 @@ public class STMultiMachines {
     public static MultiblockMachineDefinition LARGE_SMELTING_PLANT;
     public static MultiblockMachineDefinition LARGE_WASHING_PLANT;
     public static MultiblockMachineDefinition HYPER_TOWER_CENTRIFUGE;
-    public static MultiblockMachineDefinition LARGE_ELECTROLYZER;
+    public static MultiblockMachineDefinition UNTESTED_VOYAGER_ELECTROLYSER;
     public static MultiblockMachineDefinition LCR_CLUSTER;
     public static MultiblockMachineDefinition LARGE_ASSEMBLY_PLANT;
     public static MultiblockMachineDefinition LARGE_ARC_FURNACE;
@@ -466,41 +468,38 @@ public class STMultiMachines {
                         .where("#", any())
                         .build());
 
-        LARGE_ELECTROLYZER = registerElectricMachine(
-                "large_electrolyzer",
-                "Large Electrolyzer",
+        UNTESTED_VOYAGER_ELECTROLYSER = registerElectricMachine(
+                "untested_voyager_electrolyser",
+                "Untested Voyager Electrolyser",
                 GTRecipeTypes.ELECTROLYZER_RECIPES,
                 5,
                 GTBlocks.CASING_ALUMINIUM_FROSTPROOF,
-                GTCEu.id("block/casings/solid/machine_casing_frost_proof"),
+                GTCEu.id("block/casings/gcym/nonconducting_casing"),
                 GTCEu.id("block/multiblock/gcym/large_electrolyzer"),
-                pattern -> FactoryBlockPattern.start(FRONT, UP, RIGHT)
-                        .aisle("XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GS", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XG#########GX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX")
-                        .aisle("XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX")
-                        .where("S", controller(blocks(pattern.getBlock())))
-                        .where("G", blocks(GTBlocks.CASING_STEEL_PIPE.get()))
-                        .where("#", any())
-                        .where("X", blocks(GTBlocks.CASING_ALUMINIUM_FROSTPROOF.get())
+                pattern -> FactoryBlockPattern.start(RIGHT, UP, FRONT)
+                        .aisle("####AAAAA####", "####AAAAA####", "####AAAAA####", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############")
+                        .aisle("####AAAAA####", "####ABBBA####", "####ABBBA####", "#############", "#############", "##C#######C##", "##C#######C##", "#CCC#####CCC#", "#CCC#####CCC#", "#CCC#####CCC#", "#CCC#####CCC#", "#CCC#####CCC#", "#CCC#####CCC#", "#CCC#####CCC#", "#CCC#####CCC#", "#CCC#####CCC#", "#CCC#####CCC#", "##C#######C##", "#############")
+                        .aisle("###DAAAAAD###", "###DABBBAD###", "####ABBBA####", "#############", "##C#######C##", "#CCC#####CCC#", "#C#C#####C#C#", "CC#CC###CC#CC", "C###C###C###C", "C###C#A#C###C", "C###AAAAA###C", "C###C###C###C", "C###C###C###C", "C###C###C###C", "C###C###C###C", "C###C###C###C", "CC#CC###CC#CC", "#CCC#####CCC#", "##C#######C##")
+                        .aisle("##DDAAAAADD##", "##DDAAAAADD##", "###DAAAAAD###", "##C###A###C##", "#CCC##A##CCC#", "CC#CC#A#CC#CC", "C###C#A#C###C", "C#B#C#A#C#B#C", "C#B#C#A#C#B#C", "C#B#AAAAA#B#C", "C#BBBBBBBBB#C", "C#B#AAAAA#B#C", "C#B#C###C#B#C", "C###C###C#B#C", "C###C###C###C", "C###C###C###C", "C###C###C###C", "CC#CC###CC#CC", "#CCC#####CCC#")
+                        .aisle("###DAAAAAD###", "###DABBBAD###", "####ABBBA####", "#############", "##C#######C##", "#CCC#####CCC#", "#C#C#####C#C#", "CC#CC###CC#CC", "C###C###C###C", "C###C###C###C", "C###AAAAA###C", "C###C###C###C", "C###C###C###C", "C###C###C###C", "C###C###C###C", "C###C###C###C", "CC#CC###CC#CC", "#CCC#####CCC#", "##C#######C##")
+                        .aisle("####AAAAA####", "####ABBBA####", "####ABBBA####", "#############", "#############", "##C#######C##", "##C#######C##", "#CCC#####CCC#", "#CCC#####CCC#", "#CCC#####CCC#", "#CCC#####CCC#", "#CCC#####CCC#", "#CCC#####CCC#", "#CCC#####CCC#", "#CCC#####CCC#", "#CCC#####CCC#", "#CCC#####CCC#", "##C#######C##", "#############")
+                        .aisle("####AAAAA####", "####AAEAA####", "####AAAAA####", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############")
+                        .where("A", blocks(GCYMBlocks.CASING_NONCONDUCTING.get())
                                 .or(abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.IMPORT_FLUIDS).setPreviewCount(1))
                                 .or(abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
                                 .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setPreviewCount(2))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
+                        .where("E", controller(blocks(pattern.getBlock())))
+                        .where("C", blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
+                        .where("B", blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
+                        .where("D", frames(HSLASteel))
+                        .where("#", any())
                         .build());
 
-        LCR_CLUSTER = registerCoilMachine(
+
+                LCR_CLUSTER = registerCoilMachine(
                 "lcr_cluster",
                 "LCR Cluster",
                 GTRecipeTypes.LARGE_CHEMICAL_RECIPES,
