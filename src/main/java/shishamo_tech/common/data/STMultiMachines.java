@@ -9,6 +9,8 @@ import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
+
+import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import net.minecraft.core.Direction;
@@ -25,6 +27,7 @@ import shishamo_tech.ShishamoTech;
 import shishamo_tech.common.recipe.STRecipeTypes;
 import shishamo_tech.config.STConfig;
 
+import java.util.Map;
 import java.util.function.Function;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
@@ -364,7 +367,30 @@ public class STMultiMachines {
                                 .or(abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1))
                                 .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setPreviewCount(2))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
-                        .build());
+                        .build(),
+                STCoilParallelMultiblockMachine.coilTierShapeInfos(
+                        new String[] {
+                            "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXX", "XGC#CCCCC#CGX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XGC#CCCCC#CGX", "XXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXX", "XGC#CCCCC#CGX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XGC#CCCCC#CGX", "XXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXX", "XGC#CCCCC#CGX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XGC#CCCCC#CGX", "XXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXX", "XGC#CCCCC#CGX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XGC#CCCCC#CGX", "XXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXX", "XGC#CCCCC#CGX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CS", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XGC#CCCCC#CGX", "XXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXX", "XGC#CCCCC#CGX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XGC#CCCCC#CGX", "XXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXX", "XGC#CCCCC#CGX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XGC#CCCCC#CGX", "XXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXX", "XGC#CCCCC#CGX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XGC#CCCCC#CGX", "XXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXX", "XGC#CCCCC#CGX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XC#########CX", "XGC#CCCCC#CGX", "XXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XGGGGGGGGGGGX", "XXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX", "XXXXXXXXXXXXX"
+                        },
+                        Map.ofEntries(
+                        Map.entry('S', def -> BlockInfo.fromBlockState(
+                                def.getBlock().defaultBlockState().setValue(RotationState.ALL.property, Direction.NORTH))),
+                        Map.entry('G', def -> BlockInfo.fromBlockState(GTBlocks.CASING_STEEL_PIPE.get().defaultBlockState())),
+                        Map.entry('#', def -> BlockInfo.fromBlockState(Blocks.AIR.defaultBlockState())),
+                        Map.entry('X', def -> BlockInfo.fromBlockState(GTBlocks.CASING_INVAR_HEATPROOF.get().defaultBlockState()))),
+                        'C'));
 
         LARGE_WASHING_PLANT = registerElectricMachine(
                 "large_washing_plant",
@@ -505,7 +531,28 @@ public class STMultiMachines {
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                         .where("D", controller(blocks(pattern.getBlock())))
                         .where("#", any())
-                        .build());
+                        .build(),
+                STCoilParallelMultiblockMachine.coilTierShapeInfos(
+                        new String[] {
+                            "AAA#AAA#AAA", "AAA#AAA#AAA", "AAA#AAA#AAA", "###########", "AAA#AAA#AAA", "AAA#AAA#AAA", "AAA#AAA#AAA", "###########", "AAA#AAA#AAA", "AAA#AAA#AAA", "AAA#AAA#AAA",
+                            "AAA#AAA#AAA", "ABCCCBCCCBA", "ACA#ACA#ACA", "#C###C###C#", "ACA#ACA#ACA", "ABCCCBCCCBA", "ACA#ACA#ACA", "#C###C###C#", "ACA#ACA#ACA", "ABCCCBCCCBA", "AAA#AAA#AAA",
+                            "AAA#AAA#AAA", "ACA#ACA#ACA", "AAAAAAAAAAA", "##AAA#AAA##", "AAAAAAAAAAA", "ACA#ACA#ACA", "AAAAAAAAAAA", "##AAA#AAA##", "AAAAAAAAAAA", "ACA#ACA#ACA", "AAA#AAA#AAA",
+                            "###########", "#C###C###C#", "##AAA#AAA##", "##ABCCCBA##", "##ACA#ACA##", "#C#C#C#C#C#", "##ACA#ACA##", "##ABCCCBA##", "##AAA#AAA##", "#C###C###C#", "###########",
+                            "AAA#AAA#AAA", "ACA#ACA#ACA", "AAAAAAAAAAA", "##ACA#ACA##", "AAAAAAAAAAA", "ACA#ACA#ACA", "AAAAAAAAAAA", "##ACA#ACA##", "AAAAAAAAAAA", "ACA#ACA#ACA", "AAA#AAA#AAA",
+                            "AAA#AAA#AAA", "ABCCCBCCCBA", "ACA#ACA#ACA", "#C#C#C#C#C#", "ACA#ACA#ACA", "ABCCCBCCCBD", "ACA#ACA#ACA", "#C#C#C#C#C#", "ACA#ACA#ACA", "ABCCCBCCCBA", "AAA#AAA#AAA",
+                            "AAA#AAA#AAA", "ACA#ACA#ACA", "AAAAAAAAAAA", "##ACA#ACA##", "AAAAAAAAAAA", "ACA#ACA#ACA", "AAAAAAAAAAA", "##ACA#ACA##", "AAAAAAAAAAA", "ACA#ACA#ACA", "AAA#AAA#AAA",
+                            "###########", "#C###C###C#", "##AAA#AAA##", "##ABCCCBA##", "##ACA#ACA##", "#C#C#C#C#C#", "##ACA#ACA##", "##ABCCCBA##", "##AAA#AAA##", "#C###C###C#", "###########",
+                            "AAA#AAA#AAA", "ACA#ACA#ACA", "AAAAAAAAAAA", "##AAA#AAA##", "AAAAAAAAAAA", "ACA#ACA#ACA", "AAAAAAAAAAA", "##AAA#AAA##", "AAAAAAAAAAA", "ACA#ACA#ACA", "AAA#AAA#AAA",
+                            "AAA#AAA#AAA", "ABCCCBCCCBA", "ACA#ACA#ACA", "#C###C###C#", "ACA#ACA#ACA", "ABCCCBCCCBA", "ACA#ACA#ACA", "#C###C###C#", "ACA#ACA#ACA", "ABCCCBCCCBA", "AAA#AAA#AAA",
+                            "AAA#AAA#AAA", "AAA#AAA#AAA", "AAA#AAA#AAA", "###########", "AAA#AAA#AAA", "AAA#AAA#AAA", "AAA#AAA#AAA", "###########", "AAA#AAA#AAA", "AAA#AAA#AAA", "AAA#AAA#AAA"
+                        },
+                        Map.ofEntries(
+                        Map.entry('D', def -> BlockInfo.fromBlockState(
+                                def.getBlock().defaultBlockState().setValue(RotationState.ALL.property, Direction.NORTH))),
+                        Map.entry('B', def -> BlockInfo.fromBlockState(GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get().defaultBlockState())),
+                        Map.entry('A', def -> BlockInfo.fromBlockState(GTBlocks.CASING_PTFE_INERT.get().defaultBlockState())),
+                        Map.entry('#', def -> BlockInfo.fromBlockState(Blocks.AIR.defaultBlockState()))),
+                        'C'));
 
         LARGE_ASSEMBLY_PLANT = registerElectricMachine(
                 "large_assembly_plant",
@@ -576,7 +623,32 @@ public class STMultiMachines {
                                 .or(abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(1))
                                 .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setPreviewCount(2))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
-                        .build());
+                        .build(),
+                STCoilParallelMultiblockMachine.coilTierShapeInfos(
+                        new String[] {
+                            "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXXXX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XXXXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXXXX", "XGCCCCCCCCCCCGX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XGCCCCCCCCCCCGX", "XXXXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXXXX", "XGCCCCCCCCCCCGX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XGCCCCCCCCCCCGX", "XXXXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXXXX", "XGCCCCCCCCCCCGX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XGCCCCCCCCCCCGX", "XXXXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXXXX", "XGCCCCCCCCCCCGX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XGCCCCCCCCCCCGX", "XXXXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXXXX", "XGCCCCCCCCCCCGX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XGCCCCCCCCCCCGX", "XXXXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXXXX", "XGCCCCCCCCCCCGX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CS", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XGCCCCCCCCCCCGX", "XXXXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXXXX", "XGCCCCCCCCCCCGX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XGCCCCCCCCCCCGX", "XXXXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXXXX", "XGCCCCCCCCCCCGX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XGCCCCCCCCCCCGX", "XXXXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXXXX", "XGCCCCCCCCCCCGX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XGCCCCCCCCCCCGX", "XXXXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXXXX", "XGCCCCCCCCCCCGX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XGCCCCCCCCCCCGX", "XXXXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXXXX", "XGCCCCCCCCCCCGX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XC###########CX", "XGCCCCCCCCCCCGX", "XXXXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXXXX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XGGGGGGGGGGGGGX", "XXXXXXXXXXXXXXX",
+                            "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX", "XXXXXXXXXXXXXXX"
+                        },
+                        Map.ofEntries(
+                        Map.entry('S', def -> BlockInfo.fromBlockState(
+                                def.getBlock().defaultBlockState().setValue(RotationState.ALL.property, Direction.NORTH))),
+                        Map.entry('G', def -> BlockInfo.fromBlockState(GTBlocks.CASING_STEEL_PIPE.get().defaultBlockState())),
+                        Map.entry('#', def -> BlockInfo.fromBlockState(Blocks.AIR.defaultBlockState())),
+                        Map.entry('X', def -> BlockInfo.fromBlockState(GTBlocks.CASING_INVAR_HEATPROOF.get().defaultBlockState()))),
+                        'C'));
 
         LARGE_DISTILLATION_TOWER = registerElectricMachine(
                 "large_distillation_tower",

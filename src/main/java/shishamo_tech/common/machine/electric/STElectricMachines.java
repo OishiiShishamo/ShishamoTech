@@ -3,6 +3,7 @@ package shishamo_tech.common.machine.electric;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
+import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.AssemblyLineMachine;
@@ -13,7 +14,11 @@ import net.minecraft.world.level.block.Block;
 import shishamo_tech.STRegistration;
 import shishamo_tech.config.STConfig;
 
+import java.util.List;
 import java.util.function.Function;
+
+
+import org.jetbrains.annotations.Nullable;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeModifiers.BATCH_MODE;
 
@@ -90,8 +95,18 @@ public final class STElectricMachines {
             BlockEntry<? extends Block> appearanceBlock,
             ResourceLocation casingTexture, ResourceLocation overlayModel,
             Function<MultiblockMachineDefinition, BlockPattern> patternProvider) {
+        return registerCoilMachine(name, langValue, recipeType, tier, appearanceBlock,
+                casingTexture, overlayModel, patternProvider, null);
+    }
+
+    public static MultiblockMachineDefinition registerCoilMachine(
+            String name, String langValue, GTRecipeType recipeType, int tier,
+            BlockEntry<? extends Block> appearanceBlock,
+            ResourceLocation casingTexture, ResourceLocation overlayModel,
+            Function<MultiblockMachineDefinition, BlockPattern> patternProvider,
+            @Nullable Function<MultiblockMachineDefinition, List<MultiblockShapeInfo>> shapeInfoProvider) {
         int parallel = STCoilParallelMultiblockMachine.getDisplayParallelCount(tier, 0);
-        return STRegistration.REGISTRATE
+        var builder = STRegistration.REGISTRATE
                 .multiblock(name, STCoilParallelMultiblockMachine::new)
                 .rotationState(RotationState.ALL)
                 .langValue(langValue)
@@ -99,7 +114,11 @@ public final class STElectricMachines {
                 .recipeType(recipeType)
                 .recipeModifiers(STCoilParallelMultiblockMachine::recipeModifier, BATCH_MODE)
                 .appearanceBlock(appearanceBlock)
-                .pattern(patternProvider)
+                .pattern(patternProvider);
+        if (shapeInfoProvider != null) {
+            builder = builder.shapeInfos(shapeInfoProvider);
+        }
+        return builder
                 .workableCasingModel(casingTexture, overlayModel)
                 .tooltipBuilder((stack, tooltips) -> {
                     STConfig.checkMachineDisabledTooltip(name, tooltips);
@@ -110,7 +129,7 @@ public final class STElectricMachines {
                 .register();
     }
 
-    public static Component recipeTypeTooltip(GTRecipeType recipeType) {
+public static Component recipeTypeTooltip(GTRecipeType recipeType) {
         return Component.translatable(
                 "gtceu.machine.available_recipe_map_1.tooltip",
                 Component.translatable(recipeType.registryName.getNamespace() + "." + recipeType.registryName.getPath()));

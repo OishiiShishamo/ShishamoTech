@@ -107,6 +107,11 @@ public class AssemblerRecipeLoader {
                 .inputItems(ME_LONG_OUTPUT_HATCH)
                 .outputItems(ME_DUAL_LONG_OUTPUT_HATCH)
                 .duration(1024).EUt(V[EV], 1).save(consumer);
+        ASSEMBLER_RECIPES.recipeBuilder("me_oversize_pattern_buffer")
+                .inputItems(ME_PATTERN_BUFFER.asStack(), 2)
+                .inputItems(HV_CIRCUITS, 16)
+                .outputItems(ME_OVERSIZE_PATTERN_BUFFER)
+                .duration(1024).EUt(V[EV], 1).save(consumer);
         ASSEMBLER_RECIPES.recipeBuilder("me_steam_supply_cover")
                 .inputItems(EXPORT_BUS.asItem(), 8)
                 .circuitMeta(1)

@@ -1,4 +1,4 @@
-// 1.20.1	2026-08-14T23:43:46.990077483	Registrate Provider for shishamo_tech [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-08-24T15:43:37.507122824	Registrate Provider for shishamo_tech [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 34d1592f9bbe4aa54f625ff45809b351e0e7f393 assets/shishamo_tech/blockstates/eternal_force_freezer.json
 7769287cfe8d7c35136d86f370361dd9a51880ec assets/shishamo_tech/blockstates/ev_compressed_alloy_smelter.json
 9b1c2e090dc97ad2e819b5aabb341f1fe285225b assets/shishamo_tech/blockstates/ev_compressed_arc_furnace.json
@@ -196,6 +196,8 @@ f6507e788ac8792f9e3126c2c1e6a75567f3bdd9 assets/shishamo_tech/blockstates/lv_com
 b8c93462099845b02129ecaf95afeb2dd5871b53 assets/shishamo_tech/blockstates/me_dual_stocking_input_hatch.json
 da81f92fd0d081fb6e291abf6a73dddf909bf27a assets/shishamo_tech/blockstates/me_long_output_bus.json
 856047b021d5c6717da7d69f8b1f5f98b354842b assets/shishamo_tech/blockstates/me_long_output_hatch.json
+54d638b11878f82b0b36f2d0f9283d3924e6e2a9 assets/shishamo_tech/blockstates/me_oversize_pattern_buffer.json
+8a8f8271fc0bc818a3b42217d3d29aa79cf59fb4 assets/shishamo_tech/blockstates/me_oversize_pattern_buffer_proxy.json
 f170fbb20c36ea1e0b6b998315b5e7d0ea5a8ff4 assets/shishamo_tech/blockstates/me_steam_hatch.json
 24a45ce23ee70527bb51c238464da7f776a7209c assets/shishamo_tech/blockstates/mega_steam_alloy_smelter.json
 b4d161150fe7037696b424120fd7433329e4801b assets/shishamo_tech/blockstates/mega_steam_compressor.json
@@ -507,8 +509,8 @@ e157182c2e15b1f49c7c80a6c0808eab8e61f08e assets/shishamo_tech/blockstates/zpm_co
 b487945cbbec5a4c72639b78b68db22a5acc3e37 assets/shishamo_tech/blockstates/zpm_compressed_sifter.json
 368d77304bb21ba95d6a1f6c7df0cb0dadad30ab assets/shishamo_tech/blockstates/zpm_compressed_thermal_centrifuge.json
 ebb1f4d431668bd890d7f91b98d2433a4c55be79 assets/shishamo_tech/blockstates/zpm_compressed_wiremill.json
-90f404787a4bae40aae48bb9d80baefcfbeb49a1 assets/shishamo_tech/lang/en_ud.json
-a3073a49a6a0f2a79fd9015888eb380805bbf847 assets/shishamo_tech/lang/en_us.json
+e5a1023617102caba1f2db5ca882ff998cf5c3b5 assets/shishamo_tech/lang/en_ud.json
+e22c365f74c4c805ad88de8d0b3da30003c4a105 assets/shishamo_tech/lang/en_us.json
 91501715582c4a8a0973a99eff995d92eeb2df39 assets/shishamo_tech/models/block/machine/eternal_force_freezer.json
 1f9d4ff2bbbd9c1a5950ab69c10ad791e30b1a21 assets/shishamo_tech/models/block/machine/ev_compressed_alloy_smelter.json
 8cb8a2df86b7d65f38cd408020cf060d2020d339 assets/shishamo_tech/models/block/machine/ev_compressed_arc_furnace.json
@@ -706,6 +708,8 @@ e96bcc93b5749bfc8d7141d9e344e70be8014dd1 assets/shishamo_tech/models/block/machi
 e8d33ecf269c77ee406c892ab7b23e777d6fb3df assets/shishamo_tech/models/block/machine/me_dual_stocking_input_hatch.json
 e59df4367f1b78017396e0686764894e0b0e3092 assets/shishamo_tech/models/block/machine/me_long_output_bus.json
 fd5b75de7d485795c3496e9d7b332eac0ced18c8 assets/shishamo_tech/models/block/machine/me_long_output_hatch.json
+70747c5d6d082ed8092d0e4d3cbb91648cd197ab assets/shishamo_tech/models/block/machine/me_oversize_pattern_buffer.json
+8e93c591e0eeb03afd919ae6604a85765699fcff assets/shishamo_tech/models/block/machine/me_oversize_pattern_buffer_proxy.json
 b59b094f7eae9cd972e71d4234af75785cabe478 assets/shishamo_tech/models/block/machine/me_steam_hatch.json
 1637680250af88a37572f7dea2c654d87e166037 assets/shishamo_tech/models/block/machine/mega_steam_alloy_smelter.json
 3a529d7790aac267298ab8b2806471942e274af6 assets/shishamo_tech/models/block/machine/mega_steam_compressor.json
@@ -1215,6 +1219,8 @@ b2c3d68d87a9a2769b7caba0a7345447774fdb7f assets/shishamo_tech/models/item/lv_com
 1bbab82be4d47d455b2be12e3445e0a34e4fbe77 assets/shishamo_tech/models/item/me_induction_cover.json
 b91f212f6c76bf70b248921553c3c5e65037cd2e assets/shishamo_tech/models/item/me_long_output_bus.json
 676a64d45dfee6bd44886605cf608682a06f4829 assets/shishamo_tech/models/item/me_long_output_hatch.json
+6c8cbf45301da1c4e82a6eb127e3c916ce8d7ae8 assets/shishamo_tech/models/item/me_oversize_pattern_buffer.json
+63ab333768f6fd5893c8240a0bd55eabf69b982e assets/shishamo_tech/models/item/me_oversize_pattern_buffer_proxy.json
 7dba1df520c043a356546ba133e06511238b7fbe assets/shishamo_tech/models/item/me_steam_hatch.json
 e77a246f4f3868e2b3bab7e67cf4e7f2c726c011 assets/shishamo_tech/models/item/me_steam_supply_cover.json
 573d15695da1f912696f58106dc0d04887d7d90f assets/shishamo_tech/models/item/mega_steam_alloy_smelter.json

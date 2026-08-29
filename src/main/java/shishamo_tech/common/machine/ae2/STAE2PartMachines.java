@@ -13,6 +13,8 @@ import shishamo_tech.config.STConfig;
 import static com.gregtechceu.gtceu.api.GTValues.LuV;
 import static com.gregtechceu.gtceu.api.GTValues.ZPM;
 
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+
 public final class STAE2PartMachines {
     private STAE2PartMachines() {}
 
@@ -21,6 +23,8 @@ public final class STAE2PartMachines {
     public static MachineDefinition ME_DUAL_LONG_INPUT_HATCH;
     public static MachineDefinition ME_DUAL_LONG_OUTPUT_HATCH;
     public static MachineDefinition ME_DUAL_STOCKING_INPUT_HATCH;
+    public static MachineDefinition ME_OVERSIZE_PATTERN_BUFFER;
+    public static MachineDefinition ME_OVERSIZE_PATTERN_BUFFER_PROXY;
     public static MachineDefinition ME_STEAM_HATCH;
 
     public static void init() {
@@ -38,6 +42,39 @@ public final class STAE2PartMachines {
                     tooltips.add(Component.translatable("gtceu.machine.me.stocking_fluid.tooltip.1"));
                     tooltips.add(Component.translatable("gtceu.machine.me.stocking_item.tooltip.0"));
                     tooltips.add(Component.translatable("gtceu.machine.me.stocking_item.tooltip.1"));
+                    tooltips.add(Component.translatable("gtceu.part_sharing.enabled"));
+                })
+                .register();
+
+        ME_OVERSIZE_PATTERN_BUFFER = STRegistration.REGISTRATE
+                .machine("me_oversize_pattern_buffer", MEOversizePatternBufferPartMachine::new)
+                .tier(LuV)
+                .rotationState(RotationState.ALL)
+                .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS, PartAbility.EXPORT_FLUIDS,
+                        PartAbility.EXPORT_ITEMS)
+                .colorOverlayTieredHullModel(GTCEu.id("block/overlay/appeng/me_buffer_hatch"))
+                .recipeType(GTRecipeTypes.DUMMY_RECIPES)
+                .langValue("ME Oversize Pattern Buffer")
+                .tooltipBuilder((stack, tooltips) -> {
+                    STConfig.checkMachineDisabledTooltip("me_oversize_pattern_buffer", tooltips);
+                    tooltips.add(Component.translatable("shishamo_tech.machine.me_oversize_pattern_buffer.desc.0"));
+                    tooltips.add(Component.translatable("gtceu.part_sharing.enabled"));
+                })
+                .register();
+
+        ME_OVERSIZE_PATTERN_BUFFER_PROXY = STRegistration.REGISTRATE
+                .machine("me_oversize_pattern_buffer_proxy", MEOversizePatternBufferProxyPartMachine::new)
+                .tier(LuV)
+                .rotationState(RotationState.ALL)
+                .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS, PartAbility.EXPORT_FLUIDS,
+                        PartAbility.EXPORT_ITEMS)
+                .colorOverlayTieredHullModel(GTCEu.id("block/overlay/appeng/me_buffer_hatch_proxy"))
+                .recipeType(GTRecipeTypes.DUMMY_RECIPES)
+                .langValue("ME Oversize Pattern Buffer Proxy")
+                .tooltipBuilder((stack, tooltips) -> {
+                    STConfig.checkMachineDisabledTooltip("me_oversize_pattern_buffer_proxy", tooltips);
+                    tooltips.add(Component.translatable("shishamo_tech.machine.me_oversize_pattern_buffer.desc.0"));
+                    tooltips.add(Component.translatable("shishamo_tech.machine.me_oversize_pattern_buffer_proxy.desc.0"));
                     tooltips.add(Component.translatable("gtceu.part_sharing.enabled"));
                 })
                 .register();
