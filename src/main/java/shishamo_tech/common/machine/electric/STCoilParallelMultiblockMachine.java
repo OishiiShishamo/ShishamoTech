@@ -21,6 +21,7 @@ import shishamo_tech.common.recipe.STRecipeModifierUtil;
 import shishamo_tech.config.STConfig;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -99,6 +100,11 @@ public class STCoilParallelMultiblockMachine extends CoilWorkableElectricMultibl
      *              Map.entry('#', Blocks.AIR))));
      * }</pre>
      *
+     * @param rowsPerLayer how many row strings form one horizontal layer. The flat
+     *                 {@code aisles} array must contain a whole multiple of this, in the
+     *                 same layer-major order as the {@code FactoryBlockPattern} aisles
+     *                 (all rows of layer 0, then layer 1, ...). Pass a wrong value and
+     *                 the preview comes out sliced, so this is validated eagerly.
      * @param aisles   the aisle layers, same format as {@code FactoryBlockPattern.aisle(...)}
      *                 but with a single character per symbol (no multi-char symbols)
      * @param parts    map of character to block info supplier for every non-coil
@@ -106,14 +112,22 @@ public class STCoilParallelMultiblockMachine extends CoilWorkableElectricMultibl
      * @param coilChar the character reserved for heating coils in {@code aisles}
      */
     public static Function<MultiblockMachineDefinition, List<MultiblockShapeInfo>> coilTierShapeInfos(
+                                                                                                    int rowsPerLayer,
                                                                                                     String[] aisles,
+                                                                                                    Map<Character, Function<MultiblockMachineDefinition, BlockInfo>> parts,
+                                                                                                    char coilChar) {
+        return coilTierShapeInfos(groupAisles(aisles, rowsPerLayer), parts, coilChar);
+    }
+
+    public static Function<MultiblockMachineDefinition, List<MultiblockShapeInfo>> coilTierShapeInfos(
+                                                                                                    String[][] layers,
                                                                                                     Map<Character, Function<MultiblockMachineDefinition, BlockInfo>> parts,
                                                                                                     char coilChar) {
         return definition -> {
             List<MultiblockShapeInfo> result = new ArrayList<>();
             var builder = new STAccessibleShapeInfoBuilder();
-            for (String aisle : aisles) {
-                builder.aisle(aisle);
+            for (String[] layer : layers) {
+                builder.aisle(layer);
             }
             for (var entry : parts.entrySet()) {
                 builder.where(entry.getKey(), entry.getValue().apply(definition));
@@ -124,5 +138,28 @@ public class STCoilParallelMultiblockMachine extends CoilWorkableElectricMultibl
                             .where(coilChar, coil.getValue().get()).build()));
             return result;
         };
+    }
+
+    /**
+     * Groups a flat layer-major row array (as used in {@code FactoryBlockPattern}
+     * definitions) back into one {@code String[]} per horizontal layer, so each
+     * {@code ShapeInfoBuilder.aisle(...)} call receives a whole layer. Passing rows
+     * one by one instead would bake a sliced single-row-per-layer preview.
+     *
+     * @throws IllegalArgumentException if the array cannot be split evenly
+     */
+    static String[][] groupAisles(String[] aisles, int rowsPerLayer) {
+        if (rowsPerLayer <= 0) {
+            throw new IllegalArgumentException("rowsPerLayer must be positive, was " + rowsPerLayer);
+        }
+        if (aisles.length == 0 || aisles.length % rowsPerLayer != 0) {
+            throw new IllegalArgumentException("aisles holds " + aisles.length +
+                    " rows, not a multiple of rowsPerLayer " + rowsPerLayer);
+        }
+        String[][] layers = new String[aisles.length / rowsPerLayer][];
+        for (int i = 0; i < layers.length; i++) {
+            layers[i] = Arrays.copyOfRange(aisles, i * rowsPerLayer, (i + 1) * rowsPerLayer);
+        }
+        return layers;
     }
 }
