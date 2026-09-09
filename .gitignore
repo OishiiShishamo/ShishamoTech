@@ -24,6 +24,7 @@ run-data/
 libs/
 LLM_Context/
 AGENTS.md
+.pi/
 
 # Files from Forge MDK
 forge*changelog.txt

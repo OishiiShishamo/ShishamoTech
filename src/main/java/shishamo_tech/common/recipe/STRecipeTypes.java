@@ -71,6 +71,28 @@ public final class STRecipeTypes {
                 GREEN_HOUSE_RECIPES.registryName, GREEN_HOUSE_RECIPES);
     }
 
+    public static final GTRecipeType INTEGRATED_ORE_PROCESSING;
+
+    static {
+        INTEGRATED_ORE_PROCESSING = new GTRecipeType(
+                ShishamoTech.id("integrated_ore_processing"),
+                GTRecipeTypes.MULTIBLOCK);
+
+        INTEGRATED_ORE_PROCESSING
+                .setMaxIOSize(9, 12, 1, 0)
+                .setEUIO(IO.IN)
+                .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, FillDirection.LEFT_TO_RIGHT)
+                .setSound(GTSoundEntries.MOTOR)
+                .setRecipeUI(new GTRecipeTypeUI(INTEGRATED_ORE_PROCESSING));
+
+        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE,
+                INTEGRATED_ORE_PROCESSING.registryName, INTEGRATED_ORE_PROCESSING);
+        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER,
+                INTEGRATED_ORE_PROCESSING.registryName, new GTRecipeSerializer());
+        GTRegistries.RECIPE_TYPES.register(
+                INTEGRATED_ORE_PROCESSING.registryName, INTEGRATED_ORE_PROCESSING);
+    }
+
     public static final GTRecipeType VOID_RESOURCE_MINING_RECIPES;
 
     static {

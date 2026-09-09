@@ -8,6 +8,7 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.integration.jei.multipage.MultiblockInfoCategory;
 import shishamo_tech.ShishamoTech;
 import shishamo_tech.common.data.STMultiMachines;
 import shishamo_tech.common.machine.ae2.STAE2Machines;
@@ -107,6 +108,11 @@ public class STJEIPlugin implements IModPlugin {
             var voidMinerType = new RecipeType<>(STRecipeTypes.VOID_RESOURCE_MINING_RECIPES.registryName,
                     GTRecipe.class);
             registration.addRecipeCatalyst(STMultiMachines.MEGA_STEAM_VOID_RESOURCE_MINER.asStack(), voidMinerType);
+        }
+
+        if (STMultiMachines.INTEGRATED_ORE_PROCESSOR != null) {
+            registration.addRecipeCatalyst(STMultiMachines.INTEGRATED_ORE_PROCESSOR.asStack(),
+                    MultiblockInfoCategory.RECIPE_TYPE);
         }
     }
 }

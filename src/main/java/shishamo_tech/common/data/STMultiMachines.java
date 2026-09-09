@@ -3,6 +3,7 @@ package shishamo_tech.common.data;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
@@ -24,6 +25,7 @@ import shishamo_tech.common.machine.primitive.STPrimitiveBlastFurnaceMachine;
 import shishamo_tech.common.machine.storage.STUltimateUniversalStorageMachine;
 import shishamo_tech.common.machine.ae2.STAE2PartMachines;
 import shishamo_tech.common.machine.electric.STCoilParallelMultiblockMachine;
+import shishamo_tech.common.machine.electric.STIntegratedOreProcessorMachine;
 import shishamo_tech.ShishamoTech;
 import shishamo_tech.common.recipe.STRecipeTypes;
 import shishamo_tech.config.STConfig;
@@ -81,6 +83,8 @@ public class STMultiMachines {
     public static MultiblockMachineDefinition PRESS_FREE_INSCRIBER_IV;
 
     public static MultiblockMachineDefinition GREEN_HOUSE;
+
+    public static MultiblockMachineDefinition INTEGRATED_ORE_PROCESSOR;
 
     public static MultiblockMachineDefinition ULTIMATE_UNIVERSAL_STORAGE;
 
@@ -918,6 +922,51 @@ public class STMultiMachines {
                     }
                     rainbow.append("§r");
                     tooltips.add(0, Component.literal(rainbow.toString()).setStyle(Style.EMPTY.withColor(ChatFormatting.RESET)));
+                })
+                .register();
+
+        // INTEGRATED ORE PROCESSOR - LV tier, cross-parallel, circuit-selectable ore processing
+        INTEGRATED_ORE_PROCESSOR = STRegistration.REGISTRATE
+                .multiblock("integrated_ore_processor", STIntegratedOreProcessorMachine::new)
+                .rotationState(RotationState.ALL)
+                .langValue("Integrated Ore Processor")
+                .tier(GTValues.LV)
+                .recipeType(STRecipeTypes.INTEGRATED_ORE_PROCESSING)
+                .recipeModifiers(STIntegratedOreProcessorMachine::recipeModifier, BATCH_MODE)
+                .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
+                .pattern(pattern -> FactoryBlockPattern.start(FRONT, UP, RIGHT)
+                        .aisle("AAAAAAAAAAAAAAA", "ABBBABABBBACCCA", "AAAAAAAAAAAAAAA", "ABBBABABBBABBBA", "AAAAAAAAAAAAAAA")
+                        .aisle("AAAAAAAAAAAAAAA", "ADDDDDAEEEEEEEA", "AFFFAAA##EAAAAA", "ADDDADAEEEADDDA", "AGGGAGAGGGAHHHA")
+                        .aisle("AAAAAAAAAAAAAAA", "AIIIADADDDAE##C", "ADDDAAADDDAAAAA", "AIIIADADDDAFFFA", "AGGGAGAGGGAAAAA")
+                        .aisle("AAAAAAAAAAAAAAA", "ADDDADDDDDAEEEC", "JDDDADADDDAAAAA", "ADDDADADDDDDDDL", "AGGGAGAAAAAGGGA")
+                        .aisle("AAAAAAAAAAAAAAA", "AIIIADADDDAE##C", "ADDDAAADDDAAAAA", "AIIIADADDDAFFFA", "AGGGAGAGGGAAAAA")
+                        .aisle("AAAAAAAAAAAAAAA", "ADDDDDAEEEEEEEA", "AFFFAAA##EAAAAA", "ADDDADAEEEADDDA", "AGGGAGAGGGAHHHA")
+                        .aisle("AAAAAAAAAAAAAAA", "ABBBABABBBACCCA", "AAAAAAAAAAAAAAA", "ABBBABABBBABBBA", "AAAAAAAAAAAAAAA")
+                        .where("G", blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
+                        .where("L", controller(blocks(pattern.getBlock())))
+                        .where("E", blocks(GTBlocks.CASING_STEEL_PIPE.get()))
+                        .where("F", blocks(GTBlocks.CASING_STEEL_GEARBOX.get()))
+                        .where("D", blocks(GTBlocks.CASING_BRONZE_PIPE.get()))
+                        .where("I", heatingCoils())
+                        .where("B", blocks(GTBlocks.FIREBOX_STEEL.get()))
+                        .where("A", blocks(GTBlocks.CASING_STEEL_SOLID.get())
+                                .or(abilities(PartAbility.INPUT_ENERGY, PartAbility.INPUT_LASER).setPreviewCount(2))
+                                .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
+                        .where("J", abilities(PartAbility.EXPORT_ITEMS))
+                        .where("C", abilities(PartAbility.IMPORT_FLUIDS)
+                                .or(blocks(GTBlocks.CASING_STEEL_SOLID.get())))
+                        .where("H", abilities(PartAbility.IMPORT_ITEMS)
+                                .or(blocks(GTBlocks.CASING_STEEL_SOLID.get())))
+                        .where("#", any())
+                        .build())
+                .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
+                        GTCEu.id("block/multiblock/large_miner"))
+                .tooltipBuilder((stack, tooltips) -> {
+                    STConfig.checkMachineDisabledTooltip("integrated_ore_processor", tooltips);
+                    tooltips.add(Component.translatable("shishamo_tech.machine.parallel_count",
+                            STIntegratedOreProcessorMachine.getDisplayParallelCount(GTValues.LV, 0)));
+                    tooltips.add(recipeTypeTooltip(STRecipeTypes.INTEGRATED_ORE_PROCESSING));
+                    tooltips.add(Component.translatable("shishamo_tech.machine.ore_processor.tooltip"));
                 })
                 .register();
     }

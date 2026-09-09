@@ -38,10 +38,12 @@ Steam期からMAXティアまで、全ティアを網羅する超巨大パラレ
 - Green House
 - Ultimate Universal Storage
 - (Non) Omnipotent Universe Forge
+- Integrated Ore Processor
 
 ### AE2連携
 - Press-Free Inscriber（MV / HV / IV / EV）
 - ME (Dual) Long (Stocking) Input / Output Bus / Hatch
+- ME Oversize Pattern Buffer
 - ME Steam Supply Cover
 - ME Induction Cover
 

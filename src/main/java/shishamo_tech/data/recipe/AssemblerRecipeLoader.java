@@ -59,6 +59,11 @@ public class AssemblerRecipeLoader {
                 .inputItems(EV_CIRCUITS, 64)
                 .outputItems(ETERNAL_FORCE_FREEZER, 1)
                 .duration(65536).EUt(V[EV], 1).save(consumer);
+        ASSEMBLER_RECIPES.recipeBuilder("untested_voyager_electrolyser")
+                .inputItems(LARGE_ELECTROLYZER.asStack(), 64)
+                .inputItems(IV_CIRCUITS, 64)
+                .outputItems(UNTESTED_VOYAGER_ELECTROLYSER, 1)
+                .duration(65536).EUt(V[IV], 1).save(consumer);
         ASSEMBLER_RECIPES.recipeBuilder("reinforced_assembly_line")
                 .inputItems(ASSEMBLY_LINE.asStack(), 64)
                 .inputItems(IV_CIRCUITS, 64)

@@ -7,6 +7,7 @@ import shishamo_tech.data.recipe.AssemblerRecipeLoader;
 import shishamo_tech.data.recipe.AssemblyLineLoader;
 import shishamo_tech.data.recipe.CompressedRecipeLoader;
 import shishamo_tech.data.recipe.CraftingRecipeLoader;
+import shishamo_tech.data.recipe.IntegratedOreProcessingLoader;
 
 import java.util.Set;
 import java.util.function.Consumer;
@@ -17,6 +18,7 @@ public class STRecipes {
         AssemblyLineLoader.init(consumer);
         CompressedRecipeLoader.init(consumer);
         CraftingRecipeLoader.init(consumer);
+        IntegratedOreProcessingLoader.init(consumer);
         registerLargeSteamBoilerFuelRecipes(consumer);
     }
 

@@ -71,6 +71,11 @@ public class ShishamoTech {
                 "§7Supplies Steam from the ME network to the covered machine. §aConnects to ME cables.");
         STRegistration.REGISTRATE.addRawLang("shishamo_tech.cover.me_induction.tooltip",
                 "§7Supplies §aEU §7from the ME network energy storage (Applied Flux) to the covered machine. §aConnects to ME cables.");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.ore_processor.tooltip",
+                "§7The programmed circuit number selects the ore-processing branch: \n§a1§7 = Macerate->Ore Washer->Thermal Centrifuge->Macerate\n§a2§7 = Macerate->Ore Washer->Macerate->Centrifuge\n§a3§7 = Macerate->Macerate->Centrifuge\n§a4§7 = Macerate->Ore Washer->Sifter (can yield gems)\n§a5§7 = Macerate->Chemical Bathing->Macerate->Centrifuge\n§a6§7 = Macerate->Chemical Bathing->Thermal Centrifuge->Macerate\n§a7§7 = Forge Hammer->Forge Hammer->Simple Washer\nBranches that wash or chemically bathe require Water (a fluid input hatch) or the ore's chemical bath fluid.\nCross-parallel processes mixed raw ores up to the parallel limit.");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.ore_processor.route", "Route: %s");
+        STRegistration.REGISTRATE.addRawLang("shishamo_tech.machine.ore_processor.route.none",
+                "Route: none (configure circuit 1-7)");
     }
 
     private void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {

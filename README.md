@@ -38,10 +38,12 @@ Adds massively-parallel "mega" multiblocks spanning every tier, from the Steam a
 - Green House
 - Ultimate Universal Storage
 - (Non) Omnipotent Universe Forge
+- Integrated Ore Processor
 
 ### AE2 Integration
 - Press-Free Inscriber (MV / HV / IV / EV)
 - ME (Dual) Long (Stocking) Input / Output Bus / Hatch
+- ME Oversize Pattern Buffer
 - ME Steam Supply Cover
 - ME Induction Cover
 

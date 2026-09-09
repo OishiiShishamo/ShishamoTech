@@ -14,6 +14,8 @@ import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.lowdragmc.lowdraglib.utils.Position;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -47,8 +49,12 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class MEDualStockingInputHatchPartMachine extends MEStockingHatchPartMachine {
 
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            MEDualStockingInputHatchPartMachine.class, MEStockingHatchPartMachine.MANAGED_FIELD_HOLDER);
+
     private static final int CONFIG_SIZE = 16;
 
+    @Persisted
     protected final ExportOnlyAEStockingItemList aeItemHandler;
     @Nullable
     protected ISubscription itemSubs;
@@ -56,6 +62,11 @@ public class MEDualStockingInputHatchPartMachine extends MEStockingHatchPartMach
     public MEDualStockingInputHatchPartMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
         this.aeItemHandler = new ExportOnlyAEStockingItemList(this, CONFIG_SIZE);
+    }
+
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
     }
 
     /////////////////////////////////
