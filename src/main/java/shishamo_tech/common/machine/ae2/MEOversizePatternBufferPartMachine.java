@@ -5,7 +5,6 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.ButtonConfigurator;
@@ -50,8 +49,10 @@ import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
@@ -78,6 +79,7 @@ import appeng.helpers.patternprovider.PatternContainer;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
 
@@ -86,6 +88,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.BitSet;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -140,6 +143,11 @@ public class MEOversizePatternBufferPartMachine extends MEBusPartMachine
 
     private final BiMap<IPatternDetails, InternalSlot> detailsSlotMap = HashBiMap.create(MAX_PATTERN_COUNT);
 
+    // O(1) occupancy tracking for isOperating(): slot callback maintains this, no full scan.
+    private final BitSet occupiedSlots = new BitSet(MAX_PATTERN_COUNT);
+    // Cached pattern list for AE2 queries; invalidated on pattern change.
+    private List<IPatternDetails> availablePatternsCache = null;
+
     @DescSynced
     @Persisted
     private String customName = "";
@@ -173,6 +181,24 @@ public class MEOversizePatternBufferPartMachine extends MEBusPartMachine
         this.shareInventory = new NotifiableItemStackHandler(this, 9, IO.IN, IO.NONE);
         this.shareTank = new NotifiableFluidTank(this, 9, 8 * FluidType.BUCKET_VOLUME, IO.IN, IO.NONE);
         this.internalRecipeHandler = new STInternalSlotRecipeHandler(this, internalInventory);
+        for (int i = 0; i < this.internalInventory.length; i++) {
+            final int idx = i;
+            var slot = this.internalInventory[idx];
+            var prev = slot.getOnContentsChanged();
+            slot.setOnContentsChanged(() -> {
+                prev.run();
+                updateOccupancy(idx);
+            });
+        }
+    }
+
+    private void updateOccupancy(int index) {
+        var slot = internalInventory[index];
+        if (!slot.isItemEmpty() || !slot.isFluidEmpty()) {
+            occupiedSlots.set(index);
+        } else {
+            occupiedSlots.clear(index);
+        }
     }
 
     public STInternalSlotRecipeHandler getInternalRecipeHandler() {
@@ -212,7 +238,9 @@ public class MEOversizePatternBufferPartMachine extends MEBusPartMachine
                         this.detailsSlotMap.put(new CircuitlessPatternDetails(patternDetails),
                                 this.internalInventory[i]);
                     }
+                    updateOccupancy(i);
                 }
+                availablePatternsCache = null;
                 needPatternSync = true;
             }));
         }
@@ -314,6 +342,7 @@ public class MEOversizePatternBufferPartMachine extends MEBusPartMachine
             }
         }
 
+        availablePatternsCache = null;
         needPatternSync = true;
     }
 
@@ -411,7 +440,10 @@ public class MEOversizePatternBufferPartMachine extends MEBusPartMachine
 
     @Override
     public List<IPatternDetails> getAvailablePatterns() {
-        return detailsSlotMap.keySet().stream().filter(Objects::nonNull).toList();
+        if (availablePatternsCache == null) {
+            availablePatternsCache = detailsSlotMap.keySet().stream().filter(Objects::nonNull).toList();
+        }
+        return availablePatternsCache;
     }
 
     @Override
@@ -445,10 +477,7 @@ public class MEOversizePatternBufferPartMachine extends MEBusPartMachine
     }
 
     private boolean isOperating() {
-        for (var internalSlot : internalInventory) {
-            if (!internalSlot.isItemEmpty() || !internalSlot.isFluidEmpty()) return true;
-        }
-        return false;
+        return !occupiedSlots.isEmpty();
     }
 
     @Override
@@ -493,9 +522,27 @@ public class MEOversizePatternBufferPartMachine extends MEBusPartMachine
     private static final class CircuitlessPatternDetails implements IPatternDetails {
 
         private final IPatternDetails delegate;
+        // Filtered inputs are immutable (delegate never changes); compute once.
+        private final IInput[] inputs;
 
         private CircuitlessPatternDetails(IPatternDetails delegate) {
             this.delegate = delegate;
+            var raw = delegate.getInputs();
+            var kept = new ArrayList<IInput>(raw.length);
+            for (var input : raw) {
+                boolean isCircuit = false;
+                for (var possible : input.getPossibleInputs()) {
+                    if (possible.what() instanceof AEItemKey itemKey &&
+                            IntCircuitBehaviour.isIntegratedCircuit(itemKey.toStack())) {
+                        isCircuit = true;
+                        break;
+                    }
+                }
+                if (!isCircuit) {
+                    kept.add(input);
+                }
+            }
+            this.inputs = kept.toArray(new IInput[0]);
         }
 
         @Override
@@ -510,22 +557,7 @@ public class MEOversizePatternBufferPartMachine extends MEBusPartMachine
 
         @Override
         public IInput[] getInputs() {
-            var inputs = delegate.getInputs();
-            var kept = new ArrayList<IInput>(inputs.length);
-            for (var input : inputs) {
-                boolean isCircuit = false;
-                for (var possible : input.getPossibleInputs()) {
-                    if (possible.what() instanceof AEItemKey itemKey &&
-                            IntCircuitBehaviour.isIntegratedCircuit(itemKey.toStack())) {
-                        isCircuit = true;
-                        break;
-                    }
-                }
-                if (!isCircuit) {
-                    kept.add(input);
-                }
-            }
-            return kept.toArray(new IInput[0]);
+            return inputs.clone();
         }
 
         @Override
@@ -633,6 +665,8 @@ public class MEOversizePatternBufferPartMachine extends MEBusPartMachine
         private final Object2LongOpenHashMap<FluidStack> fluidInventory = new Object2LongOpenHashMap<>();
         private List<ItemStack> itemStacks = null;
         private List<FluidStack> fluidStacks = null;
+        private Set<Item> itemTypes = null;
+        private Set<Fluid> fluidTypes = null;
 
         public InternalSlot() {}
 
@@ -647,7 +681,35 @@ public class MEOversizePatternBufferPartMachine extends MEBusPartMachine
         public void onContentsChanged() {
             itemStacks = null;
             fluidStacks = null;
+            itemTypes = null;
+            fluidTypes = null;
             onContentsChanged.run();
+        }
+
+        /** Cached item types for the recipe-match prefilter; invalidated on contents change. */
+        public Set<Item> getItemTypes() {
+            Set<Item> cached = itemTypes;
+            if (cached == null) {
+                cached = new ReferenceOpenHashSet<>(itemInventory.size());
+                for (ItemStack stack : itemInventory.keySet()) {
+                    cached.add(stack.getItem());
+                }
+                itemTypes = cached;
+            }
+            return cached;
+        }
+
+        /** Cached fluid types for the recipe-match prefilter; invalidated on contents change. */
+        public Set<Fluid> getFluidTypes() {
+            Set<Fluid> cached = fluidTypes;
+            if (cached == null) {
+                cached = new ReferenceOpenHashSet<>(fluidInventory.size());
+                for (FluidStack stack : fluidInventory.keySet()) {
+                    cached.add(stack.getFluid());
+                }
+                fluidTypes = cached;
+            }
+            return cached;
         }
 
         private void add(AEKey what, long amount) {
@@ -880,6 +942,8 @@ public class MEOversizePatternBufferPartMachine extends MEBusPartMachine
                     fluidInventory.put(stack, amount);
                 }
             }
+            itemTypes = null;
+            fluidTypes = null;
         }
     }
 }

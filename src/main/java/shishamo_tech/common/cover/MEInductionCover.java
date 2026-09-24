@@ -45,6 +45,13 @@ public class MEInductionCover extends MEBaseCover {
     /** Buffered EU to keep the machine's container topped up, sized to {@code meInductionCoverBufferTicks} of max input. */
     private long buffer = 0;
 
+    // Cached lookups: the covered machine and its energy container are stable for
+    // the cover's lifetime (block removal drops the cover via onRemoved).
+    @Nullable
+    private MetaMachine cachedMachine;
+    @Nullable
+    private IEnergyContainer cachedEnergy;
+
     public MEInductionCover(CoverDefinition definition, ICoverable coverHolder, Direction attachedSide) {
         super(definition, coverHolder, attachedSide);
     }
@@ -69,8 +76,14 @@ public class MEInductionCover extends MEBaseCover {
     @Override
     protected void update() {
         if (!STConfig.isMEInductionCoverEnabled()) return;
-        MetaMachine machine = getMachine();
-        IEnergyContainer machineEnergy = findEnergyContainer(machine);
+        MetaMachine machine = cachedMachine;
+        IEnergyContainer machineEnergy = cachedEnergy;
+        if (machine == null || machineEnergy == null) {
+            machine = getMachine();
+            machineEnergy = findEnergyContainer(machine);
+            cachedMachine = machine;
+            cachedEnergy = machineEnergy;
+        }
         if (machineEnergy == null) return;
 
         if (isDraining(machine, machineEnergy)) {

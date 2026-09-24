@@ -141,6 +141,9 @@ public class MEDualStockingInputHatchPartMachine extends MEStockingHatchPartMach
         }
     }
 
+    /** Top-K heap element: snapshot amount for ordering, simulated amount for stocking. */
+    private record TopCandidate(AEKey what, long amount, long request) {}
+
     private void refreshItemList() {
         IGrid grid = this.getMainNode().getGrid();
         if (grid == null) {
@@ -151,8 +154,9 @@ public class MEDualStockingInputHatchPartMachine extends MEStockingHatchPartMach
         MEStorage networkStorage = grid.getStorageService().getInventory();
         var counter = networkStorage.getAvailableStacks();
 
-        PriorityQueue<Object2LongMap.Entry<AEKey>> topItems = new PriorityQueue<>(
-                Comparator.comparingLong(Object2LongMap.Entry<AEKey>::getLongValue));
+        // Heap elements carry the already-simulated extractable amount, so the
+        // assignment pass below needs no second network extract per key.
+        PriorityQueue<TopCandidate> topItems = new PriorityQueue<>(Comparator.comparingLong(TopCandidate::amount));
 
         for (Object2LongMap.Entry<AEKey> entry : counter) {
             long amount = entry.getLongValue();
@@ -166,10 +170,10 @@ public class MEDualStockingInputHatchPartMachine extends MEStockingHatchPartMach
 
             if (amount >= getMinStackSize()) {
                 if (topItems.size() < CONFIG_SIZE) {
-                    topItems.offer(entry);
-                } else if (amount > topItems.peek().getLongValue()) {
+                    topItems.offer(new TopCandidate(what, amount, request));
+                } else if (amount > topItems.peek().amount()) {
                     topItems.poll();
-                    topItems.offer(entry);
+                    topItems.offer(new TopCandidate(what, amount, request));
                 }
             }
         }
@@ -178,15 +182,11 @@ public class MEDualStockingInputHatchPartMachine extends MEStockingHatchPartMach
         int itemAmount = topItems.size();
         for (index = 0; index < CONFIG_SIZE; index++) {
             if (topItems.isEmpty()) break;
-            Object2LongMap.Entry<AEKey> entry = topItems.poll();
-            AEKey what = entry.getKey();
-
-            long request = networkStorage.extract(what, entry.getLongValue(), Actionable.SIMULATE, actionSource);
-            if (request == 0) continue;
+            TopCandidate candidate = topItems.poll();
 
             var slot = this.aeItemHandler.getInventory()[itemAmount - index - 1];
-            slot.setConfig(new GenericStack(what, 1));
-            slot.setStock(new GenericStack(what, request));
+            slot.setConfig(new GenericStack(candidate.what(), 1));
+            slot.setStock(new GenericStack(candidate.what(), candidate.request()));
         }
 
         aeItemHandler.clearInventory(index);

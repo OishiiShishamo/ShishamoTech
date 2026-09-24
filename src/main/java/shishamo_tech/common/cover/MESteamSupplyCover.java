@@ -15,6 +15,7 @@ import appeng.api.config.Actionable;
 import appeng.api.stacks.AEFluidKey;
 import appeng.api.storage.MEStorage;
 import org.jetbrains.annotations.Nullable;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -36,6 +37,13 @@ public class MESteamSupplyCover extends MEBaseCover {
 
     private final FluidStack buffer = new FluidStack(GTMaterials.Steam.getFluid(), 0);
 
+    // Cached lookups: the covered machine and its fluid handler are stable for
+    // the cover's lifetime (block removal drops the cover via onRemoved).
+    @Nullable
+    private MetaMachine cachedMachine;
+    @Nullable
+    private IFluidHandlerModifiable cachedFluid;
+
     public MESteamSupplyCover(CoverDefinition definition, ICoverable coverHolder, Direction attachedSide) {
         super(definition, coverHolder, attachedSide);
     }
@@ -53,12 +61,18 @@ public class MESteamSupplyCover extends MEBaseCover {
     @Override
     protected void update() {
         if (!STConfig.isMESteamSupplyCoverEnabled()) return;
-        MetaMachine machine = getMachine();
-        if (machine == null) return;
+        MetaMachine machine = cachedMachine;
+        IFluidHandlerModifiable machineFluid = cachedFluid;
+        if (machine == null || machineFluid == null) {
+            machine = getMachine();
+            if (machine == null) return;
+            machineFluid = machine.getFluidHandlerCap(attachedSide, false);
+            cachedMachine = machine;
+            cachedFluid = machineFluid;
+        }
 
         // 1. Push as much as the machine accepts from the buffer, every tick.
-        IFluidHandlerModifiable machineFluid = machine.getFluidHandlerCap(attachedSide, false);
-        if (machineFluid != null && buffer.getAmount() > 0) {
+        if (buffer.getAmount() > 0) {
             int accepted = machineFluid.fill(buffer, FluidAction.EXECUTE);
             if (accepted > 0) {
                 buffer.setAmount(buffer.getAmount() - accepted);

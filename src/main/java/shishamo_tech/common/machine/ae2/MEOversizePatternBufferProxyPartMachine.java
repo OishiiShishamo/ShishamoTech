@@ -56,8 +56,7 @@ public class MEOversizePatternBufferProxyPartMachine extends TieredIOPartMachine
 
     public MEOversizePatternBufferProxyPartMachine(IMachineBlockEntity holder) {
         super(holder, GTValues.LuV, IO.IN);
-        proxySlotRecipeHandler = new STProxySlotRecipeHandler(this,
-                MEOversizePatternBufferPartMachine.MAX_PATTERN_COUNT);
+        proxySlotRecipeHandler = new STProxySlotRecipeHandler(this);
     }
 
     public STProxySlotRecipeHandler getProxySlotRecipeHandler() {

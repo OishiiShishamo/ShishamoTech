@@ -18,24 +18,28 @@ import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Proxy-side slot-per-recipe-handler list for {@link MEOversizePatternBufferProxyPartMachine}.
- * Mirrors GTCEu's ProxySlotRecipeHandler but bound to this mod's buffer type.
+ * Proxy-side recipe handlers for {@link MEOversizePatternBufferProxyPartMachine}.
+ *
+ * <p>Previously one {@link RecipeHandlerList} per pattern slot (1152), each subscribing
+ * its own listeners to the buffer's shared handlers — a notify storm on every shared
+ * inventory change. Now a single {@link ProxyRHL} delegates consumption to the buffer's
+ * aggregated handler and only subscribes five listeners total.
  */
 public final class STProxySlotRecipeHandler {
 
+    private final ProxyRHL proxyRHL;
     private final List<RecipeHandlerList> proxySlotHandlers;
 
-    public STProxySlotRecipeHandler(MEOversizePatternBufferProxyPartMachine machine, int slots) {
-        proxySlotHandlers = new ArrayList<>(slots);
-        for (int i = 0; i < slots; ++i) {
-            proxySlotHandlers.add(new ProxyRHL(machine));
-        }
+    public STProxySlotRecipeHandler(MEOversizePatternBufferProxyPartMachine machine) {
+        proxyRHL = new ProxyRHL(machine);
+        proxySlotHandlers = List.of(proxyRHL);
     }
 
     public List<RecipeHandlerList> getProxySlotHandlers() {
@@ -43,19 +47,11 @@ public final class STProxySlotRecipeHandler {
     }
 
     public void updateProxy(MEOversizePatternBufferPartMachine patternBuffer) {
-        var slotHandlers = patternBuffer.getInternalRecipeHandler().getSlotHandlers();
-        for (int i = 0; i < proxySlotHandlers.size(); ++i) {
-            ProxyRHL proxyRHL = (ProxyRHL) proxySlotHandlers.get(i);
-            STInternalSlotRecipeHandler.SlotRHL slotRHL =
-                    (STInternalSlotRecipeHandler.SlotRHL) slotHandlers.get(i);
-            proxyRHL.setBuffer(patternBuffer, slotRHL);
-        }
+        proxyRHL.setBuffer(patternBuffer);
     }
 
     public void clearProxy() {
-        for (var slotHandler : proxySlotHandlers) {
-            ((ProxyRHL) slotHandler).clearBuffer();
-        }
+        proxyRHL.clearBuffer();
     }
 
     protected static class ProxyRHL extends RecipeHandlerList {
@@ -65,6 +61,8 @@ public final class STProxySlotRecipeHandler {
         private final ProxyItemRecipeHandler slotItem;
         private final ProxyFluidRecipeHandler sharedFluid;
         private final ProxyFluidRecipeHandler slotFluid;
+
+        private @Nullable MEOversizePatternBufferPartMachine buffer;
 
         public ProxyRHL(MEOversizePatternBufferProxyPartMachine machine) {
             super(IO.IN);
@@ -77,21 +75,36 @@ public final class STProxySlotRecipeHandler {
             this.setGroup(RecipeHandlerGroupDistinctness.BUS_DISTINCT);
         }
 
-        public void setBuffer(MEOversizePatternBufferPartMachine buffer,
-                              STInternalSlotRecipeHandler.SlotRHL slotRHL) {
+        public void setBuffer(MEOversizePatternBufferPartMachine buffer) {
+            if (this.buffer == buffer) return;
+            this.buffer = buffer;
+            var handler = buffer.getInternalRecipeHandler();
             circuit.setProxy(buffer.getCircuitInventory());
             sharedItem.setProxy(buffer.getShareInventory());
             sharedFluid.setProxy(buffer.getShareTank());
-            slotItem.setProxy(slotRHL.getItemRecipeHandler());
-            slotFluid.setProxy(slotRHL.getFluidRecipeHandler());
+            slotItem.setProxy(handler.getAggregateItemHandler());
+            slotFluid.setProxy(handler.getAggregateFluidHandler());
         }
 
         public void clearBuffer() {
+            if (this.buffer == null) return;
+            this.buffer = null;
             circuit.setProxy(null);
             sharedItem.setProxy(null);
             sharedFluid.setProxy(null);
             slotItem.setProxy(null);
             slotFluid.setProxy(null);
+        }
+
+        @Override
+        public Map<RecipeCapability<?>, List<Object>> handleRecipe(IO io, GTRecipe recipe,
+                                                                   Map<RecipeCapability<?>, List<Object>> contents,
+                                                                   boolean simulate) {
+            var target = buffer;
+            if (target == null) {
+                return contents;
+            }
+            return target.getInternalRecipeHandler().getBufferHandler().handleRecipe(io, recipe, contents, simulate);
         }
 
         @Override
@@ -126,6 +139,7 @@ public final class STProxySlotRecipeHandler {
         }
 
         public void setProxy(IRecipeHandlerTrait<Ingredient> proxy) {
+            if (this.proxy == proxy) return;
             this.proxy = proxy;
             if (proxySub != null) {
                 proxySub.unsubscribe();
@@ -190,6 +204,7 @@ public final class STProxySlotRecipeHandler {
         }
 
         public void setProxy(IRecipeHandlerTrait<FluidIngredient> proxy) {
+            if (this.proxy == proxy) return;
             this.proxy = proxy;
             if (proxySub != null) {
                 proxySub.unsubscribe();

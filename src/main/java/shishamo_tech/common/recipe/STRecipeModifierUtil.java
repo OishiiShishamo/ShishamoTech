@@ -9,8 +9,18 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 public final class STRecipeModifierUtil {
     private STRecipeModifierUtil() {}
+
+    /**
+     * Voltage-normalizing suffix modifiers keyed by target voltage. The lambda
+     * captures only {@code voltage}, so one instance per distinct voltage avoids
+     * allocating a capturing lambda on every recipe search.
+     */
+    private static final Map<Long, ModifierFunction> VOLTAGE_NORMALIZERS = new ConcurrentHashMap<>();
 
     @Nullable
     public static ModifierFunction createParallelModifier(
@@ -30,22 +40,25 @@ public final class STRecipeModifierUtil {
             ModifierFunction ocMod = STOverclockingLogic.TRIPLE_OVERCLOCK.getModifier(
                     machine, recipe, voltage);
             composed = ocMod.andThen(parallelMod);
-            ModifierFunction powerMod = r -> {
-                if (r == null) return null;
-                var withIO = RecipeHelper.getRealEUtWithIO(r);
-                long currentEUt = withIO.stack().getTotalEU();
-                if (currentEUt <= 0 || currentEUt == voltage) return r;
-                double mult = (double) voltage / currentEUt;
-                return ModifierFunction.builder()
-                        .eutMultiplier(mult)
-                        .build()
-                        .apply(r);
-            };
-            composed = composed.andThen(powerMod);
+            composed = composed.andThen(voltageNormalizer(voltage));
         } else {
             composed = parallelMod;
         }
         return composed;
+    }
+
+    private static ModifierFunction voltageNormalizer(long voltage) {
+        return VOLTAGE_NORMALIZERS.computeIfAbsent(voltage, v -> r -> {
+            if (r == null) return null;
+            var withIO = RecipeHelper.getRealEUtWithIO(r);
+            long currentEUt = withIO.stack().getTotalEU();
+            if (currentEUt <= 0 || currentEUt == v) return r;
+            double mult = (double) v / currentEUt;
+            return ModifierFunction.builder()
+                    .eutMultiplier(mult)
+                    .build()
+                    .apply(r);
+        });
     }
 
     public static long getOverclockVoltage(MetaMachine machine) {
